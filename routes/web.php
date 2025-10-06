@@ -14,6 +14,12 @@ Route::get('/', function () {
     ]);
 });
 
+// --- TAMBAHKAN ROUTE BARU DI SINI ---
+Route::get('/tentang-kami', function () {
+    return Inertia::render('About');
+})->name('about');
+// -------------------------------------
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -24,4 +30,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
