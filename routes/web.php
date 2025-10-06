@@ -5,6 +5,10 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// --- TAMBAHKAN INI UNTUK MENGENALI CONTROLLER KONTAK ---
+use App\Http\Controllers\ContactPageController;
+// ----------------------------------------------------
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -14,11 +18,15 @@ Route::get('/', function () {
     ]);
 });
 
-// --- TAMBAHKAN ROUTE BARU DI SINI ---
+// Route untuk halaman "Tentang Kami" (sudah ada)
 Route::get('/tentang-kami', function () {
     return Inertia::render('About');
 })->name('about');
-// -------------------------------------
+
+// --- TAMBAHKAN DUA ROUTE BARU DI SINI UNTUK HALAMAN KONTAK ---
+Route::get('/contact', [ContactPageController::class, 'show'])->name('contact.show');
+Route::post('/contact', [ContactPageController::class, 'store'])->name('contact.store');
+// -----------------------------------------------------------------
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
