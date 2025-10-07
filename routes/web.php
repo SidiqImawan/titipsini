@@ -7,7 +7,8 @@ use Inertia\Inertia;
 
 // --- TAMBAHKAN USE STATEMENT BARU DI BAWAH INI ---
 use App\Http\Controllers\ContactPageController;
-use App\Http\Controllers\InternshipPageController; // <--- BARIS INI BARU
+use App\Http\Controllers\InternshipPageController;
+use App\Http\Controllers\LayananPageController;
 // ------------------------------------------------
 
 
@@ -29,15 +30,18 @@ Route::get('/tentang-kami', function () {
 Route::get('/contact', [ContactPageController::class, 'show'])->name('contact.show');
 Route::post('/contact', [ContactPageController::class, 'store'])->name('contact.store');
 
-// --- TAMBAHKAN ROUTE BARU DI SINI UNTUK HALAMAN INTERNSHIP ---
+// Route untuk halaman Internship
 Route::get('/internship', [InternshipPageController::class, 'show'])->name('internship.show');
-// -----------------------------------------------------------------
+
+// Route untuk halaman Program
 Route::get('/program-kami', function () {
     return Inertia::render('Program');
 })->name('program');
 
-Route::get('/contact', [ContactPageController::class, 'show'])->name('contact.show');
-Route::post('/contact', [ContactPageController::class, 'store'])->name('contact.store');
+// --- TAMBAHKAN ROUTE BARU DI SINI UNTUK HALAMAN LAYANAN ---
+Route::get('/layanan', [LayananPageController::class, 'show'])->name('layanan.show');
+// -----------------------------------------------------------
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
