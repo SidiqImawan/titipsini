@@ -8,6 +8,7 @@ use Inertia\Inertia;
 // --- TAMBAHKAN USE STATEMENT BARU DI BAWAH INI ---
 use App\Http\Controllers\ContactPageController;
 use App\Http\Controllers\InternshipPageController;
+use App\Http\Controllers\JobVacancyController;
 use App\Http\Controllers\LayananPageController;
 // ------------------------------------------------
 
@@ -21,36 +22,34 @@ Route::get('/', function () {
     ]);
 });
 
-// Route untuk halaman "Tentang Kami"
-Route::get('/tentang-kami', function () {
-    return Inertia::render('About');
-})->name('about');
-
-// Route untuk halaman Kontak
+// --- RUTE HALAMAN PUBLIK ---
+Route::get('/tentang-kami', fn() => Inertia::render('About'))->name('about');
 Route::get('/contact', [ContactPageController::class, 'show'])->name('contact.show');
 Route::post('/contact', [ContactPageController::class, 'store'])->name('contact.store');
-
-// Route untuk halaman Internship
 Route::get('/internship', [InternshipPageController::class, 'show'])->name('internship.show');
-
-// Route untuk halaman Program
-Route::get('/program-kami', function () {
-    return Inertia::render('Program');
-})->name('program');
-
-// --- TAMBAHKAN ROUTE BARU DI SINI UNTUK HALAMAN LAYANAN ---
+Route::get('/program-kami', fn() => Inertia::render('Program'))->name('program');
 Route::get('/layanan', [LayananPageController::class, 'show'])->name('layanan.show');
-// -----------------------------------------------------------
+
+// Rute untuk halaman lowongan kerja publik
+Route::get('/lowongan-kerja', [JobVacancyController::class, 'publicIndex'])->name('careers.index');
 
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// --- RUTE UNTUK PENGGUNA TERAUTENTIKASI ---
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', fn() => Inertia::render('Dashboard'))->name('dashboard');
 
-Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // --- RUTE KHUSUS ADMIN (DILINDUNGI OLEH MIDDLEWARE 'isAdmin') ---
+    Route::middleware('isAdmin')->group(function () {
+        // Rute CRUD untuk Job Vacancies
+        Route::resource('admin/job-vacancies', JobVacancyController::class)
+            ->except(['show']) // 'show' tidak digunakan karena sudah ada publicIndex
+            ->names('job_vacancies');
+    });
 });
+
 
 require __DIR__ . '/auth.php';
