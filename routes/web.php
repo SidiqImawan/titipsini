@@ -10,6 +10,9 @@ use App\Http\Controllers\ContactPageController;
 use App\Http\Controllers\InternshipPageController;
 use App\Http\Controllers\JobVacancyController;
 use App\Http\Controllers\LayananPageController;
+use App\Http\Controllers\UserController;
+
+use App\Http\Controllers\Admin\UserManagementController;
 // ------------------------------------------------
 
 
@@ -46,8 +49,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware('isAdmin')->group(function () {
         // Rute CRUD untuk Job Vacancies
         Route::resource('admin/job-vacancies', JobVacancyController::class)
-            ->except(['show']) // 'show' tidak digunakan karena sudah ada publicIndex
+            ->except(['show'])
             ->names('job_vacancies');
+
+        // --- TAMBAHKAN RUTE BARU DI SINI ---
+        Route::get('/users/{id}/make-admin', [UserController::class, 'makeAdmin'])->name('users.makeAdmin');
+        Route::get('/admin/users', [UserManagementController::class, 'index'])->name('admin.users.index');
+        Route::get('/users/{id}/remove-admin', [UserController::class, 'removeAdmin'])->name('users.removeAdmin');
     });
 });
 
