@@ -1,9 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-// Catatan: Karena lingkungan ini tidak dapat me-resolve '@inertiajs/react',
-// komponen <Link> diganti dengan tag <a> standar untuk tujuan demo.
-// Dalam proyek Laravel Inertia yang sebenarnya, Anda harus menggunakan <Link>.
-// import { Link } from "@inertiajs/react";
-
 import {
     Search,
     Menu,
@@ -17,17 +12,16 @@ import {
     ChevronDown,
 } from "lucide-react";
 
-// --- Komponen Header ---
+// ===================== HEADER =====================
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [openDropdown, setOpenDropdown] = useState(null); // State untuk dropdown desktop
-    const [openMobileSubmenu, setOpenMobileSubmenu] = useState(null); // State untuk submenu mobile
+    const [openDropdown, setOpenDropdown] = useState(null);
+    const [openMobileSubmenu, setOpenMobileSubmenu] = useState(null);
     const dropdownRef = useRef(null);
 
-    // Menggunakan tag <a> sebagai pengganti <Link>
+    // Gunakan <a> untuk demo (di proyek Inertia seharusnya <Link>)
     const Link = (props) => <a {...props}>{props.children}</a>;
 
-    // Menyesuaikan navLinks dengan routes/web.php
     const navLinks = [
         { label: "Beranda", href: "/" },
         { label: "Layanan", href: "/layanan" },
@@ -52,7 +46,6 @@ const Header = () => {
         setOpenMobileSubmenu(openMobileSubmenu === label ? null : label);
     };
 
-    // Efek untuk menutup dropdown saat klik di luar
     useEffect(() => {
         function handleClickOutside(event) {
             if (
@@ -62,18 +55,16 @@ const Header = () => {
                 setOpenDropdown(null);
             }
         }
-        // Tambahkan event listener
         document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            // Hapus event listener saat komponen unmount
+        return () =>
             document.removeEventListener("mousedown", handleClickOutside);
-        };
     }, [dropdownRef]);
 
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
+                    {/* LOGO */}
                     <div className="flex-shrink-0">
                         <Link
                             href="/"
@@ -83,7 +74,8 @@ const Header = () => {
                             <span className="text-green-600">.com</span>
                         </Link>
                     </div>
-                    {/* Navigasi Desktop */}
+
+                    {/* NAV DESKTOP */}
                     <nav className="hidden md:flex items-center space-x-8">
                         {navLinks.map((link) =>
                             link.isDropdown ? (
@@ -96,14 +88,14 @@ const Header = () => {
                                         onClick={() =>
                                             handleDropdownToggle(link.label)
                                         }
-                                        className="flex items-center text-gray-600 hover:text-green-600 transition-colors font-medium focus:outline-none"
+                                        className="flex items-center text-gray-600 hover:text-green-600 transition-colors font-medium"
                                     >
                                         {link.label}
                                         <ChevronDown
                                             size={16}
                                             className={`ml-1 transition-transform duration-200 ${
                                                 openDropdown === link.label
-                                                    ? "transform rotate-180"
+                                                    ? "rotate-180"
                                                     : ""
                                             }`}
                                         />
@@ -117,7 +109,7 @@ const Header = () => {
                                                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600"
                                                     onClick={() =>
                                                         setOpenDropdown(null)
-                                                    } // Tutup dropdown setelah item diklik
+                                                    }
                                                 >
                                                     {item.label}
                                                 </Link>
@@ -136,18 +128,21 @@ const Header = () => {
                             )
                         )}
                     </nav>
+
+                    {/* ACTION BUTTONS */}
                     <div className="hidden md:flex items-center space-x-4">
                         <button className="text-gray-600 hover:text-green-600">
                             <Search size={20} />
                         </button>
                         <Link
-                            href="#" // Ganti dengan route yang sesuai, misal: /titip
+                            href="/titip"
                             className="bg-green-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors"
                         >
                             Titip Sekarang
                         </Link>
                     </div>
-                    {/* Tombol Menu Mobile */}
+
+                    {/* MOBILE MENU BUTTON */}
                     <div className="md:hidden">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -158,7 +153,8 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            {/* Menu Mobile */}
+
+            {/* MENU MOBILE */}
             {isMenuOpen && (
                 <div className="md:hidden bg-white border-t border-gray-200">
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
@@ -178,7 +174,7 @@ const Header = () => {
                                             size={20}
                                             className={`transition-transform duration-200 ${
                                                 openMobileSubmenu === link.label
-                                                    ? "transform rotate-180"
+                                                    ? "rotate-180"
                                                     : ""
                                             }`}
                                         />
@@ -211,7 +207,7 @@ const Header = () => {
                     <div className="pt-4 pb-3 border-t border-gray-200">
                         <div className="flex items-center justify-center px-5">
                             <Link
-                                href="#" // Ganti dengan route yang sesuai, misal: /titip
+                                href="/titip"
                                 className="w-full text-center bg-green-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors"
                             >
                                 Titip Sekarang
@@ -224,16 +220,14 @@ const Header = () => {
     );
 };
 
-// --- Komponen Footer ---
+// ===================== FOOTER =====================
 const Footer = () => {
-    // Menggunakan tag <a> sebagai pengganti <Link>
     const Link = (props) => <a {...props}>{props.children}</a>;
 
     return (
         <footer className="bg-gray-800 text-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {/* Kolom 1: Logo & Social */}
                     <div>
                         <h3 className="text-2xl font-bold">
                             Titipsini
@@ -241,8 +235,7 @@ const Footer = () => {
                         </h3>
                         <p className="mt-2 text-gray-400 text-sm">
                             Solusi tepercaya untuk kebutuhan penitipan barang
-                            Anda. Kami berkomitmen memberikan layanan storage
-                            yang aman dengan kualitas tinggi.
+                            Anda.
                         </p>
                         <div className="flex space-x-4 mt-4">
                             <a
@@ -266,92 +259,46 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Kolom 2: Tautan Cepat */}
                     <div>
                         <h4 className="font-semibold tracking-wider">
                             Tautan Cepat
                         </h4>
-                        <ul className="mt-4 space-y-2">
+                        <ul className="mt-4 space-y-2 text-sm text-gray-400">
                             <li>
-                                <Link
-                                    href="/"
-                                    className="text-gray-400 hover:text-white text-sm"
-                                >
-                                    Beranda
-                                </Link>
+                                <Link href="/">Beranda</Link>
                             </li>
                             <li>
-                                <Link
-                                    href="/layanan"
-                                    className="text-gray-400 hover:text-white text-sm"
-                                >
-                                    Layanan
-                                </Link>
+                                <Link href="/layanan">Layanan</Link>
                             </li>
                             <li>
-                                <Link
-                                    href="/tentang-kami"
-                                    className="text-gray-400 hover:text-white text-sm"
-                                >
-                                    Tentang Kami
-                                </Link>
+                                <Link href="/tentang-kami">Tentang Kami</Link>
                             </li>
                             <li>
-                                <Link
-                                    href="#" // Misal: /faq
-                                    className="text-gray-400 hover:text-white text-sm"
-                                >
-                                    FAQ
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/contact"
-                                    className="text-gray-400 hover:text-white text-sm"
-                                >
-                                    Kontak
-                                </Link>
+                                <Link href="/contact">Kontak</Link>
                             </li>
                         </ul>
                     </div>
 
-                    {/* Kolom 3: Hubungi Kami */}
                     <div>
                         <h4 className="font-semibold tracking-wider">
                             Hubungi Kami
                         </h4>
-                        <ul className="mt-4 space-y-3">
-                            <li className="flex items-start text-sm">
-                                <Phone
-                                    size={16}
-                                    className="mr-3 mt-1 flex-shrink-0"
-                                />
-                                <span className="text-gray-400">
-                                    +62 812-3456-7890
-                                </span>
+                        <ul className="mt-4 space-y-3 text-sm text-gray-400">
+                            <li className="flex items-start">
+                                <Phone size={16} className="mr-3" /> +62
+                                812-3456-7890
                             </li>
-                            <li className="flex items-start text-sm">
-                                <Mail
-                                    size={16}
-                                    className="mr-3 mt-1 flex-shrink-0"
-                                />
-                                <span className="text-gray-400">
-                                    info@titipsini.com
-                                </span>
+                            <li className="flex items-start">
+                                <Mail size={16} className="mr-3" />{" "}
+                                info@titipsini.com
                             </li>
-                            <li className="flex items-start text-sm">
-                                <MapPin
-                                    size={16}
-                                    className="mr-3 mt-1 flex-shrink-0"
-                                />
-                                <span className="text-gray-400">
-                                    Jakarta, Indonesia
-                                </span>
+                            <li className="flex items-start">
+                                <MapPin size={16} className="mr-3" /> Jakarta,
+                                Indonesia
                             </li>
                         </ul>
                     </div>
 
-                    {/* Kolom 4: Newsletter */}
                     <div>
                         <h4 className="font-semibold tracking-wider">
                             Newsletter
@@ -372,23 +319,38 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-sm">
-                    <p>
-                        &copy; 2025 Titipsini.com. Semua hak cipta dilindungi.
-                    </p>
+                    &copy; 2025 Titipsini.com. Semua hak cipta dilindungi.
                 </div>
             </div>
         </footer>
     );
 };
 
-// --- Komponen Layout Utama ---
-// Komponen ini akan membungkus setiap halaman
+// ===================== LAYOUT UTAMA =====================
 export default function GuestLayout({ children }) {
+    const [isAuthPage, setIsAuthPage] = useState(false);
+
+    useEffect(() => {
+        const path = window.location.pathname;
+        // Tentukan path auth yang ingin disembunyikan header/footer-nya
+        const authPaths = [
+            "/login",
+            "/register",
+            "/forgot-password",
+            "/reset-password",
+        ];
+        setIsAuthPage(authPaths.some((authPath) => path.startsWith(authPath)));
+    }, []);
+
     return (
         <div className="bg-gray-100 min-h-screen flex flex-col">
-            <Header />
+            {/* Header hanya muncul jika bukan halaman auth */}
+            {!isAuthPage && <Header />}
+
             <main className="flex-grow">{children}</main>
-            <Footer />
+
+            {/* Footer hanya muncul jika bukan halaman auth */}
+            {!isAuthPage && <Footer />}
         </div>
     );
 }
