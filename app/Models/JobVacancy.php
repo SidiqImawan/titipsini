@@ -33,6 +33,8 @@ class JobVacancy extends Model
         'requirements',
     ];
 
+    protected $appends = ['is_urgent'];
+
     /**
      * Interact with the job's requirements.
      *
@@ -44,5 +46,18 @@ class JobVacancy extends Model
             get: fn($value) => is_string($value) ? array_map('trim', explode(',', $value)) : $value,
             set: fn($value) => is_array($value) ? implode(', ', $value) : $value,
         );
+    }
+
+
+    // --- TAMBAHKAN METHOD ACCESSOR DI BAWAH INI ---
+
+    /**
+     * Get the is_urgent flag for the vacancy.
+     *
+     * @return bool
+     */
+    public function getIsUrgentAttribute(): bool
+    {
+        return $this->status === 'Urgent Hiring';
     }
 }

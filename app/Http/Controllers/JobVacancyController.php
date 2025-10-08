@@ -28,6 +28,9 @@ class JobVacancyController extends Controller
             ->latest()
             ->get();
 
+        // BLOK PENYEBAB ERROR SUDAH DIHAPUS DARI SINI.
+        // KITA PERCAYAKAN PADA MODEL UNTUK MENGUBAH DATA.
+
         return Inertia::render('Careers', [
             'jobVacancies' => $publicVacancies,
         ]);
@@ -53,13 +56,13 @@ class JobVacancyController extends Controller
             'salary_range' => 'nullable|string|max:255',
             'type' => 'required|string|in:Full-time,Part-time,Internship,Contract',
             'status' => 'required|string|in:Open,Urgent Hiring,Closed',
-            'description' => 'nullable|string',
-            'requirements' => 'nullable|string', // Requirements diterima sebagai string (dipisahkan koma)
+            'description' => 'required|string',
+            'requirements' => 'required|string',
         ]);
 
         JobVacancy::create($validated);
 
-        return redirect()->route('job_vacancies.index');
+        return redirect()->route('admin.job_vacancies.index')->with('success', 'Job vacancy created successfully.');
     }
 
     /**
@@ -84,13 +87,13 @@ class JobVacancyController extends Controller
             'salary_range' => 'nullable|string|max:255',
             'type' => 'required|string|in:Full-time,Part-time,Internship,Contract',
             'status' => 'required|string|in:Open,Urgent Hiring,Closed',
-            'description' => 'nullable|string',
-            'requirements' => 'nullable|string',
+            'description' => 'required|string',
+            'requirements' => 'required|string',
         ]);
 
         $jobVacancy->update($validated);
 
-        return redirect()->route('job_vacancies.index');
+        return redirect()->route('admin.job_vacancies.index')->with('success', 'Job vacancy updated successfully.');
     }
 
     /**
@@ -99,6 +102,7 @@ class JobVacancyController extends Controller
     public function destroy(JobVacancy $jobVacancy)
     {
         $jobVacancy->delete();
-        return redirect()->route('job_vacancies.index');
+
+        return redirect()->route('admin.job_vacancies.index')->with('success', 'Job vacancy deleted successfully.');
     }
 }

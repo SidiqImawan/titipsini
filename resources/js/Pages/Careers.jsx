@@ -1,5 +1,6 @@
 import React from "react";
-// import GuestLayout from "../Layouts/GuestLayout"; // Catatan: Import ini dinonaktifkan karena masalah resolusi path di lingkungan ini.
+import { Link } from "@inertiajs/react";
+import GuestLayout from "@/Layouts/GuestLayout";
 import {
     Briefcase,
     MapPin,
@@ -14,16 +15,8 @@ import {
     Award,
     FileText,
     MessageSquare,
-    Search, // Ditambahkan untuk pesan "lowongan tidak ada"
+    Search,
 } from "lucide-react";
-
-// --- PENGGANTI GUESTLAYOUT UNTUK LINGKUNGAN PREVIEW ---
-// Dalam proyek Laravel Anda, Anda akan menggunakan import dari path yang benar.
-const GuestLayout = ({ children }) => (
-    <div className="bg-white text-gray-800 font-sans">{children}</div>
-);
-
-// --- SECTIONS ---
 
 // Hero Section
 const CareerHero = () => (
@@ -86,13 +79,26 @@ const CareerHero = () => (
 
 // Job Listings Section (Dinamis)
 const JobListings = ({ jobs }) => {
+    // Fungsi helper untuk menentukan warna ikon
+    const getDepartmentStyle = (department) => {
+        switch (department.toLowerCase()) {
+            case "operations":
+            case "warehouse":
+                return { iconColor: "text-red-500", bgColor: "bg-red-100" };
+            case "customer service":
+            case "marketing":
+            case "web developer":
+            case "fullstack developer":
+                return { iconColor: "text-green-500", bgColor: "bg-green-100" };
+            default:
+                return { iconColor: "text-gray-500", bgColor: "bg-gray-100" };
+        }
+    };
+
     return (
-        <section id="job-listings" className="py-16 sm:py-24 bg-white">
+        <section id="job-listings" className="py-16 sm:py-24 bg-gray-50">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <span className="text-green-600 font-semibold">
-                    Lowongan Terbuka
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mt-2">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-800">
                     Temukan Posisi yang Tepat untuk Anda
                 </h2>
                 <p className="mt-4 max-w-2xl mx-auto text-gray-600">
@@ -100,85 +106,119 @@ const JobListings = ({ jobs }) => {
                     memberikan solusi storage terdepan di Indonesia.
                 </p>
             </div>
+
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12">
                 {jobs && jobs.length > 0 ? (
                     <div className="grid md:grid-cols-2 gap-8">
-                        {jobs.map((job) => (
-                            <div
-                                key={job.id}
-                                className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col relative transition-transform hover:scale-105"
-                            >
-                                {job.is_urgent && (
-                                    <span className="absolute top-4 right-4 bg-red-100 text-red-700 text-xs font-bold px-3 py-1 rounded-full">
-                                        Urgent Hiring
-                                    </span>
-                                )}
-                                <div className="flex items-start justify-between">
-                                    <div>
-                                        <div className="flex items-center space-x-2">
-                                            <span className="text-sm font-semibold text-gray-500">
-                                                {job.department}
-                                            </span>
-                                            <span className="text-gray-300">
-                                                •
-                                            </span>
-                                            <span className="text-sm font-semibold text-gray-500">
-                                                {job.job_type}
-                                            </span>
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-gray-800 mt-1">
-                                            {job.title}
-                                        </h3>
-                                    </div>
-                                    <div className="p-3 bg-gray-100 rounded-lg">
-                                        <Briefcase className="w-6 h-6 text-gray-600" />
-                                    </div>
-                                </div>
-                                <div className="flex items-center space-x-4 text-gray-600 mt-4">
-                                    <div className="flex items-center">
-                                        <MapPin className="w-4 h-4 mr-2" />
-                                        {job.location}
-                                    </div>
-                                    <div className="flex items-center">
-                                        <DollarSign className="w-4 h-4 mr-2" />
-                                        {job.salary_range}
-                                    </div>
-                                </div>
-                                <div className="mt-6">
-                                    <h4 className="font-semibold text-gray-800">
-                                        Requirements:
-                                    </h4>
-                                    <ul className="mt-2 space-y-2 text-left">
-                                        {Array.isArray(job.requirements) &&
-                                            job.requirements.map(
-                                                (req, index) => (
-                                                    <li
-                                                        key={index}
-                                                        className="flex items-center text-gray-600"
-                                                    >
-                                                        <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-                                                        <span>{req}</span>
-                                                    </li>
-                                                )
-                                            )}
-                                    </ul>
-                                </div>
-                                <a
-                                    href="#" // Nanti bisa diarahkan ke halaman detail lowongan
-                                    className={`mt-6 w-full inline-flex items-center justify-center px-6 py-3 font-semibold text-white rounded-lg shadow-md transition-colors ${
-                                        job.is_urgent
-                                            ? "bg-red-600 hover:bg-red-700"
-                                            : "bg-green-600 hover:bg-green-700"
-                                    }`}
+                        {jobs.map((job) => {
+                            const style = getDepartmentStyle(job.department);
+                            return (
+                                <div
+                                    key={job.id}
+                                    className="bg-white rounded-lg shadow-lg border border-gray-100 p-8 flex flex-col relative transition-shadow duration-300 hover:shadow-2xl"
                                 >
-                                    Apply Sekarang{" "}
-                                    <ArrowRight className="w-5 h-5 ml-2" />
-                                </a>
-                            </div>
-                        ))}
+                                    {job.is_urgent && (
+                                        <span className="absolute top-0 -mt-3 right-6 bg-red-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-md">
+                                            Urgent Hiring
+                                        </span>
+                                    )}
+
+                                    <div className="flex-grow">
+                                        {/* Header Kartu */}
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div>
+                                                <div className="flex items-center space-x-3 text-sm">
+                                                    <span className="font-semibold text-gray-500">
+                                                        {job.department}
+                                                    </span>
+                                                    <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                                                        Junior
+                                                    </span>
+                                                    <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                                                        {job.type}
+                                                    </span>
+                                                </div>
+                                                <h3 className="text-2xl font-bold text-gray-900 mt-3">
+                                                    {job.title}
+                                                </h3>
+                                                <p className="text-gray-500 mt-1">
+                                                    {job.description.substring(
+                                                        0,
+                                                        100
+                                                    )}
+                                                    ...
+                                                </p>
+                                            </div>
+                                            <div
+                                                className={`p-4 rounded-md ${style.bgColor}`}
+                                            >
+                                                <Briefcase
+                                                    className={`w-7 h-7 ${style.iconColor}`}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Info Lokasi & Gaji */}
+                                        <div className="flex items-center space-x-6 text-gray-600 my-6 border-y py-4">
+                                            <div className="flex items-center">
+                                                <MapPin className="w-5 h-5 mr-2" />{" "}
+                                                {job.location}
+                                            </div>
+                                            <div className="flex items-center">
+                                                <DollarSign className="w-5 h-5 mr-2" />{" "}
+                                                {job.salary_range}
+                                            </div>
+                                        </div>
+
+                                        {/* Requirements */}
+                                        <div className="text-left">
+                                            <h4 className="font-semibold text-gray-800 mb-3">
+                                                Requirements:
+                                            </h4>
+                                            <ul className="space-y-2">
+                                                {Array.isArray(
+                                                    job.requirements
+                                                ) &&
+                                                    job.requirements.map(
+                                                        (req, index) => (
+                                                            <li
+                                                                key={index}
+                                                                className="flex items-start text-gray-600"
+                                                            >
+                                                                <span className="text-green-500 mr-3 mt-1 flex-shrink-0">
+                                                                    •
+                                                                </span>
+                                                                <span>
+                                                                    {req}
+                                                                </span>
+                                                            </li>
+                                                        )
+                                                    )}
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    {/* Tombol Apply */}
+                                    <Link
+                                        href="#"
+                                        className={`mt-8 w-full inline-flex items-center justify-center px-6 py-3.5 font-semibold text-white rounded-lg shadow-md transition-colors ${
+                                            job.is_urgent
+                                                ? "bg-red-600 hover:bg-red-700"
+                                                : "bg-green-600 hover:bg-green-700"
+                                        }`}
+                                    >
+                                        {job.is_urgent
+                                            ? "Apply Sekarang"
+                                            : "Apply Now"}
+                                        <ArrowRight className="w-5 h-5 ml-2" />
+                                    </Link>
+                                </div>
+                            );
+                        })}
                     </div>
                 ) : (
-                    <div className="text-center py-16 bg-gray-50 rounded-lg">
+                    // Tampilan jika tidak ada lowongan
+                    <div className="text-center py-16 bg-white rounded-lg shadow-md border border-gray-100">
                         <Search className="w-16 h-16 text-gray-400 mx-auto" />
                         <h3 className="mt-4 text-xl font-semibold text-gray-800">
                             Belum Ada Lowongan
@@ -670,11 +710,11 @@ const InterviewGuide = () => {
 };
 
 // --- Komponen Utama Halaman Karir ---
-const Careers = () => {
+const Careers = ({ jobVacancies }) => {
     return (
         <GuestLayout>
             <CareerHero />
-            <JobListings />
+            <JobListings jobs={jobVacancies} />
             <WhyJoinUs />
             <WorkCulture />
             <TeamSuccess />
