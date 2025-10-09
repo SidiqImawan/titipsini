@@ -14,6 +14,7 @@ use App\Http\Controllers\LayananPageController;
 
 // Admin Controllers
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Admin\SocialMediaController; // <-- PENAMBAHAN
 
 
 /*
@@ -31,7 +32,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-})->name('home'); // Ditambahkan nama 'home'
+})->name('home');
 
 Route::get('/tentang-kami', fn() => Inertia::render('About'))->name('about');
 Route::get('/contact', [ContactPageController::class, 'show'])->name('contact.show');
@@ -70,7 +71,12 @@ Route::middleware(['auth', 'verified', 'isAdmin'])
         Route::get('users', [UserManagementController::class, 'index'])->name('users.index');
         Route::get('users/{user}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
         Route::get('users/{user}/remove-admin', [UserManagementController::class, 'removeAdmin'])->name('users.removeAdmin');
+
+        // Rute untuk Social Media (PENAMBAHAN)
+        Route::get('social-media', [SocialMediaController::class, 'index'])->name('social_media.index');
+        Route::post('social-media', [SocialMediaController::class, 'update'])->name('social_media.update');
     });
 
 
 require __DIR__ . '/auth.php';
+
