@@ -54,7 +54,7 @@ const LayananHero = () => (
                 <div>
                     {/* Replace with your actual illustration/image component or path */}
                     <img
-                        src="https://cdni.iconscout.com/illustration/premium/thumb/moving-house-service-5325978-4458479.png"
+                        src="images/hero-services.jpg"
                         alt="Layanan Pindahan Titipsini"
                         className="w-full h-auto"
                     />
@@ -251,7 +251,7 @@ const AboutUs = () => (
                 </div>
                 <div>
                     <img
-                        src="https://images.unsplash.com/photo-1625905304192-3831f24b228b?q=80&w=800"
+                        src="images/who-us.jpg"
                         alt="Tim Titipsini"
                         className="rounded-2xl shadow-xl w-full h-auto"
                     />
@@ -403,7 +403,7 @@ const Savings = () => (
                 </div>
                 <div>
                     <img
-                        src="https://images.unsplash.com/photo-1576426863848-c21f68c6aa98?q=80&w=800"
+                        src="images/kepuasan-pelanggan.jpg"
                         alt="Pelanggan Puas"
                         className="rounded-2xl shadow-xl w-full h-auto"
                     />

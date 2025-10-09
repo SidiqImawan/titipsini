@@ -96,7 +96,7 @@ const OurStory = () => (
                 </div>
                 <div className="flex justify-center items-center">
                     <img
-                        src="https://placehold.co/500x400/34D399/FFFFFF?text=Ilustrasi+Titipsini"
+                        src="images/hero-about.jpg"
                         alt="Ilustrasi Truk Titipsini"
                         className="rounded-lg shadow-xl"
                     />

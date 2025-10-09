@@ -114,7 +114,7 @@ const Hero = () => (
                 </div>
                 <div>
                     <img
-                        src="images/hero-illustration.png"
+                        src="images/hero-home.jpg"
                         alt="Ilustrasi Penitipan Barang"
                         className="rounded-lg shadow-lg mx-auto"
                     />

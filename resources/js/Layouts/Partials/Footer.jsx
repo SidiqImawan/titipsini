@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@inertiajs/react"; // <-- Menggunakan Link dari Inertia
+import { Link, usePage } from "@inertiajs/react"; // <-- 1. Tambahkan usePage
 import {
     Phone,
     Mail,
@@ -10,6 +10,9 @@ import {
 } from "lucide-react";
 
 export default function Footer() {
+    // 2. Ambil data settings dari props global
+    const { settings } = usePage().props;
+
     return (
         <footer className="bg-gray-800 text-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -24,24 +27,40 @@ export default function Footer() {
                             Anda.
                         </p>
                         <div className="flex space-x-4 mt-4">
-                            <a
-                                href="#"
-                                className="text-gray-400 hover:text-white"
-                            >
-                                <Facebook />
-                            </a>
-                            <a
-                                href="#"
-                                className="text-gray-400 hover:text-white"
-                            >
-                                <Instagram />
-                            </a>
-                            <a
-                                href="#"
-                                className="text-gray-400 hover:text-white"
-                            >
-                                <Twitter />
-                            </a>
+                            {/* 3. Buat link sosmed menjadi dinamis */}
+                            {settings.social_facebook &&
+                                settings.social_facebook !== "#" && (
+                                    <a
+                                        href={settings.social_facebook}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-gray-400 hover:text-white"
+                                    >
+                                        <Facebook />
+                                    </a>
+                                )}
+                            {settings.social_instagram &&
+                                settings.social_instagram !== "#" && (
+                                    <a
+                                        href={settings.social_instagram}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-gray-400 hover:text-white"
+                                    >
+                                        <Instagram />
+                                    </a>
+                                )}
+                            {settings.social_twitter &&
+                                settings.social_twitter !== "#" && (
+                                    <a
+                                        href={settings.social_twitter}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-gray-400 hover:text-white"
+                                    >
+                                        <Twitter />
+                                    </a>
+                                )}
                         </div>
                     </div>
 
@@ -51,16 +70,18 @@ export default function Footer() {
                         </h4>
                         <ul className="mt-4 space-y-2 text-sm text-gray-400">
                             <li>
-                                <Link href="/">Beranda</Link>
+                                <Link href={route("home")}>Beranda</Link>
                             </li>
                             <li>
-                                <Link href="/layanan">Layanan</Link>
+                                <Link href={route("layanan.show")}>
+                                    Layanan
+                                </Link>
                             </li>
                             <li>
-                                <Link href="/tentang-kami">Tentang Kami</Link>
+                                <Link href={route("about")}>Tentang Kami</Link>
                             </li>
                             <li>
-                                <Link href="/contact">Kontak</Link>
+                                <Link href={route("contact.show")}>Kontak</Link>
                             </li>
                         </ul>
                     </div>
@@ -70,17 +91,27 @@ export default function Footer() {
                             Hubungi Kami
                         </h4>
                         <ul className="mt-4 space-y-3 text-sm text-gray-400">
+                            {/* 4. Buat info kontak menjadi dinamis */}
                             <li className="flex items-start">
-                                <Phone size={16} className="mr-3" /> +62
-                                812-3456-7890
+                                <Phone
+                                    size={16}
+                                    className="mr-3 mt-1 flex-shrink-0"
+                                />
+                                <span>{settings.contact_phone}</span>
                             </li>
                             <li className="flex items-start">
-                                <Mail size={16} className="mr-3" />{" "}
-                                info@titipsini.com
+                                <Mail
+                                    size={16}
+                                    className="mr-3 mt-1 flex-shrink-0"
+                                />
+                                <span>{settings.contact_email}</span>
                             </li>
                             <li className="flex items-start">
-                                <MapPin size={16} className="mr-3" /> Jakarta,
-                                Indonesia
+                                <MapPin
+                                    size={16}
+                                    className="mr-3 mt-1 flex-shrink-0"
+                                />
+                                <span>{settings.contact_address}</span>
                             </li>
                         </ul>
                     </div>
@@ -105,7 +136,8 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-sm">
-                    &copy; 2025 Titipsini.com. Semua hak cipta dilindungi.
+                    &copy; {new Date().getFullYear()} Titipsini.com. Semua hak
+                    cipta dilindungi.
                 </div>
             </div>
         </footer>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
-import { Briefcase, Users, LayoutDashboard, Share2 } from "lucide-react";
+import { Briefcase, Users, LayoutDashboard, Settings } from "lucide-react";
 
 // 🔹 Komponen Reusable untuk setiap link di sidebar
 const SidebarLink = ({ href, active, children, icon }) => {
@@ -65,11 +65,11 @@ export default function AdminSidebar() {
 
                 {/* 🔹 Tambahan baru: Sidebar Social Media */}
                 <SidebarLink
-                    href={route("admin.sosmed.index")}
-                    active={route().current("admin.sosmed.*")}
-                    icon={<Share2 className="h-5 w-5" />}
+                    href={route("admin.settings.index")}
+                    active={route().current("admin.settings.*")}
+                    icon={<Settings className="h-5 w-5" />}
                 >
-                    Social Media
+                    Pengaturan
                 </SidebarLink>
             </nav>
 

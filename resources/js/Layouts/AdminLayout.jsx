@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
-import AdminSidebar from "@/Components/Partials/AdminSidebar"; // ✅ pastikan path ini sesuai struktur kamu
+import AdminSidebar from "./Partials/AdminSidebar"; // ✅ pastikan path ini sesuai struktur kamu
 import { Menu, X } from "lucide-react";
 
 export default function AdminLayout({ user, header, children }) {

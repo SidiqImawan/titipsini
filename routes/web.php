@@ -14,7 +14,7 @@ use App\Http\Controllers\LayananPageController;
 
 // Admin Controllers
 use App\Http\Controllers\Admin\UserManagementController;
-use App\Http\Controllers\Admin\SocialMediaController; // <-- PENAMBAHAN
+use App\Http\Controllers\Admin\SettingController;
 
 
 /*
@@ -73,10 +73,9 @@ Route::middleware(['auth', 'verified', 'isAdmin'])
         Route::get('users/{user}/remove-admin', [UserManagementController::class, 'removeAdmin'])->name('users.removeAdmin');
 
         // Rute untuk Social Media (PENAMBAHAN)
-        Route::get('social-media', [SocialMediaController::class, 'index'])->name('social_media.index');
-        Route::post('social-media', [SocialMediaController::class, 'update'])->name('social_media.update');
+        Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+        Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
     });
 
 
 require __DIR__ . '/auth.php';
-

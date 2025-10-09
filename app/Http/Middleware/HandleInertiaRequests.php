@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Models\Setting;      // <-- TAMBAHKAN
+use Illuminate\Support\Facades\Cache; // <-- TAMBAHKAN
 
 class HandleInertiaRequests extends Middleware
 {
@@ -33,6 +35,13 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+            ],
+            // --- BLOK BARU UNTUK SETTINGS & FLASH ---
+            'settings' => Cache::rememberForever('settings', function () {
+                return Setting::all()->pluck('value', 'key');
+            }),
+            'flash' => [
+                'success' => fn() => $request->session()->get('success'),
             ],
         ];
     }
