@@ -68,24 +68,18 @@ export default function Header() {
             <header className="bg-white shadow-sm sticky top-0 z-40">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center py-4">
-                        {/* Logo */}
-                        <div className="flex-shrink-0">
-                            <Link
-                                href="/"
-                                className="text-2xl font-bold text-gray-800"
-                            >
-                                Titipsini
-                                <span className="text-green-600">.com</span>
-                            </Link>
-                        </div>
-
-                        {/* Navigasi Desktop */}
+                        <Link href="/">
+                            <img
+                                src="/images/titipsini.com.png"
+                                alt="Logo Titipsini.com"
+                                className="h-12 w-auto"
+                            />
+                        </Link>{" "}
                         <nav
                             className="hidden md:flex items-center space-x-8"
                             ref={navDropdownRef}
                         >
                             {navLinks.map((link) => {
-                                // Logika untuk mengecek apakah dropdown aktif
                                 const isDropdownActive =
                                     link.isDropdown &&
                                     link.items.some((item) =>
@@ -100,7 +94,7 @@ export default function Header() {
                                             }
                                             className={`flex items-center transition-colors font-medium ${
                                                 isDropdownActive
-                                                    ? "text-green-600" // Style jika salah satu item dropdown aktif
+                                                    ? "text-green-600"
                                                     : "text-gray-600 hover:text-green-600"
                                             }`}
                                         >
@@ -117,7 +111,6 @@ export default function Header() {
                                         {openDropdown === link.label && (
                                             <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 border">
                                                 {link.items.map((item) => {
-                                                    // Logika untuk mengecek apakah item dropdown aktif
                                                     const isActive =
                                                         url === item.href;
                                                     return (
@@ -126,8 +119,8 @@ export default function Header() {
                                                             href={item.href}
                                                             className={`block px-4 py-2 text-sm ${
                                                                 isActive
-                                                                    ? "text-green-600 bg-green-50 font-semibold" // Style jika aktif
-                                                                    : "text-gray-700 hover:bg-green-50 hover:text-green-600" // Style default + hover
+                                                                    ? "text-green-600 bg-green-50 font-semibold"
+                                                                    : "text-gray-700 hover:bg-green-50 hover:text-green-600"
                                                             }`}
                                                             onClick={() =>
                                                                 setOpenDropdown(
@@ -143,14 +136,13 @@ export default function Header() {
                                         )}
                                     </div>
                                 ) : (
-                                    // Logika untuk mengecek apakah link biasa aktif
                                     <Link
                                         key={link.label}
                                         href={link.href}
                                         className={`transition-colors font-medium ${
                                             url === link.href
-                                                ? "text-green-600" // Style jika aktif
-                                                : "text-gray-600 hover:text-green-600" // Style default + hover
+                                                ? "text-green-600"
+                                                : "text-gray-600 hover:text-green-600"
                                         }`}
                                     >
                                         {link.label}
@@ -158,7 +150,6 @@ export default function Header() {
                                 );
                             })}
                         </nav>
-
                         {/* Tombol Aksi di Kanan */}
                         <div className="hidden md:flex items-center space-x-4">
                             <button
@@ -226,7 +217,6 @@ export default function Header() {
                                 </div>
                             )}
                         </div>
-
                         {/* Tombol untuk Menu Mobile */}
                         <div className="md:hidden flex items-center space-x-4">
                             <button

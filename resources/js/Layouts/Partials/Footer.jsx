@@ -17,11 +17,19 @@ export default function Footer() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div>
-                        <h3 className="text-2xl font-bold">
-                            Titipsini
-                            <span className="text-green-500">.com</span>
-                        </h3>
-                        <p className="mt-2 text-gray-400 text-sm">
+                        <Link href="/">
+                            <div className="flex items-center space-x-3">
+                                <img
+                                    src="/images/titipsini-fotter1.png"
+                                    alt="Logo Titipsini.com"
+                                    className="h-8 w-auto"
+                                />
+                                <span className="text-2xl font-bold text-white">
+                                    Titipsini.com
+                                </span>
+                            </div>
+                        </Link>
+                        <p className="mt-4 text-gray-400 text-sm">
                             Solusi tepercaya untuk kebutuhan penitipan barang
                             Anda.
                         </p>
@@ -68,18 +76,36 @@ export default function Footer() {
                         </h4>
                         <ul className="mt-4 space-y-2 text-sm text-gray-400">
                             <li>
-                                <Link href={route("home")}>Beranda</Link>
+                                <Link
+                                    href={route("home")}
+                                    className="hover:text-white"
+                                >
+                                    Beranda
+                                </Link>
                             </li>
                             <li>
-                                <Link href={route("layanan.show")}>
+                                <Link
+                                    href={route("layanan.show")}
+                                    className="hover:text-white"
+                                >
                                     Layanan
                                 </Link>
                             </li>
                             <li>
-                                <Link href={route("about")}>Tentang Kami</Link>
+                                <Link
+                                    href={route("about")}
+                                    className="hover:text-white"
+                                >
+                                    Tentang Kami
+                                </Link>
                             </li>
                             <li>
-                                <Link href={route("contact.show")}>Kontak</Link>
+                                <Link
+                                    href={route("contact.show")}
+                                    className="hover:text-white"
+                                >
+                                    Kontak
+                                </Link>
                             </li>
                         </ul>
                     </div>

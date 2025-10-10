@@ -52,7 +52,6 @@ const LayananHero = () => (
                     </div>
                 </div>
                 <div>
-                    {/* Replace with your actual illustration/image component or path */}
                     <img
                         src="images/hero-services.jpg"
                         alt="Layanan Pindahan Titipsini"
@@ -261,7 +260,7 @@ const AboutUs = () => (
     </section>
 );
 
-// --- Pricing Section ---
+// --- Pricing Section (TELAH DIMODIFIKASI) ---
 const Pricing = () => {
     const plans = [
         {
@@ -310,13 +309,13 @@ const Pricing = () => {
                         Pilih paket yang sesuai dengan kebutuhan Anda.
                     </p>
                 </div>
-                <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {plans.map((plan) => (
                         <div
                             key={plan.name}
-                            className={`bg-white rounded-xl shadow-lg p-8 relative ${
+                            className={`bg-white rounded-xl shadow-lg p-8 relative h-full flex flex-col ${
                                 plan.popular
-                                    ? "border-2 border-green-600 transform lg:scale-105"
+                                    ? "border-2 border-green-600"
                                     : "border border-gray-200"
                             }`}
                         >
@@ -325,14 +324,18 @@ const Pricing = () => {
                                     Paling Populer
                                 </span>
                             )}
-                            <h3 className="text-2xl font-bold text-gray-900">
-                                {plan.name}
-                            </h3>
-                            <p className="mt-2 text-4xl font-bold text-green-600">
-                                Rp {plan.price}
-                            </p>
-                            <p className="text-sm text-gray-500">/pindahan</p>
-                            <ul className="mt-6 space-y-3">
+                            <div>
+                                <h3 className="text-2xl font-bold text-gray-900">
+                                    {plan.name}
+                                </h3>
+                                <p className="mt-2 text-4xl font-bold text-green-600">
+                                    Rp {plan.price}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                    /pindahan
+                                </p>
+                            </div>
+                            <ul className="mt-6 space-y-3 flex-grow">
                                 {plan.features.map((feature, i) => (
                                     <li
                                         key={i}
