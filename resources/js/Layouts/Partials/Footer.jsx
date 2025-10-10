@@ -22,7 +22,7 @@ export default function Footer() {
                                 <img
                                     src="/images/titipsini-fotter1.png"
                                     alt="Logo Titipsini.com"
-                                    className="h-8 w-auto"
+                                    className="h-12 w-auto"
                                 />
                                 <span className="text-2xl font-bold text-white">
                                     Titipsini.com

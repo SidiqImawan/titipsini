@@ -21,6 +21,9 @@ class SettingSeeder extends Seeder
             ['key' => 'social_facebook', 'value' => '#'],
             ['key' => 'social_instagram', 'value' => '#'],
             ['key' => 'social_twitter', 'value' => '#'],
+
+            // Logo
+            ['key' => 'site_logo', 'value' => null],
         ];
 
         foreach ($settings as $setting) {

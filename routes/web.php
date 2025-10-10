@@ -73,8 +73,15 @@ Route::middleware(['auth', 'verified', 'isAdmin'])
         Route::get('users/{user}/remove-admin', [UserManagementController::class, 'removeAdmin'])->name('users.removeAdmin');
 
         // Rute untuk Social Media (PENAMBAHAN)
-        Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
-        Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
+        Route::prefix('settings')->name('settings.')->group(function () {
+            Route::get('contact', [SettingController::class, 'contact'])->name('contact');
+            Route::get('social', [SettingController::class, 'social'])->name('social');
+            Route::get('logo', [SettingController::class, 'logo'])->name('logo');
+
+            Route::post('update', [SettingController::class, 'update'])->name('update');
+            Route::post('logo/update', [SettingController::class, 'updateLogo'])->name('logo.update');
+            Route::delete('logo/delete', [SettingController::class, 'destroyLogo'])->name('logo.destroy');
+        });
     });
 
 

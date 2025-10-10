@@ -6,45 +6,113 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Setting;
-use Illuminate\Support\Facades\Cache; // <-- 1. TAMBAHKAN IMPORT CACHE
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage; // <-- Tambahkan untuk manajemen file
 
 class SettingController extends Controller
 {
     /**
-     * Menampilkan halaman pengaturan dengan data dari database.
+     * Menampilkan form untuk pengaturan kontak.
      */
-    public function index()
+    public function contact()
     {
-        $settings = Setting::all()->pluck('value', 'key');
-
-        return Inertia::render('Admin/Settings/Index', [
-            'settings' => $settings,
+        return Inertia::render('Admin/Settings/Contact/Index', [
+            'settings' => Setting::all()->pluck('value', 'key')
         ]);
     }
 
     /**
-     * Memperbarui data pengaturan di database.
+     * Menampilkan form untuk pengaturan media sosial.
+     */
+    public function social()
+    {
+        return Inertia::render('Admin/Settings/Social/Index', [
+            'settings' => Setting::all()->pluck('value', 'key')
+        ]);
+    }
+
+    /**
+     * Menampilkan form untuk pengaturan logo.
+     */
+    public function logo()
+    {
+        return Inertia::render('Admin/Settings/Logo/Index', [
+            'settings' => Setting::all()->pluck('value', 'key')
+        ]);
+    }
+
+    public function destroyLogo()
+    {
+        // 1. Ambil path logo saat ini dari database
+        $logoPath = Setting::where('key', 'site_logo')->value('value');
+
+        // 2. Jika ada path-nya, hapus file dari storage
+        if ($logoPath) {
+            Storage::disk('public')->delete($logoPath);
+        }
+
+        // 3. Update database, set nilai logo menjadi null
+        Setting::where('key', 'site_logo')->update(['value' => null]);
+
+        // 4. Bersihkan cache agar perubahan tampil di frontend
+        Cache::forget('settings');
+
+        return redirect()->back()->with('success', 'Logo berhasil dihapus.');
+    }
+
+    /**
+     * Memperbarui pengaturan berbasis teks (Kontak & Sosmed).
      */
     public function update(Request $request)
     {
+        // Validasi disesuaikan dengan data yang mungkin dikirim
         $validated = $request->validate([
-            'contact_phone'   => 'nullable|string|max:255',
-            'contact_email'   => 'nullable|email|max:255',
-            'contact_address' => 'nullable|string|max:255',
-            'social_facebook'  => 'nullable|url|max:255',
-            'social_instagram' => 'nullable|url|max:255',
-            'social_twitter'   => 'nullable|url|max:255',
+            'contact_phone'   => 'sometimes|nullable|string|max:255',
+            'contact_email'   => 'sometimes|nullable|email|max:255',
+            'contact_address' => 'sometimes|nullable|string|max:255',
+            'social_facebook'  => 'sometimes|nullable|url|max:255',
+            'social_instagram' => 'sometimes|nullable|url|max:255',
+            'social_twitter'   => 'sometimes|nullable|url|max:255',
         ]);
 
         foreach ($validated as $key => $value) {
             Setting::where('key', $key)->update(['value' => $value ?? '']);
         }
 
-        // 2. TAMBAHKAN BARIS INI UNTUK MEMBERSIHKAN CACHE
         Cache::forget('settings');
 
-        // 3. PERBAIKI NAMA ROUTE DI SINI
-        return redirect()->route('admin.settings.index')
-            ->with('success', 'Pengaturan berhasil diperbarui.');
+        // Redirect kembali ke halaman sebelumnya
+        return redirect()->back()->with('success', 'Pengaturan berhasil diperbarui.');
+    }
+
+    /**
+     * Memperbarui logo situs.
+     */
+    public function updateLogo(Request $request)
+    {
+        $request->validate([
+            'logo' => 'required|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
+        ]);
+
+        // Ambil path logo lama
+        $oldLogoPath = Setting::where('key', 'site_logo')->value('value');
+
+        // Simpan file baru
+        $newLogoPath = $request->file('logo')->store('logos', 'public');
+
+        // Hapus file logo lama jika ada
+        if ($oldLogoPath) {
+            Storage::disk('public')->delete($oldLogoPath);
+        }
+
+        // Update path logo di database
+        Setting::updateOrCreate(
+            ['key' => 'site_logo'],
+            ['value' => $newLogoPath]
+        );
+
+        Cache::forget('settings');
+
+        return redirect()->back()->with('success', 'Logo berhasil diperbarui.');
     }
 }

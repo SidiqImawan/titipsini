@@ -14,10 +14,10 @@ export default function Header() {
     const navDropdownRef = useRef(null);
     const accountDropdownRef = useRef(null);
 
-    // Mengambil URL dan status otentikasi dari Inertia
+    // Mengambil URL, status otentikasi, dan settings dari Inertia
     const {
         url,
-        props: { auth },
+        props: { auth, settings },
     } = usePage();
 
     // Konfigurasi link navigasi
@@ -69,11 +69,19 @@ export default function Header() {
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center py-4">
                         <Link href="/">
-                            <img
-                                src="/images/titipsini.com.png"
-                                alt="Logo Titipsini.com"
-                                className="h-12 w-auto"
-                            />
+                            {/* --- BLOK LOGO DINAMIS --- */}
+                            {settings.site_logo ? (
+                                <img
+                                    src={`/storage/${settings.site_logo}`}
+                                    alt="Logo Titipsini.com"
+                                    className="h-12 w-auto"
+                                />
+                            ) : (
+                                <span className="text-2xl font-bold">
+                                    Titipsini
+                                    <span className="text-green-500">.com</span>
+                                </span>
+                            )}
                         </Link>{" "}
                         <nav
                             className="hidden md:flex items-center space-x-8"
