@@ -14,8 +14,11 @@ export default function Header() {
     const navDropdownRef = useRef(null);
     const accountDropdownRef = useRef(null);
 
-    // Mengambil status otentikasi user dari Inertia
-    const { auth } = usePage().props;
+    // Mengambil URL dan status otentikasi dari Inertia
+    const {
+        url,
+        props: { auth },
+    } = usePage();
 
     // Konfigurasi link navigasi
     const navLinks = [
@@ -81,14 +84,25 @@ export default function Header() {
                             className="hidden md:flex items-center space-x-8"
                             ref={navDropdownRef}
                         >
-                            {navLinks.map((link) =>
-                                link.isDropdown ? (
+                            {navLinks.map((link) => {
+                                // Logika untuk mengecek apakah dropdown aktif
+                                const isDropdownActive =
+                                    link.isDropdown &&
+                                    link.items.some((item) =>
+                                        url.startsWith(item.href)
+                                    );
+
+                                return link.isDropdown ? (
                                     <div key={link.label} className="relative">
                                         <button
                                             onClick={() =>
                                                 handleDropdownToggle(link.label)
                                             }
-                                            className="flex items-center text-gray-600 hover:text-green-600 transition-colors font-medium"
+                                            className={`flex items-center transition-colors font-medium ${
+                                                isDropdownActive
+                                                    ? "text-green-600" // Style jika salah satu item dropdown aktif
+                                                    : "text-gray-600 hover:text-green-600"
+                                            }`}
                                         >
                                             {link.label}
                                             <ChevronDown
@@ -102,33 +116,47 @@ export default function Header() {
                                         </button>
                                         {openDropdown === link.label && (
                                             <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 border">
-                                                {link.items.map((item) => (
-                                                    <Link
-                                                        key={item.label}
-                                                        href={item.href}
-                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600"
-                                                        onClick={() =>
-                                                            setOpenDropdown(
-                                                                null
-                                                            )
-                                                        }
-                                                    >
-                                                        {item.label}
-                                                    </Link>
-                                                ))}
+                                                {link.items.map((item) => {
+                                                    // Logika untuk mengecek apakah item dropdown aktif
+                                                    const isActive =
+                                                        url === item.href;
+                                                    return (
+                                                        <Link
+                                                            key={item.label}
+                                                            href={item.href}
+                                                            className={`block px-4 py-2 text-sm ${
+                                                                isActive
+                                                                    ? "text-green-600 bg-green-50 font-semibold" // Style jika aktif
+                                                                    : "text-gray-700 hover:bg-green-50 hover:text-green-600" // Style default + hover
+                                                            }`}
+                                                            onClick={() =>
+                                                                setOpenDropdown(
+                                                                    null
+                                                                )
+                                                            }
+                                                        >
+                                                            {item.label}
+                                                        </Link>
+                                                    );
+                                                })}
                                             </div>
                                         )}
                                     </div>
                                 ) : (
+                                    // Logika untuk mengecek apakah link biasa aktif
                                     <Link
                                         key={link.label}
                                         href={link.href}
-                                        className="text-gray-600 hover:text-green-600 transition-colors font-medium"
+                                        className={`transition-colors font-medium ${
+                                            url === link.href
+                                                ? "text-green-600" // Style jika aktif
+                                                : "text-gray-600 hover:text-green-600" // Style default + hover
+                                        }`}
                                     >
                                         {link.label}
                                     </Link>
-                                )
-                            )}
+                                );
+                            })}
                         </nav>
 
                         {/* Tombol Aksi di Kanan */}
@@ -140,7 +168,6 @@ export default function Header() {
                                 <Search size={20} />
                             </button>
 
-                            {/* Tampilan Jika User SUDAH LOGIN */}
                             {auth.user ? (
                                 <>
                                     <Link
@@ -157,7 +184,6 @@ export default function Header() {
                                     </Link>
                                 </>
                             ) : (
-                                /* Tampilan Jika User BELUM LOGIN (Guest) */
                                 <div
                                     className="relative"
                                     ref={accountDropdownRef}
@@ -181,7 +207,6 @@ export default function Header() {
                                             }`}
                                         />
                                     </button>
-
                                     {isAccountDropdownOpen && (
                                         <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 border">
                                             <Link
@@ -225,14 +250,9 @@ export default function Header() {
                 </div>
 
                 {/* Dropdown Menu untuk Mobile (jika terbuka) */}
-                {isMenuOpen && (
-                    <div className="md:hidden">
-                        {/* Anda bisa menambahkan logika dan tampilan menu mobile di sini */}
-                    </div>
-                )}
+                {isMenuOpen && <div className="md:hidden"></div>}
             </header>
 
-            {/* Komponen Modal Pencarian */}
             <SearchModal
                 isOpen={isSearchOpen}
                 onClose={() => setIsSearchOpen(false)}

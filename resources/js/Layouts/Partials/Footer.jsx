@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, usePage } from "@inertiajs/react"; // <-- 1. Tambahkan usePage
+import { Link, usePage } from "@inertiajs/react";
 import {
     Phone,
     Mail,
@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 
 export default function Footer() {
-    // 2. Ambil data settings dari props global
     const { settings } = usePage().props;
 
     return (
@@ -27,7 +26,6 @@ export default function Footer() {
                             Anda.
                         </p>
                         <div className="flex space-x-4 mt-4">
-                            {/* 3. Buat link sosmed menjadi dinamis */}
                             {settings.social_facebook &&
                                 settings.social_facebook !== "#" && (
                                     <a
@@ -91,7 +89,6 @@ export default function Footer() {
                             Hubungi Kami
                         </h4>
                         <ul className="mt-4 space-y-3 text-sm text-gray-400">
-                            {/* 4. Buat info kontak menjadi dinamis */}
                             <li className="flex items-start">
                                 <Phone
                                     size={16}
