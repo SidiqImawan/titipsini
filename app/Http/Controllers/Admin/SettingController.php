@@ -73,6 +73,7 @@ class SettingController extends Controller
             'social_facebook'  => 'sometimes|nullable|url|max:255',
             'social_instagram' => 'sometimes|nullable|url|max:255',
             'social_twitter'   => 'sometimes|nullable|url|max:255',
+            'whatsapp_message' => 'sometimes|nullable|string|max:1000',
         ]);
 
         foreach ($validated as $key => $value) {

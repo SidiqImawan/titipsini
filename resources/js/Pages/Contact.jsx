@@ -1,6 +1,6 @@
 import React from "react";
-import GuestLayout from "@/Layouts/GuestLayout"; // Menggunakan GuestLayout sesuai contoh
-import { Head, useForm } from "@inertiajs/react";
+import GuestLayout from "@/Layouts/GuestLayout";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import {
     FaMapMarkerAlt,
     FaPhoneAlt,
@@ -30,23 +30,27 @@ const ContactHero = () => (
 
 // --- Info Cards Section ---
 const ContactInfo = () => {
+    // Ambil data 'settings' dari props global
+    const { settings } = usePage().props;
+
+    // Ganti data statis dengan data dinamis dari settings
     const infoItems = [
         {
             icon: <FaMapMarkerAlt />,
             title: "Alamat",
-            line1: "Jl. Raya Storage No. 123, Jakarta Selatan 12345",
-            line2: "Dekat stasiun MRT Blok M",
+            line1: settings.contact_address,
+            line2: "Jakarta, Indonesia",
         },
         {
             icon: <FaPhoneAlt />,
             title: "Telepon",
-            line1: "+62 21 1234 5678",
+            line1: settings.contact_phone,
             line2: "Senin - Minggu, 08:00 - 20:00",
         },
         {
             icon: <FaEnvelope />,
             title: "Email",
-            line1: "info@titipsini.com",
+            line1: settings.contact_email,
             line2: "Respon dalam 24 Jam",
         },
         {
@@ -146,6 +150,18 @@ const BranchLocations = ({ branches }) => {
 
 // --- Contact Form & Map Section ---
 const ContactFormAndMap = () => {
+    // Ambil data 'settings' dari props global
+    const { settings } = usePage().props;
+
+    // Buat URL WhatsApp secara dinamis
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    const message = settings.whatsapp_message
+        ? encodeURIComponent(settings.whatsapp_message)
+        : "";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+
     // Sub-komponen untuk form, hanya digunakan di dalam section ini
     const ContactForm = () => {
         const { data, setData, post, processing, errors, recentlySuccessful } =
@@ -296,7 +312,7 @@ const ContactFormAndMap = () => {
                                 Kontak Cepat
                             </h3>
                             <a
-                                href="https://wa.me/6281234567890"
+                                href={whatsappUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center"

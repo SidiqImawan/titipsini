@@ -13,6 +13,7 @@ use App\Http\Controllers\JobVacancyController;
 use App\Http\Controllers\LayananPageController;
 
 // Admin Controllers
+use App\Http\Controllers\Admin\DashboardController; // <-- PERUBAHAN 1
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\SettingController;
 
@@ -46,7 +47,8 @@ Route::get('/lowongan-kerja', [JobVacancyController::class, 'publicIndex'])->nam
 // --- RUTE UNTUK PENGGUNA TERAUTENTIKASI ---
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', fn() => Inertia::render('Dashboard'))->name('dashboard');
+    // PERUBAHAN 2: Arahkan ke DashboardController
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -72,7 +74,7 @@ Route::middleware(['auth', 'verified', 'isAdmin'])
         Route::get('users/{user}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
         Route::get('users/{user}/remove-admin', [UserManagementController::class, 'removeAdmin'])->name('users.removeAdmin');
 
-        // Rute untuk Social Media (PENAMBAHAN)
+        // Rute untuk Pengaturan Situs
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('contact', [SettingController::class, 'contact'])->name('contact');
             Route::get('social', [SettingController::class, 'social'])->name('social');

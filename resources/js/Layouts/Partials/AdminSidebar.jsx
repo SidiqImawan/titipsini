@@ -11,21 +11,27 @@ import {
     Phone,
 } from "lucide-react";
 
-// Komponen Reusable untuk setiap link utama di sidebar
 const SidebarLink = ({ href, active, children, icon }) => {
-    const baseClasses =
-        "group flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out";
-    const activeClasses = "bg-indigo-600 text-white shadow-md scale-[1.02]";
-    const inactiveClasses = "text-gray-300 hover:bg-gray-700 hover:text-white";
-
     return (
         <Link
             href={href}
-            className={`${baseClasses} ${
-                active ? activeClasses : inactiveClasses
-            }`}
+            className={`group relative flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300
+                ${
+                    active
+                        ? "bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-amber-300 shadow-md scale-[1.02]"
+                        : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
+                }`}
         >
-            <span className="mr-3 text-gray-400 group-hover:text-white transition-colors duration-200">
+            {active && (
+                <span className="absolute left-0 top-0 bottom-0 w-1 bg-amber-400 rounded-r-lg"></span>
+            )}
+            <span
+                className={`mr-3 ${
+                    active
+                        ? "text-amber-300"
+                        : "text-gray-500 group-hover:text-gray-200"
+                } transition-colors duration-200`}
+            >
                 {icon}
             </span>
             {children}
@@ -33,21 +39,24 @@ const SidebarLink = ({ href, active, children, icon }) => {
     );
 };
 
-// Komponen Sub-Link untuk item di dalam dropdown
 const SidebarSubLink = ({ href, active, children, icon }) => {
-    const baseClasses =
-        "group flex items-center pl-11 pr-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out";
-    const activeClasses = "bg-gray-700 text-white";
-    const inactiveClasses = "text-gray-400 hover:bg-gray-700 hover:text-white";
-
     return (
         <Link
             href={href}
-            className={`${baseClasses} ${
-                active ? activeClasses : inactiveClasses
-            }`}
+            className={`group flex items-center pl-12 pr-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
+                ${
+                    active
+                        ? "bg-[#1e293b] text-amber-300"
+                        : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
+                }`}
         >
-            <span className="mr-3 text-gray-500 group-hover:text-gray-300 transition-colors duration-200">
+            <span
+                className={`mr-3 ${
+                    active
+                        ? "text-amber-300"
+                        : "text-gray-500 group-hover:text-gray-300"
+                }`}
+            >
                 {icon}
             </span>
             {children}
@@ -56,26 +65,24 @@ const SidebarSubLink = ({ href, active, children, icon }) => {
 };
 
 export default function AdminSidebar() {
-    // State untuk mengontrol apakah dropdown settings terbuka atau tidak.
-    // Dibuat terbuka secara default jika route saat ini adalah salah satu dari halaman settings.
     const [isSettingsOpen, setSettingsOpen] = useState(
         route().current("admin.settings.*")
     );
 
     return (
-        <aside className="w-64 min-h-screen bg-gray-800 flex flex-col border-r border-gray-700 shadow-lg">
-            {/* Header / Logo */}
-            <div className="h-16 flex items-center justify-center bg-gray-900 border-b border-gray-700">
+        <aside className="w-64 min-h-screen bg-[#0f172a] text-gray-200 flex flex-col border-r border-[#1e293b] shadow-2xl">
+            {/* Header */}
+            <div className="h-16 flex items-center justify-center bg-gradient-to-r from-[#0f172a] to-[#1e293b] border-b border-[#1e293b] shadow-lg">
                 <Link
                     href={route("dashboard")}
-                    className="text-white font-bold text-lg tracking-wide hover:text-indigo-400 transition-colors"
+                    className="text-amber-300 font-semibold text-lg tracking-wider hover:text-amber-200 transition-colors"
                 >
                     ADMIN PANEL
                 </Link>
             </div>
 
-            {/* Menu Navigasi */}
-            <nav className="flex-1 px-3 py-5 space-y-1 overflow-y-auto">
+            {/* Navigasi */}
+            <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#1e293b] scrollbar-track-[#0f172a]">
                 <SidebarLink
                     href={route("dashboard")}
                     active={route().current("dashboard")}
@@ -100,31 +107,43 @@ export default function AdminSidebar() {
                     User Management
                 </SidebarLink>
 
-                {/* --- MENU PENGATURAN DROPDOWN BARU --- */}
+                {/* Dropdown Settings */}
                 <div>
-                    {/* Tombol untuk membuka/menutup dropdown */}
                     <button
                         onClick={() => setSettingsOpen(!isSettingsOpen)}
-                        className={`group w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out ${
-                            route().current("admin.settings.*")
-                                ? "bg-indigo-600 text-white shadow-md scale-[1.02]"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                        }`}
+                        className={`group w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300
+                            ${
+                                route().current("admin.settings.*")
+                                    ? "bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-amber-300 shadow-md scale-[1.02]"
+                                    : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
+                            }`}
                     >
-                        <span className="mr-3 text-gray-400 group-hover:text-white transition-colors duration-200">
+                        <span
+                            className={`mr-3 ${
+                                route().current("admin.settings.*")
+                                    ? "text-amber-300"
+                                    : "text-gray-500 group-hover:text-gray-200"
+                            }`}
+                        >
                             <Settings className="h-5 w-5" />
                         </span>
                         Pengaturan
-                        {/* Ikon panah yang bisa berputar */}
                         <ChevronDown
-                            className={`ml-auto h-5 w-5 transform transition-transform duration-200 ${
-                                isSettingsOpen ? "rotate-180" : ""
+                            className={`ml-auto h-5 w-5 transform transition-transform duration-300 ${
+                                isSettingsOpen
+                                    ? "rotate-180 text-amber-300"
+                                    : ""
                             }`}
                         />
                     </button>
 
-                    {/* Konten Dropdown yang muncul/hilang */}
-                    {isSettingsOpen && (
+                    <div
+                        className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                            isSettingsOpen
+                                ? "max-h-40 opacity-100"
+                                : "max-h-0 opacity-0"
+                        }`}
+                    >
                         <div className="mt-1 space-y-1">
                             <SidebarSubLink
                                 href={route("admin.settings.contact")}
@@ -152,12 +171,12 @@ export default function AdminSidebar() {
                                 Logo
                             </SidebarSubLink>
                         </div>
-                    )}
+                    </div>
                 </div>
             </nav>
 
-            {/* Footer Sidebar */}
-            <div className="px-4 py-3 border-t border-gray-700 text-center text-xs text-gray-400">
+            {/* Footer */}
+            <div className="px-4 py-3 border-t border-[#1e293b] text-center text-xs text-gray-500">
                 © {new Date().getFullYear()} Admin Panel
             </div>
         </aside>

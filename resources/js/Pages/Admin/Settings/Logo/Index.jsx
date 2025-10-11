@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm, Link } from "@inertiajs/react";
-import { Save, UploadCloud } from "lucide-react";
+import { Save, UploadCloud, Trash2 } from "lucide-react";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 
@@ -27,9 +28,8 @@ export default function LogoIndex({ settings, flash }) {
             onSuccess: () => {
                 reset("logo");
                 setLogoPreview(null);
-                if (document.getElementById("logo-input")) {
-                    document.getElementById("logo-input").value = "";
-                }
+                const input = document.getElementById("logo-input");
+                if (input) input.value = "";
             },
         });
     };
@@ -45,21 +45,30 @@ export default function LogoIndex({ settings, flash }) {
             <Head title="Logo Situs" />
 
             <div className="py-12">
-                <div className="max-w-xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <form onSubmit={submit} className="p-6 space-y-6">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="max-w-2xl mx-auto sm:px-6 lg:px-8"
+                >
+                    <div className="bg-white/80 backdrop-blur-md shadow-lg ring-1 ring-gray-100 rounded-2xl overflow-hidden p-8 border border-gray-200">
+                        <form onSubmit={submit} className="space-y-8">
                             {flash?.success && (
-                                <div className="p-4 bg-green-100 text-green-700 rounded-md">
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    className="p-4 bg-green-100 text-green-700 rounded-md shadow-sm"
+                                >
                                     {flash.success}
-                                </div>
+                                </motion.div>
                             )}
 
+                            {/* Logo Saat Ini */}
                             <div>
                                 <div className="flex justify-between items-center">
-                                    <h3 className="text-lg font-medium text-gray-800">
+                                    <h3 className="text-lg font-semibold text-gray-800">
                                         Logo Saat Ini
                                     </h3>
-                                    {/* --- TOMBOL HAPUS BARU --- */}
                                     {settings.site_logo && (
                                         <Link
                                             href={route(
@@ -67,111 +76,129 @@ export default function LogoIndex({ settings, flash }) {
                                             )}
                                             method="delete"
                                             as="button"
-                                            className="text-sm text-red-600 hover:underline"
+                                            className="flex items-center gap-1 text-sm text-red-600 hover:text-red-700 transition-colors"
                                             onBefore={() =>
                                                 confirm(
-                                                    "Anda yakin ingin menghapus logo ini?"
+                                                    "Yakin ingin menghapus logo ini?"
                                                 )
                                             }
                                         >
-                                            Hapus Logo
+                                            <Trash2 className="w-4 h-4" />
+                                            Hapus
                                         </Link>
                                     )}
                                 </div>
 
                                 {settings.site_logo ? (
-                                    <div className="mt-2 p-4 border rounded-md inline-block">
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ duration: 0.4 }}
+                                        className="mt-4 p-4 border border-gray-200 rounded-xl shadow-sm bg-gray-50 inline-block"
+                                    >
                                         <img
                                             src={`/storage/${settings.site_logo}`}
                                             alt="Logo Situs"
-                                            className="h-20"
+                                            className="h-24 w-auto object-contain"
                                         />
-                                    </div>
+                                    </motion.div>
                                 ) : (
-                                    <p className="mt-2 text-sm text-gray-500">
+                                    <p className="mt-2 text-sm text-gray-500 italic">
                                         Belum ada logo yang diunggah.
                                     </p>
                                 )}
                             </div>
 
+                            {/* Upload Baru */}
                             <div>
                                 <label
                                     htmlFor="logo-input"
-                                    className="block text-lg font-medium text-gray-800"
+                                    className="block text-lg font-semibold text-gray-800"
                                 >
                                     Unggah Logo Baru
                                 </label>
-                                <div className="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                                    <div className="space-y-1 text-center">
-                                        <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
-                                        <div className="flex text-sm text-gray-600">
-                                            <label
-                                                htmlFor="logo-input"
-                                                className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none"
-                                            >
-                                                <span>Pilih file</span>
-                                                <input
-                                                    id="logo-input"
-                                                    name="logo"
-                                                    type="file"
-                                                    className="sr-only"
-                                                    onChange={handleLogoChange}
-                                                />
-                                            </label>
-                                            <p className="pl-1">
-                                                atau seret dan lepas
-                                            </p>
-                                        </div>
-                                        <p className="text-xs text-gray-500">
-                                            PNG, JPG, SVG, WEBP hingga 2MB
-                                        </p>
-                                    </div>
-                                </div>
+
+                                <motion.div
+                                    whileHover={{ scale: 1.02 }}
+                                    className="mt-3 relative border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:border-indigo-400 hover:bg-indigo-50/30 cursor-pointer"
+                                >
+                                    <UploadCloud className="h-12 w-12 text-indigo-500 mb-3" />
+                                    <label
+                                        htmlFor="logo-input"
+                                        className="text-indigo-600 font-medium cursor-pointer hover:text-indigo-500"
+                                    >
+                                        Klik untuk memilih file
+                                    </label>
+                                    <p className="text-xs text-gray-500 mt-1">
+                                        PNG, JPG, SVG, WEBP (maks. 2MB)
+                                    </p>
+                                    <input
+                                        id="logo-input"
+                                        name="logo"
+                                        type="file"
+                                        className="absolute inset-0 opacity-0 cursor-pointer"
+                                        onChange={handleLogoChange}
+                                    />
+                                </motion.div>
+
                                 <InputError
                                     message={errors.logo}
                                     className="mt-2"
                                 />
                             </div>
 
+                            {/* Pratinjau */}
                             {logoPreview && (
-                                <div>
-                                    <h3 className="text-lg font-medium text-gray-800">
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <h3 className="text-lg font-semibold text-gray-800 mb-3">
                                         Pratinjau Logo Baru
                                     </h3>
-                                    <div className="mt-4 p-4 border rounded-md inline-block">
+                                    <div className="p-4 border border-indigo-100 rounded-xl bg-gradient-to-br from-indigo-50 to-white shadow-md inline-block">
                                         <img
                                             src={logoPreview}
                                             alt="Pratinjau Logo Baru"
-                                            className="h-20"
+                                            className="h-24 w-auto object-contain"
                                         />
                                     </div>
-                                </div>
+                                </motion.div>
                             )}
 
+                            {/* Progress */}
                             {progress && (
-                                <div className="w-full bg-gray-200 rounded-full">
-                                    <div
-                                        className="bg-indigo-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                                        style={{
+                                <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                                    <motion.div
+                                        initial={{ width: 0 }}
+                                        animate={{
                                             width: `${progress.percentage}%`,
                                         }}
-                                    >
-                                        {progress.percentage}%
-                                    </div>
+                                        transition={{
+                                            ease: "easeOut",
+                                            duration: 0.4,
+                                        }}
+                                        className="bg-indigo-600 h-3 rounded-full"
+                                    />
                                 </div>
                             )}
 
-                            <div className="flex items-center justify-end">
-                                <PrimaryButton
-                                    disabled={processing || !data.logo}
-                                >
-                                    <Save className="w-4 h-4 mr-2" />
-                                    Unggah & Simpan
-                                </PrimaryButton>
+                            {/* Tombol Simpan */}
+                            <div className="flex justify-end">
+                                <motion.div whileTap={{ scale: 0.97 }}>
+                                    <PrimaryButton
+                                        disabled={processing || !data.logo}
+                                        className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 transition-colors"
+                                    >
+                                        <Save className="w-4 h-4" />
+                                        Unggah & Simpan
+                                    </PrimaryButton>
+                                </motion.div>
                             </div>
                         </form>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </AdminLayout>
     );

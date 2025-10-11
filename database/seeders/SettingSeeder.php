@@ -16,6 +16,7 @@ class SettingSeeder extends Seeder
             ['key' => 'contact_phone', 'value' => '+62 812-3456-7890'],
             ['key' => 'contact_email', 'value' => 'info@titipsini.com'],
             ['key' => 'contact_address', 'value' => 'Jakarta, Indonesia'],
+            ['key' => 'whatsapp_message', 'value' => 'Halo Titipsini, saya ingin bertanya tentang layanan Anda.'],
 
             // Sosial Media
             ['key' => 'social_facebook', 'value' => '#'],
