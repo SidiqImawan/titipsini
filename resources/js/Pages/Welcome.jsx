@@ -8,43 +8,46 @@ import {
     Users,
     Star,
     ChevronDown,
+    ChevronLeft,
+    ChevronRight,
+    CheckCircle,
 } from "lucide-react";
-import GuestLayout from "../Layouts/GuestLayout"; // Path diperbaiki
+import GuestLayout from "../Layouts/GuestLayout";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
 // Komponen untuk setiap kartu layanan
-const ServiceCard = ({ icon, title, features, illustration }) => (
-    <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-100 flex flex-col">
-        <div className="w-full h-40 mb-4 rounded-md overflow-hidden bg-gray-100">
+const ServiceCard = ({ illustration, title, description, features }) => (
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-100">
+        <div className="w-full h-48 overflow-hidden">
             <img
                 src={illustration}
-                alt={title}
-                className="w-full h-full object-contain p-4"
+                alt={`Ilustrasi untuk ${title}`}
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
             />
         </div>
-        <h3 className="text-xl font-bold text-gray-800 mb-2">{title}</h3>
-        <ul className="space-y-2 text-gray-600 mb-4 flex-grow">
-            {features.map((feature, index) => (
-                <li key={index} className="flex items-center">
-                    <span className="text-green-500 mr-2">✓</span>
-                    {feature}
-                </li>
-            ))}
-        </ul>
-        <a
-            href="#"
-            className="font-semibold text-green-600 hover:text-green-700 transition-colors self-start"
-        >
-            Pelajari Lebih Lanjut &rarr;
-        </a>
+        <div className="p-6 flex flex-col flex-grow">
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">{title}</h3>
+            <p className="text-gray-600 mb-6 flex-grow">{description}</p>
+            <ul className="space-y-3 mb-6">
+                {features.map((feature, index) => (
+                    <li key={index} className="flex items-center text-gray-700">
+                        <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                        {feature}
+                    </li>
+                ))}
+            </ul>
+            <button className="mt-auto w-full bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                Pilih Layanan
+            </button>
+        </div>
     </div>
 );
 
 // Komponen untuk setiap kartu keunggulan
 const FeatureCard = ({ icon, title, description }) => (
-    <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 border border-gray-100">
-        <div className="flex items-center justify-center bg-green-100 rounded-lg w-12 h-12 mb-4">
+    <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 border border-gray-100 h-full">
+        <div className="flex items-center justify-center bg-green-100 rounded-full w-12 h-12 mb-4">
             {icon}
         </div>
         <h3 className="text-lg font-bold text-gray-800 mb-2">{title}</h3>
@@ -59,19 +62,19 @@ const FaqItem = ({ question, answer, isOpen, onClick }) => (
             onClick={onClick}
             className="w-full flex justify-between items-center text-left"
         >
-            <h4 className="font-semibold text-gray-800">{question}</h4>
+            <h4 className="font-semibold text-gray-800 text-lg">{question}</h4>
             <ChevronDown
                 className={`transform transition-transform duration-300 ${
-                    isOpen ? "rotate-180" : ""
+                    isOpen ? "rotate-180 text-green-600" : ""
                 }`}
             />
         </button>
         <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                isOpen ? "max-h-screen mt-2" : "max-h-0"
+            className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                isOpen ? "max-h-screen mt-4" : "max-h-0"
             }`}
         >
-            <p className="text-gray-600 pt-2">{answer}</p>
+            <p className="text-gray-600 pt-2 pr-4">{answer}</p>
         </div>
     </div>
 );
@@ -81,7 +84,7 @@ const FaqItem = ({ question, answer, isOpen, onClick }) => (
 const Hero = () => (
     <section className="bg-gray-50 py-12 md:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="text-center md:text-left">
                     <span className="inline-block bg-green-100 text-green-700 text-sm font-semibold px-4 py-1 rounded-full mb-4">
                         Terpercaya & Aman Sejak 2020
@@ -100,7 +103,7 @@ const Hero = () => (
                     <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                         <a
                             href="#"
-                            className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all text-center"
+                            className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all text-center shadow-md hover:shadow-lg"
                         >
                             Titip Sekarang
                         </a>
@@ -120,7 +123,7 @@ const Hero = () => (
                     />
                 </div>
             </div>
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="mt-16 bg-white p-6 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div className="p-4">
                     <Package
                         size={40}
@@ -128,7 +131,7 @@ const Hero = () => (
                     />
                     <h3 className="font-bold text-lg">Berbagai Ukuran</h3>
                     <p className="text-gray-600">
-                        Mulai dari dokumen, koper, motor
+                        Mulai dari dokumen, koper, hingga motor
                     </p>
                 </div>
                 <div className="p-4">
@@ -150,34 +153,30 @@ const Services = () => {
     const services = [
         {
             title: "Penitipan Traveling",
-            features: ["Akses 24/7", "Harian/Bulanan", "Harga terjangkau"],
-            illustration:
-                "https://placehold.co/300x200/E0F2F1/34D399?text=Traveling",
+            description:
+                "Liburan tenang tanpa khawatir barang bawaan berlebih. Simpan koper dan barang lain dengan aman.",
+            features: ["Akses 24/7", "Keamanan Terjamin", "Harian/Bulanan"],
+            illustration: "/images/traveling.jpg",
         },
         {
             title: "Pindahan Kost/Kontrakan",
+            description:
+                "Butuh tempat sementara untuk perabotan saat pindahan? Kami siapkan ruang yang bersih dan aman.",
             features: [
                 "Penyimpanan Fleksibel",
                 "Bantuan Pengepakan",
-                "Hingga bulanan",
-                "Layanan antar",
+                "Layanan Antar-Jemput",
             ],
-            illustration:
-                "https://placehold.co/300x200/E0F2F1/34D399?text=Pindahan",
+            illustration: "/images/pindahan.jpg",
         },
         {
             title: "Penitipan Kendaraan",
-            features: [
-                "Parkir Indoor",
-                "CCTV 24 Jam",
-                "Perawatan Berkala",
-                "Akses Mudah",
-            ],
-            illustration:
-                "https://placehold.co/300x200/E0F2F1/34D399?text=Kendaraan",
+            description:
+                "Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.",
+            features: ["Parkir Indoor", "CCTV 24 Jam", "Perawatan Berkala"],
+            illustration: "/images/kendaraan.jpg",
         },
     ];
-
     return (
         <section className="py-16 bg-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -203,16 +202,12 @@ const Services = () => {
 };
 
 const Stats = () => {
-    const { ref, inView } = useInView({
-        triggerOnce: true, // Animasi hanya berjalan sekali
-        threshold: 0.1, // Muncul saat 10% elemen terlihat
-    });
-
+    const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
     const stats = [
-        { value: 3, suffix: "+", label: "Tahun Beroperasi" },
-        { value: 500, suffix: "+", label: "Pelanggan Setia" },
-        { value: 2000, suffix: "+", label: "Barang Dititipkan" },
-        { value: 50, suffix: "+", label: "Motor Terawat" },
+        { value: 5, suffix: "+", label: "Tahun Beroperasi" },
+        { value: 1500, suffix: "+", label: "Pelanggan Setia" },
+        { value: 5000, suffix: "+", label: "Barang Dititipkan" },
+        { value: 4.8, decimals: 1, suffix: "/5", label: "Rating Kepuasan" },
     ];
 
     return (
@@ -223,7 +218,11 @@ const Stats = () => {
                         <div key={index}>
                             <p className="text-4xl font-bold">
                                 {inView ? (
-                                    <CountUp end={stat.value} duration={2.5} />
+                                    <CountUp
+                                        end={stat.value}
+                                        duration={2.5}
+                                        decimals={stat.decimals || 0}
+                                    />
                                 ) : (
                                     "0"
                                 )}
@@ -299,57 +298,120 @@ const WhyUs = () => {
     );
 };
 
-const Testimonials = () => (
-    <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-800">
-                    Testimoni Pelanggan
-                </h2>
-                <p className="mt-2 text-gray-600 max-w-2xl mx-auto">
-                    Kepercayaan pelanggan adalah aset terbesar kami. Simak
-                    pengalaman mereka yang telah menggunakan layanan penitipan
-                    barang kami.
-                </p>
-            </div>
-            <div className="max-w-2xl mx-auto">
-                <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100 text-center">
-                    <div className="flex justify-center mb-4">
-                        {[...Array(5)].map((_, i) => (
-                            <Star
-                                key={i}
-                                className="text-yellow-400 fill-current"
-                            />
-                        ))}
-                    </div>
-                    <p className="text-lg italic text-gray-700">
-                        "Sangat membantu saat pindah kost! Barang-barang saya
-                        aman tersimpan selama 2 minggu. Harga terjangkau dan
-                        pelayanan ramah."
+// Testimonials menjadi Carousel Interaktif
+const Testimonials = () => {
+    const testimonials = [
+        {
+            quote: "Sangat membantu saat pindah kost! Barang-barang saya aman tersimpan selama 2 minggu. Harga terjangkau dan pelayanan ramah.",
+            name: "Andi Pratama",
+            title: "Mahasiswa",
+            image: "https://i.pravatar.cc/150?u=andi",
+        },
+        {
+            quote: "Saya titip motor di sini selama mudik lebaran. Pulang-pulang motor bersih dan akinya tetap bagus. Recommended banget!",
+            name: "Budi Santoso",
+            title: "Karyawan Swasta",
+            image: "https://i.pravatar.cc/150?u=budi",
+        },
+        {
+            quote: "Sebagai traveler, Titipsini ini penyelamat. Bisa titip koper besar dan ambil kapan saja. Fleksibel dan lokasinya strategis.",
+            name: "Citra Lestari",
+            title: "Travel Blogger",
+            image: "https://i.pravatar.cc/150?u=citra",
+        },
+    ];
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const goToPrevious = () => {
+        const isFirstSlide = currentIndex === 0;
+        const newIndex = isFirstSlide
+            ? testimonials.length - 1
+            : currentIndex - 1;
+        setCurrentIndex(newIndex);
+    };
+
+    const goToNext = () => {
+        const isLastSlide = currentIndex === testimonials.length - 1;
+        const newIndex = isLastSlide ? 0 : currentIndex + 1;
+        setCurrentIndex(newIndex);
+    };
+
+    return (
+        <section className="py-16 bg-white">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold text-gray-800">
+                        Testimoni Pelanggan
+                    </h2>
+                    <p className="mt-2 text-gray-600 max-w-2xl mx-auto">
+                        Kepercayaan pelanggan adalah aset terbesar kami. Simak
+                        pengalaman mereka.
                     </p>
-                    <div className="mt-6 flex items-center justify-center">
-                        <img
-                            src="https://placehold.co/50x50/cccccc/FFFFFF?text=AP"
-                            alt="Andi Pratama"
-                            className="w-12 h-12 rounded-full mr-4"
-                        />
-                        <div>
-                            <p className="font-bold text-gray-800">
-                                Andi Pratama
-                            </p>
-                            <p className="text-sm text-gray-500">Mahasiswa</p>
+                </div>
+                <div className="max-w-3xl mx-auto relative">
+                    <div className="absolute top-1/2 -translate-y-1/2 left-0 md:-left-16">
+                        <button
+                            onClick={goToPrevious}
+                            className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition"
+                        >
+                            <ChevronLeft className="text-gray-600" />
+                        </button>
+                    </div>
+                    <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-100 text-center transition-opacity duration-500">
+                        <div className="flex justify-center mb-4">
+                            {[...Array(5)].map((_, i) => (
+                                <Star
+                                    key={i}
+                                    className="text-yellow-400 fill-current"
+                                />
+                            ))}
                         </div>
+                        <p className="text-lg italic text-gray-700 mb-6 min-h-[100px]">
+                            "{testimonials[currentIndex].quote}"
+                        </p>
+                        <div className="flex items-center justify-center">
+                            <img
+                                src={testimonials[currentIndex].image}
+                                alt={testimonials[currentIndex].name}
+                                className="w-12 h-12 rounded-full mr-4"
+                            />
+                            <div>
+                                <p className="font-bold text-gray-800">
+                                    {testimonials[currentIndex].name}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                    {testimonials[currentIndex].title}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="absolute top-1/2 -translate-y-1/2 right-0 md:-right-16">
+                        <button
+                            onClick={goToNext}
+                            className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition"
+                        >
+                            <ChevronRight className="text-gray-600" />
+                        </button>
                     </div>
                 </div>
                 <div className="flex justify-center mt-6 space-x-2">
-                    <button className="w-3 h-3 bg-green-600 rounded-full"></button>
-                    <button className="w-3 h-3 bg-gray-300 rounded-full hover:bg-green-500"></button>
-                    <button className="w-3 h-3 bg-gray-300 rounded-full hover:bg-green-500"></button>
+                    {testimonials.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setCurrentIndex(index)}
+                            className={`w-3 h-3 rounded-full transition-colors ${
+                                currentIndex === index
+                                    ? "bg-green-600"
+                                    : "bg-gray-300 hover:bg-green-400"
+                            }`}
+                        ></button>
+                    ))}
                 </div>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 const FAQ = () => {
     const [openFaqIndex, setOpenFaqIndex] = useState(0);
@@ -360,15 +422,15 @@ const FAQ = () => {
         },
         {
             question: "Bagaimana sistem keamanan di Titipsini?",
-            answer: "Keamanan adalah prioritas kami. Kami memiliki CCTV 24 jam, akses terbatas, dan staf keamanan yang berjaga.",
+            answer: "Keamanan adalah prioritas kami. Kami memiliki CCTV 24 jam, akses terbatas, dan staf keamanan yang berjaga untuk memastikan barang Anda aman.",
         },
         {
             question: "Berapa lama minimal dan maksimal penitipan?",
-            answer: "Anda bisa menitipkan barang mulai dari 1 hari hingga tahunan. Kami menawarkan paket harian, mingguan, bulanan, dan tahunan.",
+            answer: "Anda bisa menitipkan barang mulai dari 1 hari hingga tahunan. Kami menawarkan paket harian, mingguan, bulanan, dan tahunan yang fleksibel.",
         },
         {
             question: "Apakah ada layanan antar jemput barang?",
-            answer: "Ya, kami menyediakan layanan antar jemput dengan biaya tambahan yang terjangkau untuk memudahkan Anda.",
+            answer: "Ya, kami menyediakan layanan antar jemput dengan biaya tambahan yang terjangkau untuk memudahkan Anda, terutama untuk barang besar atau jika Anda tidak punya waktu.",
         },
     ];
     const handleFaqClick = (index) => {
@@ -386,7 +448,7 @@ const FAQ = () => {
                         tentang layanan penitipan barang kami.
                     </p>
                 </div>
-                <div className="max-w-3xl mx-auto">
+                <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
                     {faqs.map((faq, index) => (
                         <FaqItem
                             key={index}
@@ -402,7 +464,6 @@ const FAQ = () => {
 };
 
 // --- Komponen Utama Halaman Welcome ---
-// Perhatikan bahwa kita tidak lagi mengekspor Header dan Footer di sini
 const Welcome = () => {
     return (
         <>
@@ -417,7 +478,6 @@ const Welcome = () => {
 };
 
 // Menetapkan layout untuk halaman ini.
-// Inertia.js akan secara otomatis membungkus komponen Welcome dengan GuestLayout.
 Welcome.layout = (page) => <GuestLayout children={page} />;
 
 export default Welcome;

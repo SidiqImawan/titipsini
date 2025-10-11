@@ -180,20 +180,20 @@ const OurTeam = () => {
             role: "Founder & CEO",
             description:
                 "Berpengalaman 10+ tahun di bidang logistik dan storage.",
-            image: "https://placehold.co/400x400/E0E0E0/333333?text=AR",
+            image: "/images/team/ahmad-riski.jpg",
         },
         {
             name: "Sari Dewi",
             role: "Operations Manager",
             description:
                 "Ahli dalam manajemen operasional dan customer service.",
-            image: "https://placehold.co/400x400/E0E0E0/333333?text=SD",
+            image: "/images/team/sari-dewi.jpg",
         },
         {
             name: "Budi Santoso",
             role: "Security Chief",
             description: "Spesialis keamanan dengan sertifikasi internasional.",
-            image: "https://placehold.co/400x400/E0E0E0/333333?text=BS",
+            image: "/images/team/ahmad-riski.jpg",
         },
     ];
     return (

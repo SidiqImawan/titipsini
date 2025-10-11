@@ -393,7 +393,7 @@ const TeamSuccess = () => {
         {
             name: "Celine Margaret",
             role: "Operations Manager",
-            image: "https://placehold.co/100x100/E2E8F0/4A5568?text=CM",
+            image: "/images/team/celine.jpg",
             quote: "Bergabung sebagai staff biasa, sekarang memimpin tim operations. Titipsini memberikan kesempatan berkembang yang luar biasa.",
             details: {
                 type: "journey",
@@ -410,7 +410,7 @@ const TeamSuccess = () => {
         {
             name: "Sari Indah",
             role: "Customer Service Lead",
-            image: "https://placehold.co/100x100/F6E05E/4A5568?text=SI",
+            image: "/images/team/sari.jpg",
             quote: "Work-life balance yang luar biasa. Bisa mengurus keluarga sambil berkarir dengan optimal di sini.",
             details: {
                 type: "achievements",
@@ -439,7 +439,7 @@ const TeamSuccess = () => {
         {
             name: "Reza Firmansyah",
             role: "Marketing Specialist",
-            image: "https://placehold.co/100x100/A7F3D0/1F2937?text=RF",
+            image: "/images/team/reza.jpg",
             quote: "Fresh graduate yang langsung dapat kesempatan handle project besar. Learning curve yang cepat dengan mentor terbaik.",
             details: {
                 type: "projects",
@@ -542,7 +542,7 @@ const TeamSuccess = () => {
     );
 };
 
-// Interview Guide Section
+// Interview Guide Section (Sudah Dimodifikasi)
 const InterviewGuide = () => {
     return (
         <section className="py-16 sm:py-24 bg-white">
@@ -558,9 +558,11 @@ const InterviewGuide = () => {
                     interview di Titipsini.
                 </p>
             </div>
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid lg:grid-cols-2 gap-8">
-                <div className="space-y-8">
-                    <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12 lg:flex gap-8">
+                {/* Kolom Pertama */}
+                <div className="w-full lg:w-1/2 flex flex-col space-y-8 mb-8 lg:mb-0">
+                    <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col flex-grow">
                         <h3 className="text-xl font-bold text-gray-800 flex items-center">
                             <Users className="w-6 h-6 mr-3 text-green-600" />
                             Persiapan Sebelum Interview
@@ -606,7 +608,8 @@ const InterviewGuide = () => {
                             </li>
                         </ol>
                     </div>
-                    <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+
+                    <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col flex-grow">
                         <h3 className="text-xl font-bold text-gray-800 flex items-center">
                             <MessageSquare className="w-6 h-6 mr-3 text-green-600" />
                             Saat Interview Berlangsung
@@ -654,8 +657,10 @@ const InterviewGuide = () => {
                         </ol>
                     </div>
                 </div>
-                <div className="space-y-8">
-                    <div className="bg-green-50 p-8 rounded-xl border border-green-200">
+
+                {/* Kolom Kedua */}
+                <div className="w-full lg:w-1/2 flex flex-col space-y-8">
+                    <div className="bg-green-50 p-8 rounded-xl border border-green-200 flex flex-col flex-grow">
                         <h3 className="text-xl font-bold text-gray-800 flex items-center">
                             <Star className="w-6 h-6 mr-3 text-green-600" />
                             Pertanyaan yang Sering Diajukan
@@ -675,7 +680,8 @@ const InterviewGuide = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-green-50 p-8 rounded-xl border border-green-200">
+
+                    <div className="bg-green-50 p-8 rounded-xl border border-green-200 flex flex-col flex-grow">
                         <h3 className="text-xl font-bold text-gray-800 flex items-center">
                             <Heart className="w-6 h-6 mr-3 text-green-600" />
                             Tips Tambahan
@@ -722,8 +728,5 @@ const Careers = ({ jobVacancies }) => {
         </GuestLayout>
     );
 };
-
-// Menetapkan layout untuk halaman ini
-// Careers.layout = (page) => <GuestLayout children={page} />; // Tidak diperlukan lagi
 
 export default Careers;
