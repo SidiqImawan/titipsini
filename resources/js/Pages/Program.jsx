@@ -56,7 +56,7 @@ const ProgramHero = () => (
                         </a>
                     </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="hidden lg:grid grid-cols-2 gap-4">
                     <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                         <Users className="w-8 h-8 text-green-500 mb-2" />
                         <p className="text-3xl font-bold text-gray-800">500+</p>
@@ -145,7 +145,7 @@ const ProgramList = () => {
                     dan karir Anda di industri storage solution.
                 </p>
             </div>
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
                 {programs.map((program, index) => (
                     <div
                         key={index}
@@ -235,7 +235,7 @@ const WhyChooseProgram = () => (
                     </p>
                     <div className="mt-8 space-y-6">
                         <div className="flex">
-                            <Target className="w-8 h-8 text-green-600 mr-4 flex-shrink-0" />
+                            <Target className="w-8 h-8 text-green-600 mr-4 flex-shrink-0 mt-1" />
                             <div>
                                 <h3 className="text-lg font-semibold">
                                     Fokus Praktis
@@ -248,7 +248,7 @@ const WhyChooseProgram = () => (
                             </div>
                         </div>
                         <div className="flex">
-                            <BookOpen className="w-8 h-8 text-green-600 mr-4 flex-shrink-0" />
+                            <BookOpen className="w-8 h-8 text-green-600 mr-4 flex-shrink-0 mt-1" />
                             <div>
                                 <h3 className="text-lg font-semibold">
                                     Kurikulum Terkini
@@ -261,7 +261,7 @@ const WhyChooseProgram = () => (
                             </div>
                         </div>
                         <div className="flex">
-                            <GraduationCap className="w-8 h-8 text-green-600 mr-4 flex-shrink-0" />
+                            <GraduationCap className="w-8 h-8 text-green-600 mr-4 flex-shrink-0 mt-1" />
                             <div>
                                 <h3 className="text-lg font-semibold">
                                     Mentor Berpengalaman
@@ -275,8 +275,8 @@ const WhyChooseProgram = () => (
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-center">
-                    <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 w-full max-w-md text-center transform lg:rotate-3">
+                <div className="flex justify-center mt-8 lg:mt-0">
+                    <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 w-full max-w-md text-center">
                         <div className="inline-block p-4 bg-green-100 rounded-full">
                             <GraduationCap className="w-10 h-10 text-green-600" />
                         </div>
@@ -366,8 +366,8 @@ const CurriculumDetails = () => {
                         key={index}
                         className="bg-gray-50 p-6 rounded-xl border border-gray-200"
                     >
-                        <div className="flex items-center text-green-600 text-2xl mb-4">
-                            {item.icon}
+                        <div className="flex items-center text-green-600 mb-4">
+                            {React.cloneElement(item.icon, { size: 24 })}
                             <h3 className="ml-3 text-xl font-bold text-gray-800">
                                 {item.title}
                             </h3>
@@ -391,7 +391,7 @@ const CurriculumDetails = () => {
 
 // FAQ Section
 const ProgramFAQ = () => {
-    const [openIndex, setOpenIndex] = useState(null);
+    const [openIndex, setOpenIndex] = useState(0);
     const faqs = [
         {
             q: "Apa saja persyaratan untuk mengikuti program?",
@@ -454,7 +454,7 @@ const ProgramFAQ = () => {
                                 )}
                             </button>
                             {openIndex === index && (
-                                <div className="px-5 pb-5 text-gray-600">
+                                <div className="px-5 pb-5 text-gray-600 border-t border-gray-100 pt-4">
                                     <p>{faq.a}</p>
                                 </div>
                             )}

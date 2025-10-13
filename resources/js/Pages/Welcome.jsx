@@ -176,6 +176,27 @@ const Services = () => {
             features: ["Parkir Indoor", "CCTV 24 Jam", "Perawatan Berkala"],
             illustration: "/images/kendaraan.jpg",
         },
+        {
+            title: "Jasa Angkut Barang Anak KKN",
+            description:
+                "Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.",
+            features: ["Parkir Indoor", "CCTV 24 Jam", "Perawatan Berkala"],
+            illustration: "/images/kendaraan.jpg",
+        },
+        {
+            title: "Jasa Security Rumah (Bangunan)",
+            description:
+                "Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.",
+            features: ["Parkir Indoor", "CCTV 24 Jam", "Perawatan Berkala"],
+            illustration: "/images/kendaraan.jpg",
+        },
+        {
+            title: "Penitipan Barang Kost",
+            description:
+                "Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.",
+            features: ["Parkir Indoor", "CCTV 24 Jam", "Perawatan Berkala"],
+            illustration: "/images/kendaraan.jpg",
+        },
     ];
     return (
         <section className="py-16 bg-white">

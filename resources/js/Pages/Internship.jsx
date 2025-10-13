@@ -19,23 +19,18 @@ import {
     GraduationCap,
 } from "lucide-react";
 
-//======================================================================
-// SECTIONS (Didefinisikan sebagai komponen lokal)
-//======================================================================
-
 // --- Hero Section ---
 const InternshipHero = () => (
     <section className="relative pt-28 pb-16 text-center bg-[#f0fdf4]">
-        {/* Decorative Gradient Blobs */}
         <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-br from-green-200 via-transparent to-transparent opacity-30 blur-3xl"></div>
         <div className="absolute bottom-0 right-0 w-1/2 h-full bg-gradient-to-tl from-cyan-200 via-transparent to-transparent opacity-20 blur-3xl"></div>
 
         <div className="container mx-auto px-4 relative z-10">
             <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold text-green-800 bg-white border border-gray-200 rounded-full shadow-md">
-                Internship Program 2024
+                Internship Program 2025/2026
             </span>
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-gray-900 tracking-tight">
-                Mulai Di Sini
+                Mulai Karirmu Di Sini
             </h1>
             <p className="mt-6 max-w-2xl mx-auto text-lg text-gray-700">
                 Dapatkan pengalaman kerja nyata di industri storage solution
@@ -48,12 +43,6 @@ const InternshipHero = () => (
                     className="inline-flex items-center justify-center bg-green-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:bg-green-700 transition-all duration-300 transform hover:scale-105"
                 >
                     <PlayCircle className="w-5 h-5 mr-2" /> Apply Sekarang
-                </a>
-                <a
-                    href="#"
-                    className="inline-flex items-center justify-center bg-white text-gray-800 px-8 py-3 rounded-lg font-semibold border border-gray-200 shadow-lg hover:bg-gray-100 transition-colors duration-300"
-                >
-                    <Download className="w-5 h-5 mr-2" /> Download Panduan
                 </a>
             </div>
             <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -88,7 +77,7 @@ const JobOpenings = () => {
                 { icon: <MapPin />, text: "Jakarta" },
                 { icon: <Clock />, text: "3-6 Bulan" },
                 { icon: <Users />, text: "3 posisi" },
-                { icon: <CalendarDays />, text: "15 Feb 2024" },
+                { icon: <CalendarDays />, text: "15 Nov 2025" },
             ],
             requirements: [
                 "Mahasiswa aktif semester 5-7",
@@ -99,7 +88,7 @@ const JobOpenings = () => {
         },
         {
             category: "Marketing",
-            icon: <Briefcase />,
+            icon: <Megaphone />,
             type: "Full-time",
             title: "Marketing Intern",
             description:
@@ -108,7 +97,7 @@ const JobOpenings = () => {
                 { icon: <MapPin />, text: "Jakarta" },
                 { icon: <Clock />, text: "3-6 Bulan" },
                 { icon: <Users />, text: "2 posisi" },
-                { icon: <CalendarDays />, text: "20 Feb 2024" },
+                { icon: <CalendarDays />, text: "20 Nov 2025" },
             ],
             requirements: [
                 "Jurusan Marketing/Komunikasi",
@@ -119,7 +108,7 @@ const JobOpenings = () => {
         },
         {
             category: "Technology",
-            icon: <Briefcase />,
+            icon: <Laptop />,
             type: "Full-time",
             title: "IT Support Intern",
             description:
@@ -128,7 +117,7 @@ const JobOpenings = () => {
                 { icon: <MapPin />, text: "Jakarta" },
                 { icon: <Clock />, text: "4-6 Bulan" },
                 { icon: <Users />, text: "2 posisi" },
-                { icon: <CalendarDays />, text: "25 Feb 2024" },
+                { icon: <CalendarDays />, text: "25 Nov 2025" },
             ],
             requirements: [
                 "Jurusan IT/Teknik Informatika",
@@ -210,7 +199,7 @@ const JobOpenings = () => {
                                             <CheckCircle2
                                                 size={16}
                                                 className="text-green-500 flex-shrink-0"
-                                            />{" "}
+                                            />
                                             {req}
                                         </li>
                                     ))}
@@ -343,7 +332,6 @@ const MeetTheMentors = () => {
             focus: "Pengembangan aplikasi, troubleshooting sistem, dan best practices programming.",
         },
     ];
-
     return (
         <section className="py-16 sm:py-24 bg-gray-50">
             <div className="container mx-auto px-4">
@@ -414,7 +402,7 @@ const MeetTheMentors = () => {
     );
 };
 
-// --- Projects Section ---
+// --- Projects Section [SUDAH DIMODIFIKASI] ---
 const InternshipProjects = () => (
     <section className="py-16 sm:py-24 bg-white">
         <div className="container mx-auto px-4">
@@ -430,10 +418,10 @@ const InternshipProjects = () => (
                     nyata yang berdampak langsung pada operasional perusahaan.
                 </p>
             </div>
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-                {/* Left Column */}
-                <div className="space-y-8">
-                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200/80">
+
+            <div className="mt-12 md:flex gap-8">
+                <div className="md:w-1/2 flex flex-col space-y-8">
+                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200/80 flex flex-col h-full">
                         <div className="flex items-center gap-3">
                             <div className="p-3 bg-green-100 rounded-lg">
                                 <Briefcase className="text-green-600" />
@@ -445,7 +433,8 @@ const InternshipProjects = () => (
                         <p className="text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded-full inline-block mt-3">
                             Operations Project
                         </p>
-                        <p className="text-sm text-gray-600 mt-3">
+
+                        <p className="text-sm text-gray-600 mt-3 flex-grow">
                             Mengembangkan dan mengoptimalkan sistem tracking
                             barang untuk meningkatkan efisiensi operasional
                             warehouse.
@@ -457,21 +446,21 @@ const InternshipProjects = () => (
                             <li className="flex gap-2">
                                 <CheckCircle2
                                     size={16}
-                                    className="text-green-500"
+                                    className="text-green-500 mt-0.5 flex-shrink-0"
                                 />
                                 Database design dan management
                             </li>
                             <li className="flex gap-2">
                                 <CheckCircle2
                                     size={16}
-                                    className="text-green-500"
+                                    className="text-green-500 mt-0.5 flex-shrink-0"
                                 />
                                 Process mapping dan optimization
                             </li>
                             <li className="flex gap-2">
                                 <CheckCircle2
                                     size={16}
-                                    className="text-green-500"
+                                    className="text-green-500 mt-0.5 flex-shrink-0"
                                 />
                                 Data analysis dan reporting
                             </li>
@@ -487,7 +476,7 @@ const InternshipProjects = () => (
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200/80">
+                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200/80 flex flex-col h-full">
                         <div className="flex items-center gap-3">
                             <div className="p-3 bg-green-100 rounded-lg">
                                 <Target className="text-green-600" />
@@ -499,7 +488,7 @@ const InternshipProjects = () => (
                         <p className="text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded-full inline-block mt-3">
                             Marketing Project
                         </p>
-                        <p className="text-sm text-gray-600 mt-3">
+                        <p className="text-sm text-gray-600 mt-3 flex-grow">
                             Merancang dan mengeksekusi campaign digital untuk
                             meningkatkan brand awareness dan customer
                             acquisition.
@@ -511,21 +500,21 @@ const InternshipProjects = () => (
                             <li className="flex gap-2">
                                 <CheckCircle2
                                     size={16}
-                                    className="text-green-500"
+                                    className="text-green-500 mt-0.5 flex-shrink-0"
                                 />
                                 Social media strategy & content planning
                             </li>
                             <li className="flex gap-2">
                                 <CheckCircle2
                                     size={16}
-                                    className="text-green-500"
+                                    className="text-green-500 mt-0.5 flex-shrink-0"
                                 />
                                 Performance tracking & analytics
                             </li>
                             <li className="flex gap-2">
                                 <CheckCircle2
                                     size={16}
-                                    className="text-green-500"
+                                    className="text-green-500 mt-0.5 flex-shrink-0"
                                 />
                                 Creative design & copywriting
                             </li>
@@ -543,8 +532,8 @@ const InternshipProjects = () => (
                     </div>
                 </div>
                 {/* Right Column */}
-                <div className="space-y-8">
-                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200/80">
+                <div className="md:w-1/2 flex flex-col space-y-8 mt-8 md:mt-0">
+                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200/80 flex flex-col h-full">
                         <div className="flex items-center gap-3">
                             <div className="p-3 bg-green-100 rounded-lg">
                                 <GraduationCap className="text-green-600" />
@@ -556,7 +545,7 @@ const InternshipProjects = () => (
                         <p className="text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded-full inline-block mt-3">
                             Technology Project
                         </p>
-                        <p className="text-sm text-gray-600 mt-3">
+                        <p className="text-sm text-gray-600 mt-3 flex-grow">
                             Mengembangkan fitur baru dan memperbaiki user
                             experience aplikasi mobile Titipsini untuk customer.
                         </p>
@@ -567,21 +556,21 @@ const InternshipProjects = () => (
                             <li className="flex gap-2">
                                 <CheckCircle2
                                     size={16}
-                                    className="text-green-500"
+                                    className="text-green-500 mt-0.5 flex-shrink-0"
                                 />
                                 Mobile app development (React Native/Flutter)
                             </li>
                             <li className="flex gap-2">
                                 <CheckCircle2
                                     size={16}
-                                    className="text-green-500"
+                                    className="text-green-500 mt-0.5 flex-shrink-0"
                                 />
                                 UI/UX design principles
                             </li>
                             <li className="flex gap-2">
                                 <CheckCircle2
                                     size={16}
-                                    className="text-green-500"
+                                    className="text-green-500 mt-0.5 flex-shrink-0"
                                 />
                                 API integration & testing
                             </li>
@@ -597,11 +586,11 @@ const InternshipProjects = () => (
                             </div>
                         </div>
                     </div>
-                    <div className="bg-green-50 p-6 rounded-xl flex flex-col justify-center items-center text-center border border-green-200">
+                    <div className="bg-green-50 p-6 rounded-xl flex flex-col justify-center items-center text-center border border-green-200 h-full">
                         <h3 className="text-xl font-bold text-gray-900">
                             Project Impact
                         </h3>
-                        <p className="text-sm text-gray-600 mt-2">
+                        <p className="text-sm text-gray-600 mt-2 flex-grow">
                             Semua project yang dikerjakan intern memiliki dampak
                             nyata pada operasional perusahaan dan akan digunakan
                             dalam production environment.
@@ -644,12 +633,12 @@ const ApplicationProcess = () => {
             title: "Initial Screening",
             desc: "Review dokumen dan kualifikasi",
         },
-        { num: 3, title: "Interview", desc: "Wawancara dengan tim HR" },
+        { num: 3, title: "Interview", desc: "Wawancara dengan tim HR & User" },
         { num: 4, title: "Onboarding", desc: "Orientasi dan mulai magang" },
     ];
 
     return (
-        <section className="py-16 sm:py-24 bg-white">
+        <section className="py-16 sm:py-24 bg-gray-50">
             <div className="container mx-auto px-4">
                 <div className="text-center">
                     <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
@@ -663,7 +652,7 @@ const ApplicationProcess = () => {
                                 key={index}
                                 className="text-center relative px-4"
                             >
-                                <div className="relative inline-flex items-center justify-center w-12 h-12 bg-green-100 text-green-700 font-bold rounded-full mb-3 z-10 border-4 border-white text-lg">
+                                <div className="relative inline-flex items-center justify-center w-12 h-12 bg-green-100 text-green-700 font-bold rounded-full mb-3 z-10 border-4 border-gray-50 text-lg">
                                     {step.num}
                                 </div>
                                 <h3 className="font-semibold text-gray-900">
@@ -684,9 +673,6 @@ const ApplicationProcess = () => {
     );
 };
 
-//======================================================================
-// KOMPONEN UTAMA HALAMAN (Yang di-export)
-//======================================================================
 const Internship = () => {
     return (
         <>

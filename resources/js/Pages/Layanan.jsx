@@ -264,40 +264,30 @@ const AboutUs = () => (
 const Pricing = () => {
     const plans = [
         {
-            name: "Basic",
-            price: "250.000",
+            name: "Dalam Kota",
+            description:
+                "Solusi cepat dan efisien untuk pindahan di dalam area kota yang sama.",
             features: [
                 "Pickup & delivery dalam kota",
                 "Maksimal 20 box sedang",
                 "Asuransi dasar",
-                "1 helper",
+                "1 helper profesional",
             ],
         },
         {
-            name: "Premium",
-            price: "450.000",
-            popular: true,
+            name: "Luar Kota",
+            description:
+                "Paket lengkap untuk pindahan antar kota dengan jaminan keamanan penuh.",
             features: [
                 "Pickup & delivery antar kota",
                 "Maksimal 50 box besar",
                 "Asuransi penuh",
                 "2 helper + supervisor",
-                "Packing service",
-            ],
-        },
-        {
-            name: "Enterprise",
-            price: "750.000",
-            features: [
-                "Layanan nasional",
-                "Unlimited boxes",
-                "Asuransi premium",
-                "Tim dedicated",
-                "Full packing service",
-                "Storage sementara",
+                "Layanan packing gratis",
             ],
         },
     ];
+
     return (
         <section id="pricing" className="py-16 sm:py-24 bg-gray-50">
             <div className="container mx-auto px-4">
@@ -306,16 +296,17 @@ const Pricing = () => {
                         Paket Pindahan Titipsini
                     </h2>
                     <p className="mt-4 max-w-2xl mx-auto text-gray-600">
-                        Pilih paket yang sesuai dengan kebutuhan Anda.
+                        Pilih paket yang paling sesuai dengan kebutuhan pindahan
+                        Anda. Transparan, aman, dan tanpa biaya tersembunyi.
                     </p>
                 </div>
-                <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="mt-12 flex flex-col lg:flex-row justify-center items-stretch gap-8">
                     {plans.map((plan) => (
                         <div
                             key={plan.name}
-                            className={`bg-white rounded-xl shadow-lg p-8 relative h-full flex flex-col ${
+                            className={`w-full max-w-md bg-white rounded-xl shadow-lg p-8 relative flex flex-col transition-transform duration-300 ${
                                 plan.popular
-                                    ? "border-2 border-green-600"
+                                    ? "border-2 border-green-600 lg:scale-105"
                                     : "border border-gray-200"
                             }`}
                         >
@@ -328,11 +319,8 @@ const Pricing = () => {
                                 <h3 className="text-2xl font-bold text-gray-900">
                                     {plan.name}
                                 </h3>
-                                <p className="mt-2 text-4xl font-bold text-green-600">
-                                    Rp {plan.price}
-                                </p>
-                                <p className="text-sm text-gray-500">
-                                    /pindahan
+                                <p className="text-gray-500 text-sm mt-1 min-h-[40px]">
+                                    {plan.description}
                                 </p>
                             </div>
                             <ul className="mt-6 space-y-3 flex-grow">
@@ -343,7 +331,7 @@ const Pricing = () => {
                                     >
                                         <CheckCircle2
                                             size={16}
-                                            className="text-green-500"
+                                            className="text-green-500 flex-shrink-0"
                                         />
                                         {feature}
                                     </li>
@@ -351,11 +339,7 @@ const Pricing = () => {
                             </ul>
                             <a
                                 href="#"
-                                className={`w-full inline-block text-center mt-8 font-semibold py-3 px-6 rounded-lg ${
-                                    plan.popular
-                                        ? "bg-green-600 text-white hover:bg-green-700"
-                                        : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                                }`}
+                                className="w-full inline-block text-center mt-8 font-semibold py-3 px-6 rounded-lg shadow-md transition-colors bg-gray-800 text-white hover:bg-gray-900"
                             >
                                 Pilih Paket
                             </a>
