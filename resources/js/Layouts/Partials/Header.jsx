@@ -23,7 +23,7 @@ export default function Header() {
     // Konfigurasi link navigasi
     const navLinks = [
         { label: "Beranda", href: "/" },
-        { label: "Layanan", href: "/layanan" },
+        { label: "Pindahan", href: "/layanan" },
         { label: "Tentang Kami", href: "/tentang-kami" },
         { label: "Kontak", href: "/contact" },
         {

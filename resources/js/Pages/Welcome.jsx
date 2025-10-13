@@ -181,7 +181,7 @@ const Services = () => {
             description:
                 "Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.",
             features: ["Parkir Indoor", "CCTV 24 Jam", "Perawatan Berkala"],
-            illustration: "/images/kendaraan.jpg",
+            illustration: "/images/pindahan.jpg",
         },
         {
             title: "Jasa Security Rumah (Bangunan)",
@@ -195,7 +195,7 @@ const Services = () => {
             description:
                 "Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.",
             features: ["Parkir Indoor", "CCTV 24 Jam", "Perawatan Berkala"],
-            illustration: "/images/kendaraan.jpg",
+            illustration: "/images/barang-kost.jpg",
         },
     ];
     return (
