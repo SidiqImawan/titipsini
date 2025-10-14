@@ -22,14 +22,7 @@ const StatCard = ({ icon, title, value, color }) => (
 
 export default function AdminDashboard({ auth, stats }) {
     return (
-        <AdminLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Dashboard
-                </h2>
-            }
-        >
+        <AdminLayout user={auth.user} header="Dashboard">
             <Head title="Admin Dashboard" />
 
             <div className="py-12">

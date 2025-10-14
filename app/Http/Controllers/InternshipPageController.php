@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InternshipPosition; // <-- Import
+use App\Models\InternshipProject;  // <-- Import
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class InternshipPageController extends Controller
 {
-    /**
-     * Menampilkan halaman program magang.
-     */
     public function show()
     {
-        // Karena semua data sudah di-hardcode di frontend,
-        // kita hanya perlu me-render komponennya saja.
-        return Inertia::render('Internship');
+        return Inertia::render('Internship', [
+            'positions' => InternshipPosition::all(), // Kirim data posisi
+            'projects' => InternshipProject::all(),   // Kirim data proyek
+        ]);
     }
 }

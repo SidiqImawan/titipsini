@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class, // Seeder baru yang kita buat untuk settings
             ServiceSeeder::class, // Seeder baru untuk services
             MovingPackageSeeder::class, // Seeder baru untuk moving packages
+            InternshipPositionSeeder::class, // Seeder baru untuk internship positions
+            InternshipProjectSeeder::class, // Seeder baru untuk internship projects
         ]);
 
         // KODE BARU YANG BENAR

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@inertiajs/react";
+import { Link, Head } from "@inertiajs/react"; // <-- TAMBAHKAN Head
 import GuestLayout from "@/Layouts/GuestLayout";
 import {
     Briefcase,
@@ -718,15 +718,20 @@ const InterviewGuide = () => {
 // --- Komponen Utama Halaman Karir ---
 const Careers = ({ jobVacancies }) => {
     return (
-        <GuestLayout>
+        <>
+            <Head title="Karir di Titipsini" />{" "}
+            {/* Menambahkan Head untuk judul halaman */}
             <CareerHero />
             <JobListings jobs={jobVacancies} />
             <WhyJoinUs />
             <WorkCulture />
             <TeamSuccess />
             <InterviewGuide />
-        </GuestLayout>
+        </>
     );
 };
+
+// Gunakan pola layout yang sama dengan halaman lain
+Careers.layout = (page) => <GuestLayout children={page} />;
 
 export default Careers;

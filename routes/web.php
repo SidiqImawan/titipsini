@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\WelcomeController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\MovingPackageController;
+use App\Http\Controllers\Admin\InternshipPositionController;
+use App\Http\Controllers\Admin\InternshipProjectController;
 
 
 /*
@@ -39,7 +41,6 @@ Route::get('/program-kami', fn() => Inertia::render('Program'))->name('program')
 Route::get('/layanan', [LayananPageController::class, 'show'])->name('layanan.show');
 Route::get('/lowongan-kerja', [JobVacancyController::class, 'publicIndex'])->name('careers.index');
 
-// ✅ Tambahan route baru untuk halaman Mitra
 Route::get('/Mitra/index', [MitraController::class, 'index'])->name('mitra.index');
 
 
@@ -73,6 +74,8 @@ Route::middleware(['auth', 'verified', 'isAdmin'])
 
         Route::resource('services', ServiceController::class);
         Route::resource('moving-packages', MovingPackageController::class);
+        Route::resource('internship-positions', InternshipPositionController::class);
+        Route::resource('internship-projects', InternshipProjectController::class);
 
         // Pengaturan Situs
         Route::prefix('settings')->name('settings.')->group(function () {

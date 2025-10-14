@@ -11,6 +11,8 @@ import {
     Phone,
     ClipboardList,
     Package,
+    Target,
+    GraduationCap,
 } from "lucide-react";
 
 const SidebarLink = ({ href, active, children, icon }) => {
@@ -108,6 +110,22 @@ export default function AdminSidebar() {
                     icon={<Package className="h-5 w-5" />}
                 >
                     Paket Pindahan
+                </SidebarLink>
+
+                <SidebarLink
+                    href={route("admin.internship-positions.index")}
+                    active={route().current("admin.internship-positions.*")}
+                    icon={<GraduationCap className="h-5 w-5" />}
+                >
+                    Posisi Magang
+                </SidebarLink>
+
+                <SidebarLink
+                    href={route("admin.internship-projects.index")}
+                    active={route().current("admin.internship-projects.*")}
+                    icon={<Target className="h-5 w-5" />}
+                >
+                    Proyek Magang
                 </SidebarLink>
 
                 <SidebarLink

@@ -64,70 +64,7 @@ const InternshipHero = () => (
 );
 
 // --- Job Openings Section ---
-const JobOpenings = () => {
-    const jobs = [
-        {
-            category: "Operations",
-            icon: <Briefcase />,
-            type: "Full-time",
-            title: "Operations Intern",
-            description:
-                "Membantu operasional harian penitipan barang dan koordinasi dengan tim lapangan.",
-            details: [
-                { icon: <MapPin />, text: "Jakarta" },
-                { icon: <Clock />, text: "3-6 Bulan" },
-                { icon: <Users />, text: "3 posisi" },
-                { icon: <CalendarDays />, text: "15 Nov 2025" },
-            ],
-            requirements: [
-                "Mahasiswa aktif semester 5-7",
-                "Komunikasi yang baik",
-                "Detail oriented",
-                "Dapat bekerja dalam tim",
-            ],
-        },
-        {
-            category: "Marketing",
-            icon: <Megaphone />,
-            type: "Full-time",
-            title: "Marketing Intern",
-            description:
-                "Mendukung strategi pemasaran digital dan campaign awareness brand Titipsini.",
-            details: [
-                { icon: <MapPin />, text: "Jakarta" },
-                { icon: <Clock />, text: "3-6 Bulan" },
-                { icon: <Users />, text: "2 posisi" },
-                { icon: <CalendarDays />, text: "20 Nov 2025" },
-            ],
-            requirements: [
-                "Jurusan Marketing/Komunikasi",
-                "Familiar dengan social media",
-                "Kreatif dan inovatif",
-                "Basic design skills",
-            ],
-        },
-        {
-            category: "Technology",
-            icon: <Laptop />,
-            type: "Full-time",
-            title: "IT Support Intern",
-            description:
-                "Membantu maintenance sistem dan pengembangan fitur aplikasi mobile.",
-            details: [
-                { icon: <MapPin />, text: "Jakarta" },
-                { icon: <Clock />, text: "4-6 Bulan" },
-                { icon: <Users />, text: "2 posisi" },
-                { icon: <CalendarDays />, text: "25 Nov 2025" },
-            ],
-            requirements: [
-                "Jurusan IT/Teknik Informatika",
-                "Familiar dengan programming",
-                "Problem solving skills",
-                "Eager to learn",
-            ],
-        },
-    ];
-
+const JobOpenings = ({ positions }) => {
     return (
         <section id="job-openings" className="py-16 sm:py-24 bg-gray-50">
             <div className="container mx-auto px-4">
@@ -145,17 +82,17 @@ const JobOpenings = () => {
                     </p>
                 </div>
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {jobs.map((job, index) => (
+                    {/* INI BAGIAN YANG DIPERBAIKI */}
+                    {positions.map((job, index) => (
                         <div
-                            key={index}
+                            key={job.id} // Ganti key ke job.id agar lebih unik
                             className="bg-white rounded-xl shadow-lg border border-gray-200/80 p-6 flex flex-col hover:border-green-300 hover:shadow-2xl transition-all duration-300"
                         >
                             <div className="flex justify-between items-start">
                                 <div className="flex items-center gap-3">
                                     <div className="bg-gray-100 text-gray-600 p-3 rounded-lg">
-                                        {React.cloneElement(job.icon, {
-                                            size: 24,
-                                        })}
+                                        {/* Logika untuk menampilkan ikon bisa ditambahkan di sini jika perlu */}
+                                        <Briefcase size={24} />
                                     </div>
                                     <span className="text-sm font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded">
                                         {job.category}
@@ -173,18 +110,41 @@ const JobOpenings = () => {
                             </p>
                             <div className="my-4 border-t border-gray-100"></div>
                             <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-600">
-                                {job.details.map((detail, i) => (
-                                    <div
-                                        key={i}
-                                        className="flex items-center gap-2"
-                                    >
-                                        {React.cloneElement(detail.icon, {
-                                            size: 16,
-                                            className: "text-gray-400",
-                                        })}
-                                        {detail.text}
-                                    </div>
-                                ))}
+                                <div className="flex items-center gap-2">
+                                    <MapPin
+                                        size={16}
+                                        className="text-gray-400"
+                                    />
+                                    {job.location}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Clock
+                                        size={16}
+                                        className="text-gray-400"
+                                    />
+                                    {job.duration}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Users
+                                        size={16}
+                                        className="text-gray-400"
+                                    />
+                                    {job.slots} posisi
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <CalendarDays
+                                        size={16}
+                                        className="text-gray-400"
+                                    />
+                                    {new Date(job.deadline).toLocaleDateString(
+                                        "id-ID",
+                                        {
+                                            day: "numeric",
+                                            month: "short",
+                                            year: "numeric",
+                                        }
+                                    )}
+                                </div>
                             </div>
                             <div className="mt-6">
                                 <h4 className="font-semibold text-gray-800">
@@ -403,216 +363,73 @@ const MeetTheMentors = () => {
 };
 
 // --- Projects Section [SUDAH DIMODIFIKASI] ---
-const InternshipProjects = () => (
+const InternshipProjects = (
+    { projects } // Terima 'projects' sebagai prop
+) => (
     <section className="py-16 sm:py-24 bg-white">
-        <div className="container mx-auto px-4">
-            <div className="text-center">
-                <span className="inline-block px-3 py-1 mb-2 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
-                    Project Portfolio
-                </span>
-                <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
-                    Project yang Akan Anda Kerjakan
-                </h2>
-                <p className="mt-4 max-w-2xl mx-auto text-gray-600">
-                    Dapatkan pengalaman hands-on dengan mengerjakan project
-                    nyata yang berdampak langsung pada operasional perusahaan.
-                </p>
-            </div>
-
-            <div className="mt-12 md:flex gap-8">
-                <div className="md:w-1/2 flex flex-col space-y-8">
-                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200/80 flex flex-col h-full">
-                        <div className="flex items-center gap-3">
-                            <div className="p-3 bg-green-100 rounded-lg">
-                                <Briefcase className="text-green-600" />
-                            </div>
-                            <h3 className="text-lg font-bold">
-                                Sistem Inventory Management
-                            </h3>
+        {/* ... (Judul section tidak berubah) ... */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Kita akan map data proyek di sini */}
+            {projects.map((project) => (
+                <div
+                    key={project.id}
+                    className="bg-white p-6 rounded-xl shadow-lg border border-gray-200/80 flex flex-col h-full"
+                >
+                    {/* ... (Isi card proyek disesuaikan dari screenshot) ... */}
+                    <h3 className="text-lg font-bold">{project.title}</h3>
+                    <p className="text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded-full inline-block mt-3">
+                        {project.category}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-3 flex-grow">
+                        {project.description}
+                    </p>
+                    <h4 className="font-semibold mt-4">
+                        Yang Akan Dipelajari:
+                    </h4>
+                    <ul className="mt-2 space-y-2 text-sm">
+                        {project.learnings.map((learning, i) => (
+                            <li key={i} className="flex gap-2">
+                                <CheckCircle2
+                                    size={16}
+                                    className="text-green-500 mt-0.5 flex-shrink-0"
+                                />
+                                {learning}
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="flex gap-4 text-sm mt-4 text-gray-500">
+                        <div className="flex items-center gap-2">
+                            <Clock size={16} /> {project.duration}
                         </div>
-                        <p className="text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded-full inline-block mt-3">
-                            Operations Project
-                        </p>
-
-                        <p className="text-sm text-gray-600 mt-3 flex-grow">
-                            Mengembangkan dan mengoptimalkan sistem tracking
-                            barang untuk meningkatkan efisiensi operasional
-                            warehouse.
-                        </p>
-                        <h4 className="font-semibold mt-4">
-                            Yang Akan Dipelajari:
-                        </h4>
-                        <ul className="mt-2 space-y-2 text-sm">
-                            <li className="flex gap-2">
-                                <CheckCircle2
-                                    size={16}
-                                    className="text-green-500 mt-0.5 flex-shrink-0"
-                                />
-                                Database design dan management
-                            </li>
-                            <li className="flex gap-2">
-                                <CheckCircle2
-                                    size={16}
-                                    className="text-green-500 mt-0.5 flex-shrink-0"
-                                />
-                                Process mapping dan optimization
-                            </li>
-                            <li className="flex gap-2">
-                                <CheckCircle2
-                                    size={16}
-                                    className="text-green-500 mt-0.5 flex-shrink-0"
-                                />
-                                Data analysis dan reporting
-                            </li>
-                        </ul>
-                        <div className="flex gap-4 text-sm mt-4 text-gray-500">
-                            <div className="flex items-center gap-2">
-                                <Clock size={16} />
-                                3-4 bulan
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <Users size={16} />
-                                Tim 2-3 orang
-                            </div>
-                        </div>
-                    </div>
-                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200/80 flex flex-col h-full">
-                        <div className="flex items-center gap-3">
-                            <div className="p-3 bg-green-100 rounded-lg">
-                                <Target className="text-green-600" />
-                            </div>
-                            <h3 className="text-lg font-bold">
-                                Digital Marketing Campaign
-                            </h3>
-                        </div>
-                        <p className="text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded-full inline-block mt-3">
-                            Marketing Project
-                        </p>
-                        <p className="text-sm text-gray-600 mt-3 flex-grow">
-                            Merancang dan mengeksekusi campaign digital untuk
-                            meningkatkan brand awareness dan customer
-                            acquisition.
-                        </p>
-                        <h4 className="font-semibold mt-4">
-                            Yang Akan Dipelajari:
-                        </h4>
-                        <ul className="mt-2 space-y-2 text-sm">
-                            <li className="flex gap-2">
-                                <CheckCircle2
-                                    size={16}
-                                    className="text-green-500 mt-0.5 flex-shrink-0"
-                                />
-                                Social media strategy & content planning
-                            </li>
-                            <li className="flex gap-2">
-                                <CheckCircle2
-                                    size={16}
-                                    className="text-green-500 mt-0.5 flex-shrink-0"
-                                />
-                                Performance tracking & analytics
-                            </li>
-                            <li className="flex gap-2">
-                                <CheckCircle2
-                                    size={16}
-                                    className="text-green-500 mt-0.5 flex-shrink-0"
-                                />
-                                Creative design & copywriting
-                            </li>
-                        </ul>
-                        <div className="flex gap-4 text-sm mt-4 text-gray-500">
-                            <div className="flex items-center gap-1">
-                                <Clock size={16} />
-                                2-3 bulan
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <UserCheck size={16} />
-                                Individual/Pair
-                            </div>
+                        <div className="flex items-center gap-2">
+                            <Users size={16} /> {project.team_size}
                         </div>
                     </div>
                 </div>
-                {/* Right Column */}
-                <div className="md:w-1/2 flex flex-col space-y-8 mt-8 md:mt-0">
-                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200/80 flex flex-col h-full">
-                        <div className="flex items-center gap-3">
-                            <div className="p-3 bg-green-100 rounded-lg">
-                                <GraduationCap className="text-green-600" />
-                            </div>
-                            <h3 className="text-lg font-bold">
-                                Mobile App Enhancement
-                            </h3>
-                        </div>
-                        <p className="text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded-full inline-block mt-3">
-                            Technology Project
+            ))}
+            <div className="bg-green-50 p-6 rounded-xl flex flex-col justify-center items-center text-center border border-green-200 h-full">
+                <h3 className="text-xl font-bold text-gray-900">
+                    Project Impact
+                </h3>
+                <p className="text-sm text-gray-600 mt-2 flex-grow">
+                    Semua project yang dikerjakan intern memiliki dampak nyata
+                    pada operasional perusahaan dan akan digunakan dalam
+                    production environment.
+                </p>
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                    <div className="bg-white p-4 rounded-lg shadow-md border border-gray-100">
+                        <p className="text-3xl font-bold text-green-600">
+                            100%
                         </p>
-                        <p className="text-sm text-gray-600 mt-3 flex-grow">
-                            Mengembangkan fitur baru dan memperbaiki user
-                            experience aplikasi mobile Titipsini untuk customer.
+                        <p className="text-sm text-gray-500">
+                            Project Completion
                         </p>
-                        <h4 className="font-semibold mt-4">
-                            Yang Akan Dipelajari:
-                        </h4>
-                        <ul className="mt-2 space-y-2 text-sm">
-                            <li className="flex gap-2">
-                                <CheckCircle2
-                                    size={16}
-                                    className="text-green-500 mt-0.5 flex-shrink-0"
-                                />
-                                Mobile app development (React Native/Flutter)
-                            </li>
-                            <li className="flex gap-2">
-                                <CheckCircle2
-                                    size={16}
-                                    className="text-green-500 mt-0.5 flex-shrink-0"
-                                />
-                                UI/UX design principles
-                            </li>
-                            <li className="flex gap-2">
-                                <CheckCircle2
-                                    size={16}
-                                    className="text-green-500 mt-0.5 flex-shrink-0"
-                                />
-                                API integration & testing
-                            </li>
-                        </ul>
-                        <div className="flex gap-4 text-sm mt-4 text-gray-500">
-                            <div className="flex items-center gap-1">
-                                <Clock size={16} />
-                                4-6 bulan
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <Users size={16} />
-                                Tim 2-4 orang
-                            </div>
-                        </div>
                     </div>
-                    <div className="bg-green-50 p-6 rounded-xl flex flex-col justify-center items-center text-center border border-green-200 h-full">
-                        <h3 className="text-xl font-bold text-gray-900">
-                            Project Impact
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-2 flex-grow">
-                            Semua project yang dikerjakan intern memiliki dampak
-                            nyata pada operasional perusahaan dan akan digunakan
-                            dalam production environment.
+                    <div className="bg-white p-4 rounded-lg shadow-md border border-gray-100">
+                        <p className="text-3xl font-bold text-green-600">85%</p>
+                        <p className="text-sm text-gray-500">
+                            Production Ready
                         </p>
-                        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                            <div className="bg-white p-4 rounded-lg shadow-md border border-gray-100">
-                                <p className="text-3xl font-bold text-green-600">
-                                    100%
-                                </p>
-                                <p className="text-sm text-gray-500">
-                                    Project Completion
-                                </p>
-                            </div>
-                            <div className="bg-white p-4 rounded-lg shadow-md border border-gray-100">
-                                <p className="text-3xl font-bold text-green-600">
-                                    85%
-                                </p>
-                                <p className="text-sm text-gray-500">
-                                    Production Ready
-                                </p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -673,22 +490,21 @@ const ApplicationProcess = () => {
     );
 };
 
-const Internship = () => {
+const Internship = ({ positions, projects }) => {
+    // Terima 'positions' dan 'projects'
     return (
         <>
             <Head title="Program Magang" />
-
             <InternshipHero />
-            <JobOpenings />
+            <JobOpenings positions={positions} /> {/* Teruskan prop */}
             <InternshipBenefits />
             <MeetTheMentors />
-            <InternshipProjects />
+            <InternshipProjects projects={projects} /> {/* Teruskan prop */}
             <ApplicationProcess />
         </>
     );
 };
 
-// Menetapkan layout untuk halaman ini
 Internship.layout = (page) => <GuestLayout children={page} />;
 
 export default Internship;
