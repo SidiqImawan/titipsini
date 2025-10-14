@@ -11,12 +11,15 @@ use App\Http\Controllers\ContactPageController;
 use App\Http\Controllers\InternshipPageController;
 use App\Http\Controllers\JobVacancyController;
 use App\Http\Controllers\LayananPageController;
-use App\Http\Controllers\MitraController; // ✅ Tambahan untuk halaman Mitra
+use App\Http\Controllers\MitraController;
 
 // Admin Controllers
-use App\Http\Controllers\Admin\DashboardController; 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\WelcomeController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\MovingPackageController;
 
 
 /*
@@ -26,14 +29,7 @@ use App\Http\Controllers\Admin\SettingController;
 */
 
 // --- RUTE HALAMAN PUBLIK ---
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('home');
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
 Route::get('/tentang-kami', fn() => Inertia::render('About'))->name('about');
 Route::get('/contact', [ContactPageController::class, 'show'])->name('contact.show');
@@ -74,6 +70,9 @@ Route::middleware(['auth', 'verified', 'isAdmin'])
         Route::get('users', [UserManagementController::class, 'index'])->name('users.index');
         Route::get('users/{user}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
         Route::get('users/{user}/remove-admin', [UserManagementController::class, 'removeAdmin'])->name('users.removeAdmin');
+
+        Route::resource('services', ServiceController::class);
+        Route::resource('moving-packages', MovingPackageController::class);
 
         // Pengaturan Situs
         Route::prefix('settings')->name('settings.')->group(function () {

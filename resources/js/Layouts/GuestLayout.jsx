@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Partials/Header"; // <-- Import komponen Header
-import Footer from "./Partials/Footer"; // <-- Import komponen Footer
+import Header from "./Partials/Header";
+import Footer from "./Partials/Footer";
 
-export default function GuestLayout({ children }) {
+// 1. Terima semua props dengan '...props'
+export default function GuestLayout({ children, ...props }) {
     const [isAuthPage, setIsAuthPage] = useState(false);
 
     useEffect(() => {
@@ -14,16 +15,17 @@ export default function GuestLayout({ children }) {
             "/reset-password",
         ];
         setIsAuthPage(authPaths.some((authPath) => path.startsWith(authPath)));
-    }, []);
+    }, [children]); // Gunakan children sebagai dependensi agar di-cek ulang saat halaman ganti
 
     return (
         <div className="bg-gray-100 min-h-screen flex flex-col">
-            {/* Header hanya muncul jika bukan halaman auth */}
             {!isAuthPage && <Header />}
 
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow">
+                {/* 2. 'Clone' children dan tempelkan sisa props ke dalamnya */}
+                {React.cloneElement(children, props)}
+            </main>
 
-            {/* Footer hanya muncul jika bukan halaman auth */}
             {!isAuthPage && <Footer />}
         </div>
     );

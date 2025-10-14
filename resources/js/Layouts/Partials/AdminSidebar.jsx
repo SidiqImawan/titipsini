@@ -9,6 +9,8 @@ import {
     Image,
     MessageSquare,
     Phone,
+    ClipboardList,
+    Package,
 } from "lucide-react";
 
 const SidebarLink = ({ href, active, children, icon }) => {
@@ -89,6 +91,23 @@ export default function AdminSidebar() {
                     icon={<LayoutDashboard className="h-5 w-5" />}
                 >
                     Dashboard
+                </SidebarLink>
+
+                {/* --- 2. TAMBAHKAN LINK MANAJEMEN LAYANAN DI SINI --- */}
+                <SidebarLink
+                    href={route("admin.services.index")}
+                    active={route().current("admin.services.*")}
+                    icon={<ClipboardList className="h-5 w-5" />}
+                >
+                    Manajemen Layanan
+                </SidebarLink>
+
+                <SidebarLink
+                    href={route("admin.moving-packages.index")}
+                    active={route().current("admin.moving-packages.*")}
+                    icon={<Package className="h-5 w-5" />}
+                >
+                    Paket Pindahan
                 </SidebarLink>
 
                 <SidebarLink

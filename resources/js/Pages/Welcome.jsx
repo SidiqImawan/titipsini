@@ -149,55 +149,8 @@ const Hero = () => (
     </section>
 );
 
-const Services = () => {
-    const services = [
-        {
-            title: "Penitipan Traveling",
-            description:
-                "Liburan tenang tanpa khawatir barang bawaan berlebih. Simpan koper dan barang lain dengan aman.",
-            features: ["Akses 24/7", "Keamanan Terjamin", "Harian/Bulanan"],
-            illustration: "/images/traveling.jpg",
-        },
-        {
-            title: "Pindahan Kost/Kontrakan",
-            description:
-                "Butuh tempat sementara untuk perabotan saat pindahan? Kami siapkan ruang yang bersih dan aman.",
-            features: [
-                "Penyimpanan Fleksibel",
-                "Bantuan Pengepakan",
-                "Layanan Antar-Jemput",
-            ],
-            illustration: "/images/pindahan.jpg",
-        },
-        {
-            title: "Penitipan Kendaraan",
-            description:
-                "Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.",
-            features: ["Parkir Indoor", "CCTV 24 Jam", "Perawatan Berkala"],
-            illustration: "/images/kendaraan.jpg",
-        },
-        {
-            title: "Jasa Angkut Barang Anak KKN",
-            description:
-                "Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.",
-            features: ["Parkir Indoor", "CCTV 24 Jam", "Perawatan Berkala"],
-            illustration: "/images/pindahan.jpg",
-        },
-        {
-            title: "Jasa Security Rumah (Bangunan)",
-            description:
-                "Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.",
-            features: ["Parkir Indoor", "CCTV 24 Jam", "Perawatan Berkala"],
-            illustration: "/images/kendaraan.jpg",
-        },
-        {
-            title: "Penitipan Barang Kost",
-            description:
-                "Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.",
-            features: ["Parkir Indoor", "CCTV 24 Jam", "Perawatan Berkala"],
-            illustration: "/images/barang-kost.jpg",
-        },
-    ];
+const Services = ({ services }) => {
+    // Terima props 'services'
     return (
         <section className="py-16 bg-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -212,9 +165,11 @@ const Services = () => {
                         pengiriman untuk kemudahan Anda.
                     </p>
                 </div>
+
+                {/* Langsung map dari props, tidak perlu state atau loading check */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {services.map((service, index) => (
-                        <ServiceCard key={index} {...service} />
+                    {services.map((service) => (
+                        <ServiceCard key={service.id} {...service} />
                     ))}
                 </div>
             </div>
@@ -485,11 +440,18 @@ const FAQ = () => {
 };
 
 // --- Komponen Utama Halaman Welcome ---
-const Welcome = () => {
+const Welcome = ({
+    services,
+    canLogin,
+    canRegister,
+    laravelVersion,
+    phpVersion,
+}) => {
     return (
         <>
             <Hero />
-            <Services />
+            {/* Sekarang variabel 'services' sudah pasti ada dan bisa digunakan */}
+            <Services services={services} />
             <Stats />
             <WhyUs />
             <Testimonials />

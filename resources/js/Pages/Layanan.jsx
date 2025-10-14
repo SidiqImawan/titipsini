@@ -260,34 +260,8 @@ const AboutUs = () => (
     </section>
 );
 
-// --- Pricing Section (TELAH DIMODIFIKASI) ---
-const Pricing = () => {
-    const plans = [
-        {
-            name: "Dalam Kota",
-            description:
-                "Solusi cepat dan efisien untuk pindahan di dalam area kota yang sama.",
-            features: [
-                "Pickup & delivery dalam kota",
-                "Maksimal 20 box sedang",
-                "Asuransi dasar",
-                "1 helper profesional",
-            ],
-        },
-        {
-            name: "Luar Kota",
-            description:
-                "Paket lengkap untuk pindahan antar kota dengan jaminan keamanan penuh.",
-            features: [
-                "Pickup & delivery antar kota",
-                "Maksimal 50 box besar",
-                "Asuransi penuh",
-                "2 helper + supervisor",
-                "Layanan packing gratis",
-            ],
-        },
-    ];
-
+// --- Pricing Section
+const Pricing = ({ packages }) => {
     return (
         <section id="pricing" className="py-16 sm:py-24 bg-gray-50">
             <div className="container mx-auto px-4">
@@ -300,21 +274,23 @@ const Pricing = () => {
                         Anda. Transparan, aman, dan tanpa biaya tersembunyi.
                     </p>
                 </div>
-                <div className="mt-12 flex flex-col lg:flex-row justify-center items-stretch gap-8">
-                    {plans.map((plan) => (
+
+                {/* PERUBAHAN HANYA DI BARIS INI (items-start DIHAPUS) */}
+                <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 justify-center gap-8">
+                    {packages.map((plan) => (
                         <div
-                            key={plan.name}
-                            className={`w-full max-w-md bg-white rounded-xl shadow-lg p-8 relative flex flex-col transition-transform duration-300 ${
+                            key={plan.id}
+                            className={`w-full max-w-md bg-white rounded-xl shadow-lg p-8 relative flex flex-col h-full transition-transform duration-300 ${
                                 plan.popular
                                     ? "border-2 border-green-600 lg:scale-105"
                                     : "border border-gray-200"
                             }`}
                         >
-                            {plan.popular && (
+                            {plan.popular ? (
                                 <span className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-green-600 text-white text-xs font-bold px-4 py-1 rounded-full">
                                     Paling Populer
                                 </span>
-                            )}
+                            ) : null}
                             <div>
                                 <h3 className="text-2xl font-bold text-gray-900">
                                     {plan.name}
@@ -500,7 +476,7 @@ const CtaSection = () => (
 //======================================================================
 // MAIN PAGE COMPONENT (The one that gets exported)
 //======================================================================
-const Layanan = () => {
+const Layanan = ({ packages }) => {
     return (
         <>
             <Head title="Layanan Pindahan & Penyimpanan" />
@@ -511,7 +487,8 @@ const Layanan = () => {
             <HowItWorks />
             <Testimonials />
             <Savings />
-            <Pricing />
+            {/* Teruskan prop 'packages' ke komponen Pricing */}
+            <Pricing packages={packages} />
             <CtaSection />
         </>
     );

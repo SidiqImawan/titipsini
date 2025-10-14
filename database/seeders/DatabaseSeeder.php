@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,14 +16,33 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,    // Seeder untuk role yang sudah ada
             SettingSeeder::class, // Seeder baru yang kita buat untuk settings
+            ServiceSeeder::class, // Seeder baru untuk services
+            MovingPackageSeeder::class, // Seeder baru untuk moving packages
         ]);
 
-        // 2. Kode factory untuk membuat user (bisa tetap ada)
-        // User::factory(10)->create();
+        // KODE BARU YANG BENAR
+        $adminUser = User::factory()->create([
+            'name' => 'Ulul Azmi A. Latala',
+            'email' => 'ullulazmia.l@gmail.com',
+            'password' => 'password',
+        ]);
 
+        $adminUser1 = User::factory()->create([
+            'name' => 'Ahmad Sidiq Imawan',
+            'email' => 'sidiq@gmail.com',
+            'password' => 'password',
+        ]);
+
+        // 'attach(1)' akan membuat entri di tabel 'role_user'
+        // untuk menghubungkan user ini dengan role yang memiliki ID 1 (Admin)
+        $adminUser->roles()->attach(1);
+        $adminUser1->roles()->attach(1);
+
+        // Anda juga bisa membuat user biasa jika perlu
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'password' => 'password',
         ]);
     }
 }

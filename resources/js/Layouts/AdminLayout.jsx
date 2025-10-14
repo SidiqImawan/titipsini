@@ -8,7 +8,7 @@ export default function AdminLayout({ user, header, children }) {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
     return (
-        <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-900 overflow-hidden">
+        <div className="flex h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-900 overflow-hidden">
             {/* Sidebar untuk Desktop */}
             <div className="hidden md:flex">
                 <AdminSidebar />
