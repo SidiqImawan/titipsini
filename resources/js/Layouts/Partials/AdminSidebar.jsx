@@ -13,65 +13,114 @@ import {
     Package,
     Target,
     GraduationCap,
+    BookOpen,
+    Library,
+    Home, // Tambahan ikon untuk Halaman Depan
+    FileText, // Tambahan ikon untuk Halaman Layanan
 } from "lucide-react";
 
-const SidebarLink = ({ href, active, children, icon }) => {
-    return (
-        <Link
-            href={href}
-            className={`group relative flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300
-                ${
-                    active
-                        ? "bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-amber-300 shadow-md scale-[1.02]"
-                        : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
-                }`}
+// --- KOMPONEN-KOMPONEN KECIL (HELPER) ---
+
+const SidebarLink = ({ href, active, children, icon }) => (
+    <Link
+        href={href}
+        className={`group relative flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+            active
+                ? "bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-amber-300 shadow-md scale-[1.02]"
+                : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
+        }`}
+    >
+        {active && (
+            <span className="absolute left-0 top-0 bottom-0 w-1 bg-amber-400 rounded-r-lg"></span>
+        )}
+        <span
+            className={`mr-3 ${
+                active
+                    ? "text-amber-300"
+                    : "text-gray-500 group-hover:text-gray-200"
+            } transition-colors duration-200`}
         >
-            {active && (
-                <span className="absolute left-0 top-0 bottom-0 w-1 bg-amber-400 rounded-r-lg"></span>
-            )}
+            {icon}
+        </span>
+        {children}
+    </Link>
+);
+
+const SidebarSubLink = ({ href, active, children }) => (
+    <Link
+        href={href}
+        className={`group flex items-center pl-11 pr-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+            active
+                ? "bg-[#1e293b] text-amber-300"
+                : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
+        }`}
+    >
+        {children}
+    </Link>
+);
+
+const SidebarDropdown = ({
+    title,
+    icon,
+    active,
+    isOpen,
+    onToggle,
+    children,
+}) => (
+    <div>
+        <button
+            onClick={onToggle}
+            className={`group w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                active
+                    ? "bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-amber-300 shadow-md scale-[1.02]"
+                    : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
+            }`}
+        >
             <span
                 className={`mr-3 ${
                     active
                         ? "text-amber-300"
                         : "text-gray-500 group-hover:text-gray-200"
-                } transition-colors duration-200`}
+                }`}
             >
                 {icon}
             </span>
-            {children}
-        </Link>
-    );
-};
-
-const SidebarSubLink = ({ href, active, children, icon }) => {
-    return (
-        <Link
-            href={href}
-            className={`group flex items-center pl-12 pr-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
-                ${
-                    active
-                        ? "bg-[#1e293b] text-amber-300"
-                        : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
+            {title}
+            <ChevronDown
+                className={`ml-auto h-5 w-5 transform transition-transform duration-300 ${
+                    isOpen ? "rotate-180 text-amber-300" : ""
                 }`}
+            />
+        </button>
+        <div
+            className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+            }`}
         >
-            <span
-                className={`mr-3 ${
-                    active
-                        ? "text-amber-300"
-                        : "text-gray-500 group-hover:text-gray-300"
-                }`}
-            >
-                {icon}
-            </span>
-            {children}
-        </Link>
-    );
-};
+            <div className="mt-1 space-y-1">{children}</div>
+        </div>
+    </div>
+);
+
+// --- KOMPONEN UTAMA SIDEBAR ---
 
 export default function AdminSidebar() {
-    const [isSettingsOpen, setSettingsOpen] = useState(
-        route().current("admin.settings.*")
-    );
+    // State untuk setiap dropdown menu
+    const [openDropdown, setOpenDropdown] = useState({
+        halamanDepan: route().current("admin.services.*"),
+        halamanLayanan: route().current("admin.moving-packages.*"),
+        halamanInternship:
+            route().current("admin.internship-positions.*") ||
+            route().current("admin.internship-projects.*"),
+        halamanProgram:
+            route().current("admin.career-programs.*") ||
+            route().current("admin.curricula.*"),
+        pengaturan: route().current("admin.settings.*"),
+    });
+
+    const handleToggle = (dropdown) => {
+        setOpenDropdown((prev) => ({ ...prev, [dropdown]: !prev[dropdown] }));
+    };
 
     return (
         <aside className="w-64 min-h-screen bg-[#0f172a] text-gray-200 flex flex-col border-r border-[#1e293b] shadow-2xl">
@@ -95,45 +144,88 @@ export default function AdminSidebar() {
                     Dashboard
                 </SidebarLink>
 
-                {/* --- 2. TAMBAHKAN LINK MANAJEMEN LAYANAN DI SINI --- */}
-                <SidebarLink
-                    href={route("admin.services.index")}
-                    active={route().current("admin.services.*")}
-                    icon={<ClipboardList className="h-5 w-5" />}
+                {/* --- Dropdown Manajemen Halaman Depan --- */}
+                <SidebarDropdown
+                    title="Halaman Depan"
+                    icon={<Home className="h-5 w-5" />}
+                    active={openDropdown.halamanDepan}
+                    isOpen={openDropdown.halamanDepan}
+                    onToggle={() => handleToggle("halamanDepan")}
                 >
-                    Manajemen Layanan
-                </SidebarLink>
+                    <SidebarSubLink
+                        href={route("admin.services.index")}
+                        active={route().current("admin.services.*")}
+                    >
+                        Layanan Umum
+                    </SidebarSubLink>
+                </SidebarDropdown>
 
-                <SidebarLink
-                    href={route("admin.moving-packages.index")}
-                    active={route().current("admin.moving-packages.*")}
-                    icon={<Package className="h-5 w-5" />}
+                {/* --- Dropdown Manajemen Halaman Layanan --- */}
+                <SidebarDropdown
+                    title="Halaman Layanan"
+                    icon={<FileText className="h-5 w-5" />}
+                    active={openDropdown.halamanLayanan}
+                    isOpen={openDropdown.halamanLayanan}
+                    onToggle={() => handleToggle("halamanLayanan")}
                 >
-                    Paket Pindahan
-                </SidebarLink>
+                    <SidebarSubLink
+                        href={route("admin.moving-packages.index")}
+                        active={route().current("admin.moving-packages.*")}
+                    >
+                        Paket Pindahan
+                    </SidebarSubLink>
+                </SidebarDropdown>
 
-                <SidebarLink
-                    href={route("admin.internship-positions.index")}
-                    active={route().current("admin.internship-positions.*")}
+                {/* --- Dropdown Manajemen Halaman Internship --- */}
+                <SidebarDropdown
+                    title="Halaman Internship"
                     icon={<GraduationCap className="h-5 w-5" />}
+                    active={openDropdown.halamanInternship}
+                    isOpen={openDropdown.halamanInternship}
+                    onToggle={() => handleToggle("halamanInternship")}
                 >
-                    Posisi Magang
-                </SidebarLink>
+                    <SidebarSubLink
+                        href={route("admin.internship-positions.index")}
+                        active={route().current("admin.internship-positions.*")}
+                    >
+                        Posisi Magang
+                    </SidebarSubLink>
+                    <SidebarSubLink
+                        href={route("admin.internship-projects.index")}
+                        active={route().current("admin.internship-projects.*")}
+                    >
+                        Proyek Magang
+                    </SidebarSubLink>
+                </SidebarDropdown>
 
-                <SidebarLink
-                    href={route("admin.internship-projects.index")}
-                    active={route().current("admin.internship-projects.*")}
-                    icon={<Target className="h-5 w-5" />}
+                {/* --- Dropdown Manajemen Halaman Program --- */}
+                <SidebarDropdown
+                    title="Halaman Program"
+                    icon={<BookOpen className="h-5 w-5" />}
+                    active={openDropdown.halamanProgram}
+                    isOpen={openDropdown.halamanProgram}
+                    onToggle={() => handleToggle("halamanProgram")}
                 >
-                    Proyek Magang
-                </SidebarLink>
+                    <SidebarSubLink
+                        href={route("admin.career-programs.index")}
+                        active={route().current("admin.career-programs.*")}
+                    >
+                        Program Karir
+                    </SidebarSubLink>
+                    <SidebarSubLink
+                        href={route("admin.curricula.index")}
+                        active={route().current("admin.curricula.*")}
+                    >
+                        Kurikulum
+                    </SidebarSubLink>
+                </SidebarDropdown>
 
                 <SidebarLink
                     href={route("admin.job_vacancies.index")}
                     active={route().current("admin.job_vacancies.*")}
                     icon={<Briefcase className="h-5 w-5" />}
                 >
-                    Job Vacancies
+                    Lowongan Kerja
                 </SidebarLink>
 
                 <SidebarLink
@@ -141,75 +233,36 @@ export default function AdminSidebar() {
                     active={route().current("admin.users.*")}
                     icon={<Users className="h-5 w-5" />}
                 >
-                    User Management
+                    Manajemen User
                 </SidebarLink>
 
-                {/* Dropdown Settings */}
-                <div>
-                    <button
-                        onClick={() => setSettingsOpen(!isSettingsOpen)}
-                        className={`group w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300
-                            ${
-                                route().current("admin.settings.*")
-                                    ? "bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-amber-300 shadow-md scale-[1.02]"
-                                    : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
-                            }`}
+                {/* --- Dropdown Pengaturan --- */}
+                <SidebarDropdown
+                    title="Pengaturan"
+                    icon={<Settings className="h-5 w-5" />}
+                    active={openDropdown.pengaturan}
+                    isOpen={openDropdown.pengaturan}
+                    onToggle={() => handleToggle("pengaturan")}
+                >
+                    <SidebarSubLink
+                        href={route("admin.settings.contact")}
+                        active={route().current("admin.settings.contact")}
                     >
-                        <span
-                            className={`mr-3 ${
-                                route().current("admin.settings.*")
-                                    ? "text-amber-300"
-                                    : "text-gray-500 group-hover:text-gray-200"
-                            }`}
-                        >
-                            <Settings className="h-5 w-5" />
-                        </span>
-                        Pengaturan
-                        <ChevronDown
-                            className={`ml-auto h-5 w-5 transform transition-transform duration-300 ${
-                                isSettingsOpen
-                                    ? "rotate-180 text-amber-300"
-                                    : ""
-                            }`}
-                        />
-                    </button>
-
-                    <div
-                        className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                            isSettingsOpen
-                                ? "max-h-40 opacity-100"
-                                : "max-h-0 opacity-0"
-                        }`}
+                        Info Kontak
+                    </SidebarSubLink>
+                    <SidebarSubLink
+                        href={route("admin.settings.social")}
+                        active={route().current("admin.settings.social")}
                     >
-                        <div className="mt-1 space-y-1">
-                            <SidebarSubLink
-                                href={route("admin.settings.contact")}
-                                active={route().current(
-                                    "admin.settings.contact"
-                                )}
-                                icon={<Phone size={14} />}
-                            >
-                                Info Kontak
-                            </SidebarSubLink>
-                            <SidebarSubLink
-                                href={route("admin.settings.social")}
-                                active={route().current(
-                                    "admin.settings.social"
-                                )}
-                                icon={<MessageSquare size={14} />}
-                            >
-                                Media Sosial
-                            </SidebarSubLink>
-                            <SidebarSubLink
-                                href={route("admin.settings.logo")}
-                                active={route().current("admin.settings.logo")}
-                                icon={<Image size={14} />}
-                            >
-                                Logo
-                            </SidebarSubLink>
-                        </div>
-                    </div>
-                </div>
+                        Media Sosial
+                    </SidebarSubLink>
+                    <SidebarSubLink
+                        href={route("admin.settings.logo")}
+                        active={route().current("admin.settings.logo")}
+                    >
+                        Logo
+                    </SidebarSubLink>
+                </SidebarDropdown>
             </nav>
 
             {/* Footer */}

@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             MovingPackageSeeder::class, // Seeder baru untuk moving packages
             InternshipPositionSeeder::class, // Seeder baru untuk internship positions
             InternshipProjectSeeder::class, // Seeder baru untuk internship projects
+            CareerProgramSeeder::class, // Seeder baru untuk career programs
+            CurriculumSeeder::class,    // Seeder baru untuk curriculums
         ]);
 
         // KODE BARU YANG BENAR

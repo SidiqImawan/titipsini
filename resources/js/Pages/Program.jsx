@@ -83,54 +83,8 @@ const ProgramHero = () => (
     </section>
 );
 
-// Program List Section
-const ProgramList = () => {
-    const programs = [
-        {
-            title: "Program Magang Profesional",
-            description:
-                "Program magang 6 bulan untuk mahasiswa tingkat akhir dengan bimbingan mentor berpengalaman.",
-            duration: "6 Bulan",
-            benefits: ["Sertifikat", "Uang Saku", "Mentoring", "Networking"],
-            isPopular: true,
-            tags: ["Magang"],
-            cta: "Daftar Sekarang",
-            ctaColor: "green",
-        },
-        {
-            title: "Fresh Graduate Program",
-            description:
-                "Program pengembangan karir untuk fresh graduate dengan pelatihan intensif.",
-            duration: "12 Bulan",
-            benefits: [
-                "Gaji Kompetitif",
-                "Training",
-                "Career Path",
-                "Health Insurance",
-            ],
-            isPopular: false,
-            tags: ["Full-time"],
-            cta: "Pelajari Lebih Lanjut",
-            ctaColor: "dark",
-        },
-        {
-            title: "Leadership Development",
-            description:
-                "Program pengembangan kepemimpinan untuk karyawan dengan potensi tinggi.",
-            duration: "9 Bulan",
-            benefits: [
-                "Leadership Training",
-                "Project Management",
-                "Team Building",
-                "Certification",
-            ],
-            isPopular: false,
-            tags: ["Development"],
-            cta: "Pelajari Lebih Lanjut",
-            ctaColor: "dark",
-        },
-    ];
-
+// --- Program List Section ---
+const ProgramList = ({ programs }) => {
     return (
         <section className="py-16 sm:py-24 bg-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -146,20 +100,22 @@ const ProgramList = () => {
                 </p>
             </div>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-                {programs.map((program, index) => (
+                {programs.map((program) => (
                     <div
-                        key={index}
+                        key={program.id}
                         className={`bg-white rounded-xl shadow-lg border ${
-                            program.isPopular
+                            program.is_popular
                                 ? "border-green-500"
                                 : "border-gray-200"
                         } p-6 flex flex-col relative`}
                     >
-                        {program.isPopular && (
+                        {/* INI BAGIAN YANG DIPERBAIKI */}
+                        {program.is_popular ? (
                             <span className="absolute top-0 right-6 -mt-3 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
                                 Populer
                             </span>
-                        )}
+                        ) : null}
+
                         <div className="flex justify-between items-start mb-4">
                             <Briefcase className="w-10 h-10 text-green-500" />
                             <div>
@@ -201,12 +157,12 @@ const ProgramList = () => {
                         <a
                             href="#"
                             className={`mt-6 w-full inline-flex items-center justify-center px-6 py-3 font-semibold rounded-lg shadow-md transition-colors ${
-                                program.ctaColor === "green"
+                                program.cta_color === "green"
                                     ? "bg-green-600 text-white hover:bg-green-700"
                                     : "bg-gray-800 text-white hover:bg-gray-900"
                             }`}
                         >
-                            {program.cta}{" "}
+                            {program.cta_text}{" "}
                             <ArrowRight className="w-5 h-5 ml-2" />
                         </a>
                     </div>
@@ -312,42 +268,16 @@ const WhyChooseProgram = () => (
 );
 
 // Curriculum Section
-const CurriculumDetails = () => {
-    const curriculum = [
-        {
-            icon: <Library />,
-            title: "Fundamental Storage",
-            points: [
-                "Dasar-dasar industri penyimpanan dan logistik modern",
-                "Pengenalan Warehouse Management",
-                "Sistem Inventory Control",
-                "Safety & Security Protocols",
-                "Customer Service Excellence",
-            ],
-        },
-        {
-            icon: <BrainCircuit />,
-            title: "Advanced Operations",
-            points: [
-                "Operasional lanjutan dan optimasi sistem penyimpanan",
-                "Digital Transformation",
-                "Data Analytics & Reporting",
-                "Process Optimization",
-                "Quality Management",
-            ],
-        },
-        {
-            icon: <TrendingUp />,
-            title: "Business Development",
-            points: [
-                "Pengembangan bisnis dan strategi pertumbuhan perusahaan",
-                "Market Analysis & Strategy",
-                "Financial Management",
-                "Leadership & Team Management",
-                "Innovation & Technology",
-            ],
-        },
-    ];
+// --- Curriculum Section ---
+const CurriculumDetails = ({ curriculums }) => {
+    // Objek ini berfungsi sebagai 'peta' untuk mengubah nama ikon dari database
+    // menjadi komponen ikon yang sebenarnya.
+    const iconMap = {
+        Library: <Library />,
+        BrainCircuit: <BrainCircuit />,
+        TrendingUp: <TrendingUp />,
+    };
+
     return (
         <section className="py-16 sm:py-24 bg-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -361,29 +291,38 @@ const CurriculumDetails = () => {
                 </p>
             </div>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid lg:grid-cols-3 gap-8">
-                {curriculum.map((item, index) => (
-                    <div
-                        key={index}
-                        className="bg-gray-50 p-6 rounded-xl border border-gray-200"
-                    >
-                        <div className="flex items-center text-green-600 mb-4">
-                            {React.cloneElement(item.icon, { size: 24 })}
-                            <h3 className="ml-3 text-xl font-bold text-gray-800">
-                                {item.title}
-                            </h3>
+                {curriculums.map((item) => {
+                    const IconComponent = iconMap[item.icon_name];
+                    return (
+                        <div
+                            key={item.id}
+                            className="bg-gray-50 p-6 rounded-xl border border-gray-200"
+                        >
+                            <div className="flex items-center text-green-600 mb-4">
+                                {IconComponent &&
+                                    React.cloneElement(IconComponent, {
+                                        size: 24,
+                                    })}
+                                <h3 className="ml-3 text-xl font-bold text-gray-800">
+                                    {item.title}
+                                </h3>
+                            </div>
+                            <ul className="space-y-3 text-left">
+                                {item.points.map((point) => (
+                                    <li
+                                        key={point}
+                                        className="flex items-start"
+                                    >
+                                        <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
+                                        <span className="text-gray-600">
+                                            {point}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        <ul className="space-y-3 text-left">
-                            {item.points.map((point) => (
-                                <li key={point} className="flex items-start">
-                                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
-                                    <span className="text-gray-600">
-                                        {point}
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </section>
     );
@@ -467,19 +406,20 @@ const ProgramFAQ = () => {
 };
 
 // --- Komponen Utama Halaman Program ---
-const Program = () => {
+const Program = ({ programs, curriculums }) => {
+    // Terima props
     return (
         <>
+            {/* <Head title="Program Kami" /> -- Sepertinya ini belum ada di kode Anda, bisa ditambahkan */}
             <ProgramHero />
-            <ProgramList />
+            <ProgramList programs={programs} /> {/* Teruskan prop */}
             <WhyChooseProgram />
-            <CurriculumDetails />
+            <CurriculumDetails curriculums={curriculums} />{" "}
+            {/* Teruskan prop */}
             <ProgramFAQ />
         </>
     );
 };
 
-// Menetapkan layout untuk halaman ini
 Program.layout = (page) => <GuestLayout children={page} />;
-
 export default Program;

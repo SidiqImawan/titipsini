@@ -11,7 +11,9 @@ use App\Http\Controllers\ContactPageController;
 use App\Http\Controllers\InternshipPageController;
 use App\Http\Controllers\JobVacancyController;
 use App\Http\Controllers\LayananPageController;
-use App\Http\Controllers\MitraController; // Pastikan controller ini ada
+use App\Http\Controllers\ProgramPageController;
+
+use App\Http\Controllers\MitraController;
 
 // Admin Controllers
 use App\Http\Controllers\Admin\DashboardController;
@@ -22,6 +24,8 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\MovingPackageController;
 use App\Http\Controllers\Admin\InternshipPositionController;
 use App\Http\Controllers\Admin\InternshipProjectController;
+use App\Http\Controllers\Admin\CareerProgramController;
+use App\Http\Controllers\Admin\CurriculumController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,13 +43,11 @@ use App\Http\Controllers\Admin\InternshipProjectController;
 // Halaman Utama (Homepage)
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
-// Halaman Mitra (Landing Page Titipsini.com)
-// ✅ URL DIPERBAIKI: Sekarang bisa diakses melalui http://your-app.test/mitra
 Route::get('/mitra', [MitraController::class, 'index'])->name('mitra.index');
 
 // Halaman Statis Lainnya
 Route::get('/tentang-kami', fn() => Inertia::render('About'))->name('about');
-Route::get('/program-kami', fn() => Inertia::render('Program'))->name('program');
+Route::get('/program-kami', [ProgramPageController::class, 'show'])->name('program');
 
 // Halaman dengan Controller
 Route::get('/contact', [ContactPageController::class, 'show'])->name('contact.show');
@@ -89,6 +91,8 @@ Route::middleware(['auth', 'verified', 'isAdmin'])
         Route::resource('moving-packages', MovingPackageController::class);
         Route::resource('internship-positions', InternshipPositionController::class);
         Route::resource('internship-projects', InternshipProjectController::class);
+        Route::resource('career-programs', CareerProgramController::class);
+        Route::resource('curricula', CurriculumController::class);
 
         // Pengaturan Situs
         Route::prefix('settings')->name('settings.')->group(function () {
