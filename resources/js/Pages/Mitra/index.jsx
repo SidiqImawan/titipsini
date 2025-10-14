@@ -301,15 +301,24 @@ const BonusAccess = () => {
     );
 };
 
-// 🔹 PRICING SECTION
+// ==================================================================
+// 🔹 PRICING SECTION (KODE YANG DIPERBAIKI)
+// ==================================================================
 const PricingCard = ({ price, duration, features, isFeatured }) => (
     <div
-        className={`border rounded-lg p-8 w-full max-w-sm flex flex-col bg-white ${
+        className={`relative border rounded-lg p-8 w-full max-w-sm flex flex-col bg-white transition-all duration-300 ${
             isFeatured
-                ? "border-primary border-2 shadow-2xl scale-105 transition-all duration-300"
+                ? "border-primary border-2 shadow-2xl" // Menghapus scale-105
                 : "border-gray-200 shadow-lg"
         }`}
     >
+        {/* Menambahkan badge "Paling Populer" untuk kartu unggulan */}
+        {isFeatured && (
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold uppercase px-4 py-1 rounded-full shadow-lg">
+                Paling Populer
+            </div>
+        )}
+
         <p className="text-sm font-semibold text-gray-500">
             {isFeatured ? "Paket Kemitraan" : "Paket 1 Bulan"}
         </p>
@@ -346,7 +355,6 @@ const Pricing = () => {
                 "Template marketing standar",
                 "Support via email",
             ],
-            isFeatured: false,
         },
         {
             price: "Rp 3.000.000",
@@ -358,7 +366,6 @@ const Pricing = () => {
                 "Sertifikat resmi",
                 "Priority support 24/7",
             ],
-            isFeatured: true,
         },
     ];
     return (
@@ -373,7 +380,8 @@ const Pricing = () => {
                 <p className="text-gray-600 mt-4 text-lg mb-12">
                     Pilih paket yang sesuai dengan kebutuhan dan budget Anda
                 </p>
-                <div className="flex flex-col md:flex-row justify-center items-center gap-8 mt-12">
+                {/* Menggunakan `items-stretch` untuk memastikan tinggi kartu sama */}
+                <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 md:gap-12 mt-12">
                     {plans.map((p, i) => (
                         <PricingCard key={i} {...p} />
                     ))}
@@ -382,6 +390,9 @@ const Pricing = () => {
         </section>
     );
 };
+// ==================================================================
+// AKHIR DARI BAGIAN YANG DIPERBAIKI
+// ==================================================================
 
 // 🔹 TESTIMONIALS SECTION
 const TestimonialCard = ({ name, location, quote }) => (
