@@ -11,9 +11,10 @@ use App\Http\Controllers\ContactPageController;
 use App\Http\Controllers\InternshipPageController;
 use App\Http\Controllers\JobVacancyController;
 use App\Http\Controllers\LayananPageController;
+use App\Http\Controllers\MitraController; // ✅ Tambahan untuk halaman Mitra
 
 // Admin Controllers
-use App\Http\Controllers\Admin\DashboardController; // <-- PERUBAHAN 1
+use App\Http\Controllers\Admin\DashboardController; 
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\SettingController;
 
@@ -25,7 +26,6 @@ use App\Http\Controllers\Admin\SettingController;
 */
 
 // --- RUTE HALAMAN PUBLIK ---
-
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -43,11 +43,13 @@ Route::get('/program-kami', fn() => Inertia::render('Program'))->name('program')
 Route::get('/layanan', [LayananPageController::class, 'show'])->name('layanan.show');
 Route::get('/lowongan-kerja', [JobVacancyController::class, 'publicIndex'])->name('careers.index');
 
+// ✅ Tambahan route baru untuk halaman Mitra
+Route::get('/Mitra/index', [MitraController::class, 'index'])->name('mitra.index');
+
 
 // --- RUTE UNTUK PENGGUNA TERAUTENTIKASI ---
-
 Route::middleware(['auth', 'verified'])->group(function () {
-    // PERUBAHAN 2: Arahkan ke DashboardController
+    // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Profile Routes
@@ -58,23 +60,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 // --- RUTE KHUSUS ADMIN ---
-
 Route::middleware(['auth', 'verified', 'isAdmin'])
-    ->prefix('admin') // Semua URL diawali dengan /admin
-    ->name('admin.') // Semua nama rute diawali dengan admin.
+    ->prefix('admin')
+    ->name('admin.')
     ->group(function () {
 
-        // Rute CRUD untuk Job Vacancies (URL: /admin/job-vacancies, Nama: admin.job_vacancies.index, dll)
+        // CRUD untuk Job Vacancies
         Route::resource('job-vacancies', JobVacancyController::class)
             ->except(['show'])
             ->names('job_vacancies');
 
-        // Rute untuk Manajemen User
+        // Manajemen User
         Route::get('users', [UserManagementController::class, 'index'])->name('users.index');
         Route::get('users/{user}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
         Route::get('users/{user}/remove-admin', [UserManagementController::class, 'removeAdmin'])->name('users.removeAdmin');
 
-        // Rute untuk Pengaturan Situs
+        // Pengaturan Situs
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('contact', [SettingController::class, 'contact'])->name('contact');
             Route::get('social', [SettingController::class, 'social'])->name('social');
