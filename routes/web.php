@@ -11,7 +11,7 @@ use App\Http\Controllers\ContactPageController;
 use App\Http\Controllers\InternshipPageController;
 use App\Http\Controllers\JobVacancyController;
 use App\Http\Controllers\LayananPageController;
-use App\Http\Controllers\MitraController;
+use App\Http\Controllers\MitraController; // Pastikan controller ini ada
 
 // Admin Controllers
 use App\Http\Controllers\Admin\DashboardController;
@@ -21,26 +21,36 @@ use App\Http\Controllers\Admin\WelcomeController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\MovingPackageController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
+|
+| Di sini Anda bisa mendaftarkan web routes untuk aplikasi Anda.
+| Routes ini dimuat oleh RouteServiceProvider dalam sebuah grup
+| yang mengandung middleware group "web".
+|
 */
 
 // --- RUTE HALAMAN PUBLIK ---
+
+// Halaman Utama (Homepage)
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
+// Halaman Mitra (Landing Page Titipsini.com)
+// ✅ URL DIPERBAIKI: Sekarang bisa diakses melalui http://your-app.test/mitra
+Route::get('/mitra', [MitraController::class, 'index'])->name('mitra.index');
+
+// Halaman Statis Lainnya
 Route::get('/tentang-kami', fn() => Inertia::render('About'))->name('about');
+Route::get('/program-kami', fn() => Inertia::render('Program'))->name('program');
+
+// Halaman dengan Controller
 Route::get('/contact', [ContactPageController::class, 'show'])->name('contact.show');
 Route::post('/contact', [ContactPageController::class, 'store'])->name('contact.store');
 Route::get('/internship', [InternshipPageController::class, 'show'])->name('internship.show');
-Route::get('/program-kami', fn() => Inertia::render('Program'))->name('program');
 Route::get('/layanan', [LayananPageController::class, 'show'])->name('layanan.show');
 Route::get('/lowongan-kerja', [JobVacancyController::class, 'publicIndex'])->name('careers.index');
-
-// ✅ Tambahan route baru untuk halaman Mitra
-Route::get('/Mitra/index', [MitraController::class, 'index'])->name('mitra.index');
 
 
 // --- RUTE UNTUK PENGGUNA TERAUTENTIKASI ---
@@ -71,6 +81,7 @@ Route::middleware(['auth', 'verified', 'isAdmin'])
         Route::get('users/{user}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
         Route::get('users/{user}/remove-admin', [UserManagementController::class, 'removeAdmin'])->name('users.removeAdmin');
 
+        // Resources untuk Layanan & Paket
         Route::resource('services', ServiceController::class);
         Route::resource('moving-packages', MovingPackageController::class);
 
@@ -88,3 +99,4 @@ Route::middleware(['auth', 'verified', 'isAdmin'])
 
 
 require __DIR__ . '/auth.php';
+

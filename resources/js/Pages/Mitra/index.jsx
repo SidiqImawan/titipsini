@@ -13,184 +13,208 @@ import {
     FaPhone,
     FaEnvelope,
     FaMapMarkerAlt,
+    FaClipboardCheck,
+    FaLockOpen,
+    FaLightbulb,
 } from "react-icons/fa";
+import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 
-// Komponen Header
-const Header = () => {
-    return (
-        <header className="bg-white shadow-sm sticky top-0 z-50">
-            <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-                <h1 className="font-bold text-2xl text-teal-500">
-                    Titipsini.com
-                </h1>
-                <nav className="hidden md:flex space-x-8">
-                    <a
-                        href="#beranda"
-                        className="text-gray-600 hover:text-teal-500"
-                    >
-                        Beranda
-                    </a>
-                    <a
-                        href="#tentang"
-                        className="text-gray-600 hover:text-teal-500"
-                    >
-                        Tentang Kami
-                    </a>
-                    <a
-                        href="#keuntungan"
-                        className="text-gray-600 hover:text-teal-500"
-                    >
-                        Keuntungan
-                    </a>
-                    <a
-                        href="#kontak"
-                        className="text-gray-600 hover:text-teal-500"
-                    >
-                        Kontak
-                    </a>
-                </nav>
-                <a
-                    href="#gabung"
-                    className="bg-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-600 transition duration-300"
-                >
-                    Gabung Sekarang
-                </a>
-            </div>
-        </header>
-    );
-};
+// 🔹 HEADER
+const Header = () => (
+    <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 className="font-extrabold text-2xl text-primary-dark flex items-center">
+                <HiOutlineBuildingOffice2 className="text-primary mr-2 text-3xl" />{" "}
+                Titipsini<span className="text-gray-800">.com</span>
+            </h1>
+            <nav className="hidden md:flex space-x-8">
+                {["Beranda", "Tentang Kami", "Keuntungan", "Kontak"].map(
+                    (item) => (
+                        <a
+                            key={item}
+                            href={`#${item.toLowerCase().replace(/\s/g, "-")}`}
+                            className="text-gray-600 hover:text-primary font-medium transition duration-300"
+                        >
+                            {item}
+                        </a>
+                    )
+                )}
+            </nav>
+            <a
+                href="#gabung"
+                className="bg-primary text-white font-semibold py-2 px-6 rounded-lg hover:bg-primary-dark transition duration-300"
+            >
+                Gabung Sekarang
+            </a>
+        </div>
+    </header>
+);
 
-// Komponen Hero
+// 🔹 HERO SECTION
 const StatCard = ({ value, label }) => (
     <div className="text-center">
-        <p className="text-4xl font-bold text-teal-500">{value}</p>
-        <p className="text-gray-600">{label}</p>
+        <p className="text-4xl font-bold text-primary">{value}</p>
+        <p className="text-gray-600 mt-1">{label}</p>
     </div>
 );
 
-const Hero = () => {
-    return (
-        <section id="beranda" className="bg-teal-50 py-20">
-            <div className="container mx-auto px-6">
-                <div className="flex flex-col lg:flex-row items-center">
-                    <div className="lg:w-1/2 text-center lg:text-left">
-                        <p className="text-teal-500 font-semibold">
-                            Platform Mitra Terpercaya
-                        </p>
-                        <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight mt-2">
-                            Buka Peluang{" "}
-                            <span className="text-teal-500">Usaha</span>{" "}
-                            Menguntungkan{" "}
-                            <span className="text-teal-500">Bersama</span>{" "}
-                            Titipsini.com
-                        </h2>
-                        <p className="text-gray-600 mt-4 text-lg">
-                            Bergabunglah dengan ribuan mitra sukses dan raih
-                            penghasilan hingga jutaan rupiah setiap bulannya.
-                        </p>
-                        <div className="mt-8 flex justify-center lg:justify-start space-x-4">
-                            <a
-                                href="#gabung"
-                                className="bg-teal-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-teal-600 transition duration-300"
-                            >
-                                Gabung Sekarang
-                            </a>
-                            <a
-                                href="#pelajari"
-                                className="bg-white text-teal-500 font-bold py-3 px-8 rounded-lg border border-teal-500 hover:bg-gray-100 transition duration-300"
-                            >
-                                Pelajari Lebih Lanjut
-                            </a>
-                        </div>
-                    </div>
-                    <div className="lg:w-1/2 mt-10 lg:mt-0 flex justify-center">
-                        <div className="bg-white p-8 rounded-xl shadow-lg grid grid-cols-2 gap-8 w-full max-w-md">
-                            <StatCard value="1" label="Tahun" />
-                            <StatCard value="70+" label="Mitra" />
-                            <StatCard value="100+" label="Pelanggan" />
-                            <StatCard value="200+" label="Suka" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
-};
-
-// Komponen Tentang Kami (About)
-const About = () => {
-    return (
-        <section id="tentang" className="py-20">
-            <div className="container mx-auto px-6">
-                <div className="text-center mb-12">
-                    <span className="text-teal-500 bg-teal-100 rounded-full px-4 py-1 text-sm font-semibold">
-                        Tentang Platform
+const Hero = () => (
+    <section
+        id="beranda"
+        className="bg-primary-light pt-24 pb-20 overflow-hidden"
+    >
+        <div className="container mx-auto px-6">
+            <div className="flex flex-col lg:flex-row items-center gap-12">
+                <div className="lg:w-1/2 text-center lg:text-left">
+                    <span className="inline-flex items-center bg-white text-primary text-sm font-semibold px-4 py-1.5 rounded-full mb-3 border border-gray-200">
+                        <FaLightbulb className="mr-2" /> Platform Mitra
+                        Terpercaya
                     </span>
-                    <h2 className="text-4xl font-bold text-gray-800 mt-4">
-                        Apa Itu Titipsini.com?
+                    <h2 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mt-2">
+                        Buka Peluang <span className="text-primary">Usaha</span>{" "}
+                        Menguntungkan{" "}
+                        <span className="text-primary">Bersama</span>{" "}
+                        Titipsini.com
                     </h2>
-                </div>
-                <div className="flex flex-col lg:flex-row items-center gap-12">
-                    <div className="lg:w-1/2">
-                        <p className="text-gray-600 leading-relaxed text-lg">
-                            Titipsini.com adalah platform terdepan yang
-                            menghubungkan pemilik properti dengan peluang bisnis
-                            menguntungkan. Kami membantu Anda mengoptimalkan
-                            aset properti yang tidak terpakai menjadi sumber
-                            penghasilan berkelanjutan melalui berbagai skema
-                            kerjasama yang fleksibel dan menguntungkan.
-                        </p>
+                    <p className="text-gray-600 mt-6 text-lg max-w-lg">
+                        Bergabunglah dengan ribuan mitra sukses dan raih
+                        penghasilan hingga jutaan rupiah setiap bulannya.
+                    </p>
+                    <div className="mt-10 flex justify-center lg:justify-start gap-4">
+                        <a
+                            href="#gabung"
+                            className="bg-primary text-white font-bold py-3 px-8 rounded-lg hover:bg-primary-dark transition duration-300 shadow-md hover:shadow-lg"
+                        >
+                            Gabung Sekarang
+                        </a>
+                        <a
+                            href="#pelajari"
+                            className="bg-white text-primary font-bold py-3 px-8 rounded-lg border border-primary hover:bg-gray-100 transition duration-300 shadow-md hover:shadow-lg"
+                        >
+                            Pelajari Lebih Lanjut
+                        </a>
                     </div>
-                    <div className="lg:w-1/2">
-                        {/* Ganti div ini dengan gambar/ilustrasi Anda */}
-                        <div className="bg-gray-200 h-64 w-full rounded-lg flex items-center justify-center shadow-lg">
-                            <p className="text-gray-500">Ilustrasi Platform</p>
-                        </div>
+                </div>
+                <div className="lg:w-1/2 mt-16 lg:mt-0 flex justify-center">
+                    <div className="bg-white p-8 rounded-xl shadow-2xl grid grid-cols-2 gap-8 w-full max-w-lg lg:max-w-md xl:max-w-lg">
+                        <StatCard value="1" label="Tahun" />
+                        <StatCard value="70+" label="Mitra" />
+                        <StatCard value="100+" label="Pelanggan" />
+                        <StatCard value="200+" label="Suka" />
                     </div>
                 </div>
             </div>
-        </section>
-    );
-};
+        </div>
+    </section>
+);
 
-// Komponen Keunggulan (Features)
+// 🔹 ABOUT SECTION - (Ubah Properti)
+const SectionCuan = () => (
+    <section className="bg-white py-20">
+        <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
+            <div className="lg:w-1/2">
+                <img
+                    src="/images/hero-illustration.png"
+                    alt="Ilustrasi properti dan pertumbuhan investasi"
+                    className="rounded-xl shadow-xl w-full"
+                />
+            </div>
+            <div className="lg:w-1/2 text-center lg:text-left">
+                <span className="inline-flex items-center bg-primary-light text-primary text-sm font-semibold px-4 py-1.5 rounded-full mb-3">
+                    <FaGift className="mr-2" /> Peluang Emas
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mt-2">
+                    Ubah Properti Tidak Terpakai{" "}
+                    <span className="text-primary">Jadi Ladang Cuan!</span>
+                </h2>
+                <p className="text-gray-600 mt-6 text-lg max-w-lg mx-auto lg:mx-0">
+                    Apakah Anda memiliki properti yang menganggur? Rumah kosong,
+                    ruko tidak terpakai, atau lahan yang belum dimanfaatkan?
+                    Jangan biarkan aset berharga Anda sia-sia! Bergabunglah
+                    dengan Titipsini.com dan ubah properti idle menjadi sumber
+                    penghasilan yang menguntungkan.
+                </p>
+                <ul className="mt-8 space-y-3 text-gray-700 text-lg text-left max-w-lg mx-auto lg:mx-0">
+                    <li className="flex items-center">
+                        <FaCheckCircle className="text-primary mr-3 flex-shrink-0" />
+                        Properti kosong bisa menghasilkan jutaan rupiah
+                    </li>
+                    <li className="flex items-center">
+                        <FaCheckCircle className="text-primary mr-3 flex-shrink-0" />
+                        Sistem bagi hasil yang adil dan transparan
+                    </li>
+                    <li className="flex items-center">
+                        <FaCheckCircle className="text-primary mr-3 flex-shrink-0" />
+                        Dukungan penuh dari tim profesional
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+);
+
+// 🔹 ABOUT SECTION - (Apa Itu Titipsini?)
+const AboutPlatform = () => (
+    <section id="tentang-kami" className="py-20 bg-gray-50">
+        <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
+            <div className="lg:w-1/2 text-center lg:text-left">
+                <span className="inline-flex items-center bg-primary-light text-primary text-sm font-semibold px-4 py-1.5 rounded-full mb-3">
+                    <FaLightbulb className="mr-2" /> Tentang Platform
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-4 mb-6">
+                    Apa Itu Titipsini.com?
+                </h2>
+                <p className="text-gray-600 text-lg leading-relaxed max-w-lg mx-auto lg:mx-0">
+                    Titipsini.com adalah platform terdepan yang menghubungkan
+                    pemilik properti dengan peluang bisnis menguntungkan. Kami
+                    membantu Anda mengoptimalkan aset properti yang tidak
+                    terpakai menjadi sumber penghasilan berkelanjutan melalui
+                    berbagai skema kerjasama yang fleksibel dan menguntungkan.
+                </p>
+            </div>
+            <div className="lg:w-1/2">
+                <img
+                    src="/images/about-illustration.png"
+                    alt="Ilustrasi tim bekerja dengan dashboard"
+                    className="rounded-xl shadow-xl w-full"
+                />
+            </div>
+        </div>
+    </section>
+);
+
+// 🔹 FEATURES SECTION
 const FeatureCard = ({ icon, title }) => (
-    <div className="bg-teal-500 text-white p-6 rounded-lg flex flex-col items-center text-center hover:bg-teal-600 transition-transform transform hover:-translate-y-1 cursor-pointer shadow-md">
+    <div className="bg-primary text-white p-6 rounded-lg flex flex-col items-center text-center shadow-lg hover:shadow-primary/40 hover:-translate-y-2 transition duration-300">
         <div className="text-4xl mb-4">{icon}</div>
         <h3 className="font-semibold">{title}</h3>
     </div>
 );
 
 const Features = () => {
-    const featuresList = [
-        { icon: <FaTags />, title: "Jual Properti dengan Harga Terbaik" },
+    const data = [
+        { icon: <FaTags />, title: "Harga Properti Terbaik" },
         { icon: <FaBuilding />, title: "Sewa Properti Jangka Panjang" },
-        { icon: <FaMobileAlt />, title: "Aplikasi Mobile yang User-Friendly" },
-        { icon: <FaBullhorn />, title: "Strategi Marketing yang Efektif" },
+        { icon: <FaMobileAlt />, title: "Aplikasi Mobile User-Friendly" },
+        { icon: <FaBullhorn />, title: "Strategi Marketing Efektif" },
         { icon: <FaShieldAlt />, title: "Keamanan Data Terjamin" },
         { icon: <FaChartLine />, title: "Analisis Pasar Real-time" },
         { icon: <FaGift />, title: "Program Reward Menarik" },
         { icon: <FaHeadset />, title: "Customer Service 24/7" },
     ];
-
     return (
-        <section id="keuntungan" className="bg-gray-50 py-20">
-            <div className="container mx-auto px-6">
-                <div className="text-center mb-12">
-                    <span className="text-teal-500 bg-teal-100 rounded-full px-4 py-1 text-sm font-semibold">
-                        Keunggulan Platform
-                    </span>
-                    <h2 className="text-4xl font-bold text-gray-800 mt-4">
-                        Kenapa Harus Jadi Mitra Titipsini.com?
-                    </h2>
-                </div>
+        <section id="keuntungan" className="bg-white py-20">
+            <div className="container mx-auto px-6 text-center">
+                <span className="inline-flex items-center bg-primary-light text-primary text-sm font-semibold px-4 py-1.5 rounded-full mb-3">
+                    <FaLightbulb className="mr-2" /> Keunggulan Platform
+                </span>
+                <h2 className="text-4xl font-bold text-gray-900 mt-4 mb-12">
+                    Kenapa Harus Jadi{" "}
+                    <span className="text-primary">Mitra Titipsini.com?</span>
+                </h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    {featuresList.map((feature, index) => (
-                        <FeatureCard
-                            key={index}
-                            icon={feature.icon}
-                            title={feature.title}
-                        />
+                    {data.map((d, i) => (
+                        <FeatureCard key={i} {...d} />
                     ))}
                 </div>
             </div>
@@ -198,35 +222,112 @@ const Features = () => {
     );
 };
 
-// Komponen Paket Harga (Pricing)
+// 🔹 BONUS/ACCESS SECTION
+const BonusItem = ({ text }) => (
+    <li className="flex items-start text-gray-700 text-lg">
+        <FaCheckCircle className="text-primary mr-3 mt-1 flex-shrink-0" />
+        <span>{text}</span>
+    </li>
+);
+
+const BonusAccess = () => {
+    const bonusData = [
+        "Pelatihan online (pembelajaran online bisnis, bisnis online, teknik jual, dll)",
+        "Sertifikat dari Titipsini.com",
+        "Panduan Bisnis Lengkap (panduan bisnis online, panduan bisnis offline, dll)",
+        "1 tahun gratis OKR sistem untuk bisnis dan bisnis",
+        "Listing bisnis di website dengan harga yang murah (hanya untuk mitra)",
+        "Template promosi digital (FB Ads, IG Ads, Google Ads, dll)",
+        "Grup bisnis online dan offline (grup bisnis online, grup bisnis offline, dll)",
+        "Bonus sistem bisnis lengkap (sistem bisnis online, sistem bisnis offline, dll)",
+        "Sertifikat promosi digital (FB Ads, IG Ads, Google Ads, dll)",
+    ];
+
+    const accessData = [
+        "Akses lengkap",
+        "Pelatihan offline (jika ada event, bisnis gathering, dll)",
+        "Template dan Materi Bisnis (template IG, template FB, template WA, dll)",
+        "Akses ke Grup WA (akses ke grup WA, grup Telegram, dll)",
+        "Bonus sistem bisnis lengkap (sistem bisnis online, sistem bisnis offline, dll)",
+        "Akses ke event bisnis gathering (jika ada event bisnis gathering, dll)",
+        "Panduan bisnis online dan offline (panduan bisnis online, panduan bisnis offline, dll)",
+        "Bonus sistem bisnis lengkap (sistem bisnis online, sistem bisnis offline, dll)",
+        "Panduan bisnis online dan offline (panduan bisnis online, panduan bisnis offline, dll)",
+    ];
+
+    return (
+        <section className="bg-gray-50 py-20">
+            <div className="container mx-auto px-6 text-center">
+                <span className="inline-flex items-center bg-primary-light text-primary text-sm font-semibold px-4 py-1.5 rounded-full mb-3">
+                    <FaLightbulb className="mr-2" /> Keuntungan Eksklusif
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-4 mb-6 leading-tight">
+                    Gabung Sekali,{" "}
+                    <span className="text-primary">
+                        Dapat Semua Keuntungannya
+                    </span>
+                </h2>
+                <p className="text-gray-600 text-lg max-w-3xl mx-auto mb-16">
+                    Keuntungan yang didapatkan oleh mitra dengan bergabung
+                    bersama kami
+                </p>
+
+                <div className="grid lg:grid-cols-2 gap-12 text-left max-w-4xl mx-auto">
+                    <div>
+                        <h3 className="font-semibold text-xl text-gray-800 mb-6 flex items-center">
+                            <FaClipboardCheck className="text-primary mr-3 text-2xl" />{" "}
+                            Bonus
+                        </h3>
+                        <ul className="space-y-4">
+                            {bonusData.map((text, i) => (
+                                <BonusItem key={i} text={text} />
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 className="font-semibold text-xl text-gray-800 mb-6 flex items-center">
+                            <FaLockOpen className="text-primary mr-3 text-2xl" />{" "}
+                            Akses Lengkap
+                        </h3>
+                        <ul className="space-y-4">
+                            {accessData.map((text, i) => (
+                                <BonusItem key={i} text={text} />
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+// 🔹 PRICING SECTION
 const PricingCard = ({ price, duration, features, isFeatured }) => (
     <div
         className={`border rounded-lg p-8 w-full max-w-sm flex flex-col bg-white ${
             isFeatured
-                ? "border-teal-500 border-2 shadow-2xl scale-105"
+                ? "border-primary border-2 shadow-2xl scale-105 transition-all duration-300"
                 : "border-gray-200 shadow-lg"
         }`}
     >
-        {isFeatured && (
-            <span className="bg-teal-100 text-teal-600 text-xs font-bold px-3 py-1 rounded-full self-start mb-4">
-                Paket Kemitraan
-            </span>
-        )}
-        <h3 className="text-3xl font-bold text-gray-800">{price}</h3>
-        <p className="text-gray-500 mt-2">{duration}</p>
-        <ul className="mt-6 space-y-4 text-gray-600 flex-grow">
+        <p className="text-sm font-semibold text-gray-500">
+            {isFeatured ? "Paket Kemitraan" : "Paket 1 Bulan"}
+        </p>
+        <h3 className="text-4xl font-extrabold text-primary mt-2">{price}</h3>
+        <p className="text-gray-500 mt-2 text-base">{duration}</p>
+        <ul className="mt-8 space-y-4 text-gray-700 flex-grow text-left">
             {features.map((feature, index) => (
-                <li key={index} className="flex items-center">
-                    <FaCheckCircle className="text-teal-500 mr-3" />
-                    {feature}
+                <li key={index} className="flex items-start">
+                    <FaCheckCircle className="text-primary mr-3 mt-1 flex-shrink-0" />
+                    <span>{feature}</span>
                 </li>
             ))}
         </ul>
         <button
-            className={`mt-8 w-full py-3 rounded-lg font-semibold transition duration-300 ${
+            className={`mt-10 w-full py-3 rounded-lg font-semibold transition duration-300 ${
                 isFeatured
-                    ? "bg-teal-500 text-white hover:bg-teal-600"
-                    : "bg-gray-100 text-teal-500 hover:bg-gray-200"
+                    ? "bg-primary text-white hover:bg-primary-dark"
+                    : "bg-gray-100 text-primary hover:bg-gray-200"
             }`}
         >
             Pilih Paket
@@ -260,14 +361,16 @@ const Pricing = () => {
             isFeatured: true,
         },
     ];
-
     return (
         <section id="paket" className="py-20 bg-gray-50">
             <div className="container mx-auto px-6 text-center">
-                <h2 className="text-4xl font-bold text-gray-800">
+                <span className="inline-flex items-center bg-primary-light text-primary text-sm font-semibold px-4 py-1.5 rounded-full mb-3">
+                    <FaLightbulb className="mr-2" /> Paket Kemitraan
+                </span>
+                <h2 className="text-4xl font-bold text-gray-900 mt-4">
                     Fleksibel dan Terjangkau, Langsung Jadi Mitra!
                 </h2>
-                <p className="text-gray-600 mt-4 text-lg">
+                <p className="text-gray-600 mt-4 text-lg mb-12">
                     Pilih paket yang sesuai dengan kebutuhan dan budget Anda
                 </p>
                 <div className="flex flex-col md:flex-row justify-center items-center gap-8 mt-12">
@@ -280,9 +383,9 @@ const Pricing = () => {
     );
 };
 
-// Komponen Testimoni
+// 🔹 TESTIMONIALS SECTION
 const TestimonialCard = ({ name, location, quote }) => (
-    <div className="bg-white p-8 rounded-lg shadow-md text-left h-full flex flex-col">
+    <div className="bg-white p-8 rounded-lg shadow-md text-left flex flex-col justify-between h-full border border-gray-100">
         <p className="text-gray-600 italic flex-grow">"{quote}"</p>
         <div className="mt-6">
             <h4 className="font-bold text-gray-800">{name}</h4>
@@ -297,7 +400,7 @@ const TestimonialCard = ({ name, location, quote }) => (
 );
 
 const Testimonials = () => {
-    const testimonialsList = [
+    const data = [
         {
             name: "Budi Hartono",
             location: "Mitra Jakarta",
@@ -309,23 +412,22 @@ const Testimonials = () => {
             quote: "Platform yang sangat mudah digunakan dan menguntungkan. Dalam 6 bulan, penghasilan dari properti saya sudah mencapai 30 juta. Terima kasih Titipsini.com!",
         },
         {
-            name: "Ahmadi Pratama",
+            name: "Ahmad Pratama",
             location: "Mitra Bandung",
             quote: "Pelatihan yang diberikan sangat komprehensif dan aplikatif. Sekarang saya bisa mengelola 3 properti sekaligus dengan mudah. ROI yang didapat juga sangat memuaskan.",
         },
     ];
-
     return (
-        <section className="bg-white py-20">
+        <section className="py-20 bg-gray-50">
             <div className="container mx-auto px-6 text-center">
-                <span className="text-teal-500 bg-teal-100 rounded-full px-4 py-1 text-sm font-semibold">
-                    Testimoni Mitra
+                <span className="inline-flex items-center bg-primary-light text-primary text-sm font-semibold px-4 py-1.5 rounded-full mb-3">
+                    <FaLightbulb className="mr-2" /> Testimoni Mitra
                 </span>
-                <h2 className="text-4xl font-bold text-gray-800 mt-4">
+                <h2 className="text-4xl font-bold text-gray-900 mt-4 mb-12">
                     Apa Kata Mitra Kami?
                 </h2>
-                <div className="grid md:grid-cols-3 gap-8 mt-12">
-                    {testimonialsList.map((t, i) => (
+                <div className="grid md:grid-cols-3 gap-8">
+                    {data.map((t, i) => (
                         <TestimonialCard key={i} {...t} />
                     ))}
                 </div>
@@ -334,167 +436,144 @@ const Testimonials = () => {
     );
 };
 
-// Komponen Cara Kerja (HowItWorks)
-const Step = ({ number, text }) => (
-    <div className="flex flex-col items-center text-center">
-        <div className="w-16 h-16 bg-white text-teal-500 rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-md">
+// 🔹 HOW IT WORKS / CTA SECTION
+const StepItem = ({ number, text }) => (
+    <div className="flex flex-col items-center text-center px-4">
+        <div className="w-16 h-16 bg-white text-primary rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-lg">
             {number}
         </div>
-        <p className="max-w-xs">{text}</p>
+        <p className="max-w-xs text-white text-lg">{text}</p>
     </div>
 );
 
 const HowItWorks = () => {
     const steps = [
-        { number: 1, text: "Daftar dan pilih paket yang sesuai" },
-        { number: 2, text: "Ikuti pelatihan dan dapatkan sertifikat" },
-        { number: 3, text: "Daftarkan properti Anda di platform" },
-        { number: 4, text: "Mulai terima penghasilan bulanan" },
+        "Daftar dan pilih paket yang sesuai",
+        "Ikuti pelatihan dan dapatkan sertifikat",
+        "Daftarkan properti Anda di platform",
+        "Mulai terima penghasilan bulanan",
     ];
     return (
-        <section id="gabung" className="bg-teal-500 text-white py-20">
+        <section id="gabung" className="bg-primary text-white py-20">
             <div className="container mx-auto px-6 text-center">
-                <h2 className="text-4xl font-bold">Bawa Teman, Dapat Cuan!</h2>
-                <p className="mt-4 text-lg max-w-3xl mx-auto">
+                <h2 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+                    Bawa Teman, Dapat Cuan!
+                </h2>
+                <p className="mt-4 text-xl max-w-3xl mx-auto mb-16">
                     Gabung bersama ribuan mitra sukses lainnya dan mulai raih
                     penghasilan dari properti yang menganggur. Investasi sekali,
                     untung selamanya!
                 </p>
-                <h3 className="text-3xl font-bold mt-12 mb-8">Ini Caranya:</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                    {steps.map((step) => (
-                        <Step key={step.number} {...step} />
+
+                <h3 className="text-3xl font-bold mb-10">Ini Caranya:</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
+                    {steps.map((text, i) => (
+                        <StepItem key={i} number={i + 1} text={text} />
                     ))}
                 </div>
-                <div className="mt-16">
-                    <h3 className="text-3xl font-bold">
-                        Siap Jadi Bagian dari Ekosistem Penjualan Terbesar di
-                        Indonesia?
-                    </h3>
-                    <p className="mt-4">
-                        Bergabunglah sekarang dan rasakan perbedaannya. Ribuan
-                        mitra telah merasakan manfaatnya, sekarang giliran Anda!
-                    </p>
-                    <div className="mt-8 flex justify-center space-x-4">
-                        <a
-                            href="#gabung-sekarang"
-                            className="bg-white text-teal-500 font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition duration-300"
-                        >
-                            Gabung Sekarang Juga!
-                        </a>
-                        <a
-                            href="#konsultasi"
-                            className="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-teal-500 transition duration-300"
-                        >
-                            Konsultasi Gratis
-                        </a>
-                    </div>
+
+                <h3 className="text-3xl font-bold mt-12 mb-6">
+                    Siap Jadi Bagian dari Ekosistem Penjualan Terbesar di
+                    Indonesia?
+                </h3>
+                <p className="mt-4 text-xl max-w-3xl mx-auto">
+                    Bergabunglah sekarang dan rasakan perbedaannya. Ribuan mitra
+                    telah merasakan manfaatnya, sekarang giliran Anda!
+                </p>
+                <div className="mt-8 flex justify-center gap-4">
+                    <a
+                        href="#gabung-sekarang"
+                        className="bg-white text-primary font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition shadow-md hover:shadow-lg"
+                    >
+                        Gabung Sekarang Juga!
+                    </a>
+                    <a
+                        href="#konsultasi"
+                        className="border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white hover:text-primary transition shadow-md hover:shadow-lg"
+                    >
+                        Konsultasi Gratis
+                    </a>
                 </div>
             </div>
         </section>
     );
 };
 
-// Komponen Footer
-const Footer = () => {
-    return (
-        <footer id="kontak" className="bg-gray-800 text-white">
-            <div className="container mx-auto px-6 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <div>
-                        <h2 className="font-bold text-2xl">Titipsini.com</h2>
-                        <p className="mt-4 text-gray-400">
-                            Platform terpercaya untuk mengoptimalkan potensi
-                            properti menjadi sumber penghasilan berkelanjutan.
-                        </p>
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-lg">Platform</h3>
-                        <ul className="mt-4 space-y-2 text-gray-400">
-                            <li>
-                                <a href="#" className="hover:text-white">
-                                    Jual Beli Properti
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="hover:text-white">
-                                    Konsultasi Ahli
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="hover:text-white">
-                                    Aplikasi Mobile
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="hover:text-white">
-                                    Analisa Pasar
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-lg">Perusahaan</h3>
-                        <ul className="mt-4 space-y-2 text-gray-400">
-                            <li>
-                                <a href="#" className="hover:text-white">
-                                    Tentang Kami
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="hover:text-white">
-                                    Karir
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="hover:text-white">
-                                    Blog
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="hover:text-white">
-                                    Press Kit
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-lg">Kontak</h3>
-                        <ul className="mt-4 space-y-3 text-gray-400">
-                            <li className="flex items-center">
-                                <FaPhone className="mr-3" /> +62 812-3456-7890
-                            </li>
-                            <li className="flex items-center">
-                                <FaEnvelope className="mr-3" />{" "}
-                                info@titipsini.com
-                            </li>
-                            <li className="flex items-center">
-                                <FaMapMarkerAlt className="mr-3" /> Jakarta,
-                                Indonesia
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div className="mt-12 border-t border-gray-700 pt-6 text-center text-gray-500">
-                    <p>
-                        &copy; 2024 Titipsini.com. Semua hak dilindungi
-                        undang-undang.
-                    </p>
-                </div>
-            </div>
-        </footer>
-    );
-};
+// 🔹 FOOTER
+const FooterLink = ({ href, children }) => (
+    <li>
+        <a href={href} className="hover:text-white transition duration-300">
+            {children}
+        </a>
+    </li>
+);
 
-// Komponen Utama App
-function App() {
+const Footer = () => (
+    <footer id="kontak" className="bg-gray-900 text-white py-12">
+        <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div>
+                <h2 className="font-extrabold text-2xl text-primary flex items-center">
+                    <HiOutlineBuildingOffice2 className="text-primary mr-2 text-3xl" />{" "}
+                    Titipsini<span className="text-white">.com</span>
+                </h2>
+                <p className="mt-4 text-gray-400 text-sm">
+                    Platform terpercaya untuk mengoptimalkan potensi properti
+                    menjadi sumber penghasilan berkelanjutan.
+                </p>
+            </div>
+            <div>
+                <h3 className="font-semibold text-lg mb-4">Platform</h3>
+                <ul className="space-y-2 text-gray-400 text-sm">
+                    <FooterLink href="#">Jual Beli Properti</FooterLink>
+                    <FooterLink href="#">Konsultasi Ahli</FooterLink>
+                    <FooterLink href="#">Aplikasi Mobile</FooterLink>
+                    <FooterLink href="#">Analisa Pasar</FooterLink>
+                </ul>
+            </div>
+            <div>
+                <h3 className="font-semibold text-lg mb-4">Perusahaan</h3>
+                <ul className="space-y-2 text-gray-400 text-sm">
+                    <FooterLink href="#">Tentang Kami</FooterLink>
+                    <FooterLink href="#">Karir</FooterLink>
+                    <FooterLink href="#">Blog</FooterLink>
+                    <FooterLink href="#">Press Kit</FooterLink>
+                </ul>
+            </div>
+            <div>
+                <h3 className="font-semibold text-lg mb-4">Kontak</h3>
+                <ul className="space-y-3 text-gray-400 text-sm">
+                    <li className="flex items-center">
+                        <FaPhone className="mr-3 text-base" /> +62 812-3456-7890
+                    </li>
+                    <li className="flex items-center">
+                        <FaEnvelope className="mr-3 text-base" />{" "}
+                        info@titipsini.com
+                    </li>
+                    <li className="flex items-center">
+                        <FaMapMarkerAlt className="mr-3 text-base" /> Jakarta,
+                        Indonesia
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div className="mt-12 border-t border-gray-700 pt-6 text-center text-gray-500 text-sm">
+            &copy; {new Date().getFullYear()} Titipsini.com. Semua hak
+            dilindungi undang-undang.
+        </div>
+    </footer>
+);
+
+// 🔹 MAIN APP
+export default function App() {
     return (
-        <div className="bg-white font-sans">
+        <div className="font-sans text-gray-800 bg-white leading-relaxed">
             <Header />
             <main>
                 <Hero />
-                <About />
+                <SectionCuan />
+                <AboutPlatform />
                 <Features />
+                <BonusAccess />
                 <Pricing />
                 <Testimonials />
                 <HowItWorks />
@@ -503,5 +582,3 @@ function App() {
         </div>
     );
 }
-
-export default App;
