@@ -19,14 +19,17 @@ import {
 } from "react-icons/fa";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 
-// 🔹 HEADER
 const Header = () => (
     <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 className="font-extrabold text-2xl text-primary-dark flex items-center">
-                <HiOutlineBuildingOffice2 className="text-primary mr-2 text-3xl" />{" "}
-                Titipsini<span className="text-gray-800">.com</span>
-            </h1>
+            <a href="/" className="flex items-center">
+                <img
+                    src="/images/titipsini.com.png"
+                    alt="Logo Titipsini.com"
+                    className="h-12 w-auto"
+                />
+            </a>
+
             <nav className="hidden md:flex space-x-8">
                 {["Beranda", "Tentang Kami", "Keuntungan", "Kontak"].map(
                     (item) => (
@@ -108,13 +111,13 @@ const Hero = () => (
     </section>
 );
 
-// 🔹 ABOUT SECTION - (Ubah Properti)
+// 🔹 ABOUT SECTION
 const SectionCuan = () => (
     <section className="bg-white py-20">
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2">
                 <img
-                    src="/images/hero-illustration.png"
+                    src="/images/properti.jpg"
                     alt="Ilustrasi properti dan pertumbuhan investasi"
                     className="rounded-xl shadow-xl w-full"
                 />
@@ -174,7 +177,7 @@ const AboutPlatform = () => (
             </div>
             <div className="lg:w-1/2">
                 <img
-                    src="/images/about-illustration.png"
+                    src="/images/about-illustration.jpg"
                     alt="Ilustrasi tim bekerja dengan dashboard"
                     className="rounded-xl shadow-xl w-full"
                 />
@@ -301,18 +304,14 @@ const BonusAccess = () => {
     );
 };
 
-// ==================================================================
-// 🔹 PRICING SECTION (KODE YANG DIPERBAIKI)
-// ==================================================================
 const PricingCard = ({ price, duration, features, isFeatured }) => (
     <div
         className={`relative border rounded-lg p-8 w-full max-w-sm flex flex-col bg-white transition-all duration-300 ${
             isFeatured
-                ? "border-primary border-2 shadow-2xl" // Menghapus scale-105
+                ? "border-primary border-2 shadow-2xl"
                 : "border-gray-200 shadow-lg"
         }`}
     >
-        {/* Menambahkan badge "Paling Populer" untuk kartu unggulan */}
         {isFeatured && (
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold uppercase px-4 py-1 rounded-full shadow-lg">
                 Paling Populer
@@ -510,7 +509,6 @@ const HowItWorks = () => {
     );
 };
 
-// 🔹 FOOTER
 const FooterLink = ({ href, children }) => (
     <li>
         <a href={href} className="hover:text-white transition duration-300">
@@ -519,14 +517,18 @@ const FooterLink = ({ href, children }) => (
     </li>
 );
 
+// 🔹 FOOTER
 const Footer = () => (
     <footer id="kontak" className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
             <div>
-                <h2 className="font-extrabold text-2xl text-primary flex items-center">
-                    <HiOutlineBuildingOffice2 className="text-primary mr-2 text-3xl" />{" "}
-                    Titipsini<span className="text-white">.com</span>
-                </h2>
+                <a href="/" className="inline-block">
+                    <img
+                        src="/images/titipsini-fotter1.png"
+                        alt="Logo Titipsini.com"
+                        className="h-10 w-auto"
+                    />
+                </a>
                 <p className="mt-4 text-gray-400 text-sm">
                     Platform terpercaya untuk mengoptimalkan potensi properti
                     menjadi sumber penghasilan berkelanjutan.

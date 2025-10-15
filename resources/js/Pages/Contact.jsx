@@ -300,15 +300,6 @@ const ContactFormAndMap = () => {
                     <div className="lg:col-span-2 space-y-8">
                         <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                             <h3 className="font-bold text-xl mb-4 text-gray-800">
-                                Temukan Kami
-                            </h3>
-                            <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center text-gray-500">
-                                <FaMapMarkerAlt className="mr-2" /> Peta
-                                Interaktif (Placeholder)
-                            </div>
-                        </div>
-                        <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                            <h3 className="font-bold text-xl mb-4 text-gray-800">
                                 Kontak Cepat
                             </h3>
                             <a

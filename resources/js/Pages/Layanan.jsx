@@ -260,7 +260,9 @@ const AboutUs = () => (
     </section>
 );
 
-// --- Pricing Section
+// ==================================================================
+// --- Pricing Section (KODE YANG DIPERBAIKI) ---
+// ==================================================================
 const Pricing = ({ packages }) => {
     return (
         <section id="pricing" className="py-16 sm:py-24 bg-gray-50">
@@ -275,14 +277,13 @@ const Pricing = ({ packages }) => {
                     </p>
                 </div>
 
-                {/* PERUBAHAN HANYA DI BARIS INI (items-start DIHAPUS) */}
-                <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 justify-center gap-8">
+                <div className="mt-12 flex flex-col lg:flex-row items-stretch justify-center gap-8">
                     {packages.map((plan) => (
                         <div
                             key={plan.id}
-                            className={`w-full max-w-md bg-white rounded-xl shadow-lg p-8 relative flex flex-col h-full transition-transform duration-300 ${
+                            className={`w-full max-w-md bg-white rounded-xl shadow-lg p-8 relative flex flex-col transition-transform duration-300 ${
                                 plan.popular
-                                    ? "border-2 border-green-600 lg:scale-105"
+                                    ? "border-2 border-green-600"
                                     : "border border-gray-200"
                             }`}
                         >
@@ -295,10 +296,12 @@ const Pricing = ({ packages }) => {
                                 <h3 className="text-2xl font-bold text-gray-900">
                                     {plan.name}
                                 </h3>
+
                                 <p className="text-gray-500 text-sm mt-1 min-h-[40px]">
                                     {plan.description}
                                 </p>
                             </div>
+
                             <ul className="mt-6 space-y-3 flex-grow">
                                 {plan.features.map((feature, i) => (
                                     <li
