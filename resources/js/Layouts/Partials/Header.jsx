@@ -20,6 +20,16 @@ export default function Header() {
         props: { auth, settings },
     } = usePage();
 
+    // --- LOGIKA WHATSAPP DITAMBAHKAN ---
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    const message = settings.whatsapp_message
+        ? encodeURIComponent(settings.whatsapp_message)
+        : "";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    // --- AKHIR LOGIKA WHATSAPP ---
+
     // Konfigurasi link navigasi
     const navLinks = [
         { label: "Beranda", href: "/" },
@@ -158,7 +168,7 @@ export default function Header() {
                                 );
                             })}
                         </nav>
-                        {/* Tombol Aksi di Kanan */}
+                        {/* --- Tombol Aksi di Kanan (BAGIAN YANG DIPERBARUI) --- */}
                         <div className="hidden md:flex items-center space-x-4">
                             <button
                                 onClick={() => setIsSearchOpen(true)}
@@ -168,21 +178,15 @@ export default function Header() {
                             </button>
 
                             {auth.user ? (
-                                <>
-                                    <Link
-                                        href={route("dashboard")}
-                                        className="text-gray-600 hover:text-green-600 font-medium"
-                                    >
-                                        Dashboard
-                                    </Link>
-                                    <Link
-                                        href="#"
-                                        className="bg-green-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors"
-                                    >
-                                        Titip Sekarang
-                                    </Link>
-                                </>
+                                // Jika user sudah login
+                                <Link
+                                    href={route("dashboard")}
+                                    className="text-gray-600 hover:text-green-600 font-medium"
+                                >
+                                    Dashboard
+                                </Link>
                             ) : (
+                                // Jika user belum login
                                 <div
                                     className="relative"
                                     ref={accountDropdownRef}
@@ -224,6 +228,16 @@ export default function Header() {
                                     )}
                                 </div>
                             )}
+
+                            {/* Tombol "Titip Sekarang" yang selalu muncul */}
+                            <a
+                                href={whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-green-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                            >
+                                Titip Sekarang
+                            </a>
                         </div>
                         {/* Tombol untuk Menu Mobile */}
                         <div className="md:hidden flex items-center space-x-4">
