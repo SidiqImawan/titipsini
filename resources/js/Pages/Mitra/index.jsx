@@ -522,13 +522,17 @@ const Footer = () => (
     <footer id="kontak" className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
             <div>
-                <a href="/" className="inline-block">
+                <a href="/" className="flex items-center space-x-3">
                     <img
                         src="/images/titipsini-fotter1.png"
                         alt="Logo Titipsini.com"
-                        className="h-10 w-auto"
+                        className="h-9 w-auto flex-shrink-0"
                     />
+                    <span className="font-extrabold text-2xl text-white">
+                        Titipsini<span className="font-semibold">.com</span>
+                    </span>
                 </a>
+
                 <p className="mt-4 text-gray-400 text-sm">
                     Platform terpercaya untuk mengoptimalkan potensi properti
                     menjadi sumber penghasilan berkelanjutan.
