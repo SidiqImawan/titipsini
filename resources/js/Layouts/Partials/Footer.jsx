@@ -7,19 +7,45 @@ import {
     Facebook,
     Twitter,
     Instagram,
+    Linkedin,
+    Youtube,
+    Globe, // Ikon default
 } from "lucide-react";
+
+// Fungsi helper untuk memilih ikon yang sesuai berdasarkan nama
+const getSocialIconComponent = (name) => {
+    const lowerCaseName = name.toLowerCase();
+    if (lowerCaseName.includes("facebook")) return Facebook;
+    if (lowerCaseName.includes("instagram")) return Instagram;
+    if (lowerCaseName.includes("twitter")) return Twitter;
+    if (lowerCaseName.includes("linkedin")) return Linkedin;
+    if (lowerCaseName.includes("youtube")) return Youtube;
+    // Tambahkan media sosial lain di sini jika perlu, contoh:
+    // if (lowerCaseName.includes("tiktok")) return TikTokIcon;
+    return Globe; // Ikon default jika tidak ada yang cocok
+};
 
 export default function Footer() {
     const { settings = {} } = usePage().props;
 
+    // Ambil data kontak dan sosmed dari props
     const contactPhone = settings.contact_phone || "+62 812-3456-7890";
     const contactEmail = settings.contact_email || "info@titipsini.com";
     const contactAddress = settings.contact_address || "Jakarta, Indonesia";
+
+    // --- BAGIAN YANG DIPERBAIKI ---
+    // Cek jika social_links ada dan merupakan string, lalu parse menjadi array.
+    // Jika tidak, gunakan array kosong sebagai default.
+    const socialLinks =
+        settings.social_links && typeof settings.social_links === "string"
+            ? JSON.parse(settings.social_links)
+            : [];
 
     return (
         <footer className="bg-slate-900 text-slate-300">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {/* Kolom Logo & Deskripsi */}
                     <div>
                         <Link href="/">
                             <div className="flex items-center space-x-3 mb-4">
@@ -38,43 +64,30 @@ export default function Footer() {
                             Anda. Kami berkomitmen memberikan layanan storage
                             yang aman dengan kualitas tinggi.
                         </p>
+
+                        {/* --- BAGIAN SOSMED YANG SUDAH DINAMIS --- */}
                         <div className="flex space-x-4 mt-6">
-                            {settings.social_facebook &&
-                                settings.social_facebook !== "#" && (
+                            {socialLinks.map((link) => {
+                                const IconComponent = getSocialIconComponent(
+                                    link.name
+                                );
+                                return (
                                     <a
-                                        href={settings.social_facebook}
+                                        key={link.url}
+                                        href={link.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-slate-400 hover:text-white transition-colors"
+                                        aria-label={link.name}
                                     >
-                                        <Facebook size={20} />
+                                        <IconComponent size={20} />
                                     </a>
-                                )}
-                            {settings.social_instagram &&
-                                settings.social_instagram !== "#" && (
-                                    <a
-                                        href={settings.social_instagram}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-slate-400 hover:text-white transition-colors"
-                                    >
-                                        <Instagram size={20} />
-                                    </a>
-                                )}
-                            {settings.social_twitter &&
-                                settings.social_twitter !== "#" && (
-                                    <a
-                                        href={settings.social_twitter}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-slate-400 hover:text-white transition-colors"
-                                    >
-                                        <Twitter size={20} />
-                                    </a>
-                                )}
+                                );
+                            })}
                         </div>
                     </div>
 
+                    {/* Kolom Tautan Cepat */}
                     <div>
                         <h4 className="text-lg font-semibold text-white mb-4">
                             Tautan Cepat
@@ -123,6 +136,7 @@ export default function Footer() {
                         </ul>
                     </div>
 
+                    {/* Kolom Layanan */}
                     <div>
                         <h4 className="text-lg font-semibold text-white mb-4">
                             Layanan
@@ -163,6 +177,7 @@ export default function Footer() {
                         </ul>
                     </div>
 
+                    {/* Kolom Hubungi Kami */}
                     <div>
                         <h4 className="text-lg font-semibold text-white mb-4">
                             Hubungi Kami

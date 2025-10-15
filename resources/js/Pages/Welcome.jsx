@@ -15,34 +15,59 @@ import {
 import GuestLayout from "../Layouts/GuestLayout";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
+import { usePage } from "@inertiajs/react"; // <-- DITAMBAHKAN
 
 // Komponen untuk setiap kartu layanan
-const ServiceCard = ({ illustration, title, description, features }) => (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-100">
-        <div className="w-full h-48 overflow-hidden">
-            <img
-                src={illustration}
-                alt={`Ilustrasi untuk ${title}`}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-            />
+const ServiceCard = ({ illustration, title, description, features }) => {
+    // --- Logika WhatsApp Ditambahkan ---
+    const { settings } = usePage().props;
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    const message = settings.whatsapp_message
+        ? encodeURIComponent(settings.whatsapp_message)
+        : "";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    // --- Akhir Logika WhatsApp ---
+
+    return (
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-100">
+            <div className="w-full h-48 overflow-hidden">
+                <img
+                    src={illustration}
+                    alt={`Ilustrasi untuk ${title}`}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+            </div>
+            <div className="p-6 flex flex-col flex-grow">
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                    {title}
+                </h3>
+                <p className="text-gray-600 mb-6 flex-grow">{description}</p>
+                <ul className="space-y-3 mb-6">
+                    {features.map((feature, index) => (
+                        <li
+                            key={index}
+                            className="flex items-center text-gray-700"
+                        >
+                            <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                            {feature}
+                        </li>
+                    ))}
+                </ul>
+                {/* --- Tombol diubah menjadi <a> tag ke WhatsApp --- */}
+                <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-auto w-full bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 text-center"
+                >
+                    Pilih Layanan
+                </a>
+            </div>
         </div>
-        <div className="p-6 flex flex-col flex-grow">
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">{title}</h3>
-            <p className="text-gray-600 mb-6 flex-grow">{description}</p>
-            <ul className="space-y-3 mb-6">
-                {features.map((feature, index) => (
-                    <li key={index} className="flex items-center text-gray-700">
-                        <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
-                        {feature}
-                    </li>
-                ))}
-            </ul>
-            <button className="mt-auto w-full bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                Pilih Layanan
-            </button>
-        </div>
-    </div>
-);
+    );
+};
 
 // Komponen untuk setiap kartu keunggulan
 const FeatureCard = ({ icon, title, description }) => (
@@ -81,73 +106,101 @@ const FaqItem = ({ question, answer, isOpen, onClick }) => (
 
 // --- SECTIONS ---
 
-const Hero = () => (
-    <section className="bg-gray-50 py-12 md:py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="text-center md:text-left">
-                    <span className="inline-block bg-green-100 text-green-700 text-sm font-semibold px-4 py-1 rounded-full mb-4">
-                        Terpercaya & Aman Sejak 2020
-                    </span>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight">
-                        Penitipan Barang <br />
-                        <span className="text-green-600">Terpercaya</span> untuk
-                        Anda
-                    </h1>
-                    <p className="mt-4 text-lg text-gray-600">
-                        Solusi aman dan fleksibel untuk menyimpan barang saat
-                        traveling, pindahan kost, atau kendaraan. Waktu
-                        penitipan fleksibel dari harian hingga bulanan, dengan
-                        layanan pengiriman jika tidak bisa ambil langsung.
-                    </p>
-                    <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                        <a
-                            href="#"
-                            className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all text-center shadow-md hover:shadow-lg"
-                        >
-                            Titip Sekarang
-                        </a>
-                        <a
-                            href="#"
-                            className="bg-white text-gray-800 px-8 py-3 rounded-lg font-semibold border border-gray-300 hover:bg-gray-100 transition-all text-center"
-                        >
-                            Lihat Harga
-                        </a>
+const Hero = () => {
+    // --- Logika WhatsApp Ditambahkan ---
+    const { settings } = usePage().props;
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    const message = settings.whatsapp_message
+        ? encodeURIComponent(settings.whatsapp_message)
+        : "";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    // --- Akhir Logika WhatsApp ---
+
+    return (
+        <section className="bg-gray-50 py-12 md:py-20">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="text-center md:text-left">
+                        <span className="inline-block bg-green-100 text-green-700 text-sm font-semibold px-4 py-1 rounded-full mb-4">
+                            Terpercaya & Aman Sejak 2020
+                        </span>
+                        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight">
+                            Penitipan Barang <br />
+                            <span className="text-green-600">
+                                Terpercaya
+                            </span>{" "}
+                            untuk Anda
+                        </h1>
+                        <p className="mt-4 text-lg text-gray-600">
+                            Solusi aman dan fleksibel untuk menyimpan barang
+                            saat traveling, pindahan kost, atau kendaraan. Waktu
+                            penitipan fleksibel dari harian hingga bulanan,
+                            dengan layanan pengiriman jika tidak bisa ambil
+                            langsung.
+                        </p>
+                        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                            {/* --- Tombol diubah ke link WhatsApp --- */}
+                            <a
+                                href={whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all text-center shadow-md hover:shadow-lg"
+                            >
+                                Titip Sekarang
+                            </a>
+                            {/* --- Tombol diubah ke link WhatsApp --- */}
+                            <a
+                                href={whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-white text-gray-800 px-8 py-3 rounded-lg font-semibold border border-gray-300 hover:bg-gray-100 transition-all text-center"
+                            >
+                                Lihat Harga
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <img
+                            src="images/hero-home.jpg"
+                            alt="Ilustrasi Penitipan Barang"
+                            className="rounded-lg shadow-lg mx-auto"
+                        />
                     </div>
                 </div>
-                <div>
-                    <img
-                        src="images/hero-home.jpg"
-                        alt="Ilustrasi Penitipan Barang"
-                        className="rounded-lg shadow-lg mx-auto"
-                    />
+                <div className="mt-16 bg-white p-6 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div className="p-4">
+                        <Package
+                            size={40}
+                            className="mx-auto text-green-600 mb-2"
+                        />
+                        <h3 className="font-bold text-lg">Berbagai Ukuran</h3>
+                        <p className="text-gray-600">
+                            Mulai dari dokumen, koper, hingga motor
+                        </p>
+                    </div>
+                    <div className="p-4">
+                        <Clock
+                            size={40}
+                            className="mx-auto text-green-600 mb-2"
+                        />
+                        <h3 className="font-bold text-lg">Waktu Fleksibel</h3>
+                        <p className="text-gray-600">Harian hingga bulanan</p>
+                    </div>
+                    <div className="p-4">
+                        <Car
+                            size={40}
+                            className="mx-auto text-green-600 mb-2"
+                        />
+                        <h3 className="font-bold text-lg">Layanan Antar</h3>
+                        <p className="text-gray-600">Pengiriman tersedia</p>
+                    </div>
                 </div>
             </div>
-            <div className="mt-16 bg-white p-6 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <div className="p-4">
-                    <Package
-                        size={40}
-                        className="mx-auto text-green-600 mb-2"
-                    />
-                    <h3 className="font-bold text-lg">Berbagai Ukuran</h3>
-                    <p className="text-gray-600">
-                        Mulai dari dokumen, koper, hingga motor
-                    </p>
-                </div>
-                <div className="p-4">
-                    <Clock size={40} className="mx-auto text-green-600 mb-2" />
-                    <h3 className="font-bold text-lg">Waktu Fleksibel</h3>
-                    <p className="text-gray-600">Harian hingga bulanan</p>
-                </div>
-                <div className="p-4">
-                    <Car size={40} className="mx-auto text-green-600 mb-2" />
-                    <h3 className="font-bold text-lg">Layanan Antar</h3>
-                    <p className="text-gray-600">Pengiriman tersedia</p>
-                </div>
-            </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 const Services = ({ services }) => {
     // Terima props 'services'

@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Storage; // <-- Tambahkan untuk manajemen file
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -26,8 +27,15 @@ class SettingController extends Controller
      */
     public function social()
     {
+        $settings = Setting::all()->pluck('value', 'key');
+
+        // Decode string JSON dari database menjadi array PHP
+        $socialLinks = json_decode($settings->get('social_links', '[]'), true);
+
         return Inertia::render('Admin/Settings/Social/Index', [
-            'settings' => Setting::all()->pluck('value', 'key')
+            'settings' => [
+                'social_links' => $socialLinks,
+            ]
         ]);
     }
 
@@ -65,24 +73,38 @@ class SettingController extends Controller
      */
     public function update(Request $request)
     {
-        // Validasi disesuaikan dengan data yang mungkin dikirim
+        // Validasi digabung: validasi untuk data kontak DAN data social_links
         $validated = $request->validate([
-            'contact_phone'   => 'sometimes|nullable|string|max:255',
-            'contact_email'   => 'sometimes|nullable|email|max:255',
-            'contact_address' => 'sometimes|nullable|string|max:255',
-            'social_facebook'  => 'sometimes|nullable|url|max:255',
-            'social_instagram' => 'sometimes|nullable|url|max:255',
-            'social_twitter'   => 'sometimes|nullable|url|max:255',
-            'whatsapp_message' => 'sometimes|nullable|string|max:1000',
+            'contact_phone'     => 'sometimes|nullable|string|max:255',
+            'contact_email'     => 'sometimes|nullable|email|max:255',
+            'contact_address'   => 'sometimes|nullable|string|max:255',
+            'whatsapp_message'  => 'sometimes|nullable|string|max:1000',
+
+            // Validasi untuk social_links yang dinamis
+            'social_links'      => 'sometimes|nullable|array',
+            'social_links.*.name' => 'required_with:social_links|string|max:255',
+            'social_links.*.url'  => 'required_with:social_links|url|max:255',
         ]);
 
+        // Loop melalui semua data yang divalidasi
         foreach ($validated as $key => $value) {
-            Setting::where('key', $key)->update(['value' => $value ?? '']);
+            // Jika key adalah 'social_links', kita encode dulu ke JSON sebelum disimpan
+            if ($key === 'social_links') {
+                Setting::updateOrCreate(
+                    ['key' => 'social_links'],
+                    ['value' => json_encode($value ?? [])]
+                );
+            } else {
+                // Untuk key lainnya, simpan seperti biasa
+                Setting::updateOrCreate(
+                    ['key' => $key],
+                    ['value' => $value ?? '']
+                );
+            }
         }
 
         Cache::forget('settings');
 
-        // Redirect kembali ke halaman sebelumnya
         return redirect()->back()->with('success', 'Pengaturan berhasil diperbarui.');
     }
 

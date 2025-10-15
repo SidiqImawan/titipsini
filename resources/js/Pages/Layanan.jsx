@@ -1,6 +1,6 @@
 import React from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react"; // <-- DITAMBAHKAN usePage
 import {
     ArrowRight,
     CheckCircle2,
@@ -19,49 +19,68 @@ import {
 //======================================================================
 
 // --- Hero Section ---
-const LayananHero = () => (
-    <section className="bg-green-50/70 pt-28 pb-16">
-        <div className="container mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
-                <div className="text-center lg:text-left">
-                    <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold text-green-800 bg-white border border-gray-200 rounded-full shadow-md">
-                        Layanan Terpercaya
-                    </span>
-                    <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
-                        Pindahan Rumah, Kos, dan Barang? Titipsini Aja!
-                    </h1>
-                    <p className="mt-6 text-lg text-gray-600">
-                        Solusi terpercaya untuk kebutuhan pindahan dan
-                        penyimpanan barang Anda. Dengan layanan profesional dan
-                        harga terjangkau.
-                    </p>
-                    <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <a
-                            href="#pricing"
-                            className="inline-flex items-center justify-center bg-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-green-700 transition-all duration-300 transform hover:scale-105"
-                        >
-                            Mulai Sekarang{" "}
-                            <ArrowRight className="w-5 h-5 ml-2" />
-                        </a>
-                        <a
-                            href="#"
-                            className="inline-flex items-center justify-center bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold border border-gray-200 shadow-lg hover:bg-gray-100 transition-colors duration-300"
-                        >
-                            Konsultasi Gratis
-                        </a>
+const LayananHero = () => {
+    // --- Logika WhatsApp Ditambahkan ---
+    const { settings } = usePage().props;
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    const message = settings.whatsapp_message
+        ? encodeURIComponent(settings.whatsapp_message)
+        : "";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    // --- Akhir Logika WhatsApp ---
+
+    return (
+        <section className="bg-green-50/70 pt-28 pb-16">
+            <div className="container mx-auto px-4">
+                <div className="grid lg:grid-cols-2 gap-8 items-center">
+                    <div className="text-center lg:text-left">
+                        <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold text-green-800 bg-white border border-gray-200 rounded-full shadow-md">
+                            Layanan Terpercaya
+                        </span>
+                        <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
+                            Pindahan Rumah, Kos, dan Barang? Titipsini Aja!
+                        </h1>
+                        <p className="mt-6 text-lg text-gray-600">
+                            Solusi terpercaya untuk kebutuhan pindahan dan
+                            penyimpanan barang Anda. Dengan layanan profesional
+                            dan harga terjangkau.
+                        </p>
+                        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            {/* --- Tombol diubah ke link WhatsApp --- */}
+                            <a
+                                href={whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center bg-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-green-700 transition-all duration-300 transform hover:scale-105"
+                            >
+                                Mulai Sekarang{" "}
+                                <ArrowRight className="w-5 h-5 ml-2" />
+                            </a>
+                            {/* --- Tombol diubah ke link WhatsApp --- */}
+                            <a
+                                href={whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold border border-gray-200 shadow-lg hover:bg-gray-100 transition-colors duration-300"
+                            >
+                                Konsultasi Gratis
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <img
+                            src="images/hero-services.jpg"
+                            alt="Layanan Pindahan Titipsini"
+                            className="w-full h-auto"
+                        />
                     </div>
                 </div>
-                <div>
-                    <img
-                        src="images/hero-services.jpg"
-                        alt="Layanan Pindahan Titipsini"
-                        className="w-full h-auto"
-                    />
-                </div>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 // --- Stats & Features Section ---
 const StatsAndFeatures = () => {
@@ -264,6 +283,17 @@ const AboutUs = () => (
 // --- Pricing Section (KODE YANG DIPERBAIKI) ---
 // ==================================================================
 const Pricing = ({ packages }) => {
+    // --- Logika WhatsApp Ditambahkan ---
+    const { settings } = usePage().props;
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    const message = settings.whatsapp_message
+        ? encodeURIComponent(settings.whatsapp_message)
+        : "";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    // --- Akhir Logika WhatsApp ---
+
     return (
         <section id="pricing" className="py-16 sm:py-24 bg-gray-50">
             <div className="container mx-auto px-4">
@@ -316,8 +346,11 @@ const Pricing = ({ packages }) => {
                                     </li>
                                 ))}
                             </ul>
+                            {/* --- Tombol diubah ke link WhatsApp --- */}
                             <a
-                                href="#"
+                                href={whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="w-full inline-block text-center mt-8 font-semibold py-3 px-6 rounded-lg shadow-md transition-colors bg-gray-800 text-white hover:bg-gray-900"
                             >
                                 Pilih Paket
@@ -448,33 +481,52 @@ const Testimonials = () => {
 };
 
 // --- CTA Section ---
-const CtaSection = () => (
-    <section className="py-16 sm:py-24 bg-green-600">
-        <div className="container mx-auto px-4 text-center text-white">
-            <h2 className="text-4xl font-bold tracking-tight">
-                Siap untuk Pindahan Tanpa Ribet?
-            </h2>
-            <p className="mt-4 max-w-2xl mx-auto text-green-200">
-                Hubungi kami sekarang dan dapatkan konsultasi gratis untuk
-                kebutuhan pindahan Anda.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                    href="#"
-                    className="inline-flex items-center justify-center bg-white text-green-700 px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-gray-100 transition-colors"
-                >
-                    <Phone className="w-5 h-5 mr-2" /> Hubungi Sekarang
-                </a>
-                <a
-                    href="#"
-                    className="inline-flex items-center justify-center bg-transparent text-white px-6 py-3 rounded-full font-semibold border-2 border-green-400 hover:bg-green-500 transition-colors"
-                >
-                    Chat WhatsApp
-                </a>
+const CtaSection = () => {
+    // --- Logika WhatsApp Ditambahkan ---
+    const { settings } = usePage().props;
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    const message = settings.whatsapp_message
+        ? encodeURIComponent(settings.whatsapp_message)
+        : "";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    // --- Akhir Logika WhatsApp ---
+
+    return (
+        <section className="py-16 sm:py-24 bg-green-600">
+            <div className="container mx-auto px-4 text-center text-white">
+                <h2 className="text-4xl font-bold tracking-tight">
+                    Siap untuk Pindahan Tanpa Ribet?
+                </h2>
+                <p className="mt-4 max-w-2xl mx-auto text-green-200">
+                    Hubungi kami sekarang dan dapatkan konsultasi gratis untuk
+                    kebutuhan pindahan Anda.
+                </p>
+                <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                    {/* --- Tombol diubah ke link WhatsApp --- */}
+                    <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center bg-white text-green-700 px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-gray-100 transition-colors"
+                    >
+                        <Phone className="w-5 h-5 mr-2" /> Hubungi Sekarang
+                    </a>
+                    {/* --- Tombol diubah ke link WhatsApp --- */}
+                    <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center bg-transparent text-white px-6 py-3 rounded-full font-semibold border-2 border-green-400 hover:bg-green-500 transition-colors"
+                    >
+                        Chat WhatsApp
+                    </a>
+                </div>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 //======================================================================
 // MAIN PAGE COMPONENT (The one that gets exported)

@@ -3,6 +3,7 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { ShieldCheck, Users, HeartHandshake, Clock } from "lucide-react";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
+import { usePage } from "@inertiajs/react"; // <-- DITAMBAHKAN
 
 // --- SECTIONS ---
 
@@ -242,33 +243,52 @@ const OurTeam = () => {
 };
 
 // CTA Section
-const CtaSection = () => (
-    <section className="bg-green-600">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-            <h2 className="text-3xl font-bold text-white">
-                Siap Mempercayakan Barang Anda?
-            </h2>
-            <p className="mt-2 text-green-200 max-w-2xl mx-auto">
-                Bergabunglah dengan ribuan pelanggan yang telah merasakan
-                layanan storage terpercaya kami.
-            </p>
-            <div className="mt-8 flex gap-4 justify-center">
-                <a
-                    href="#"
-                    className="bg-white text-green-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-                >
-                    Lihat Layanan
-                </a>
-                <a
-                    href="#"
-                    className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold border border-green-500 hover:bg-green-800 transition-colors"
-                >
-                    Hubungi Kami
-                </a>
+const CtaSection = () => {
+    // --- Logika WhatsApp Ditambahkan ---
+    const { settings } = usePage().props;
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    const message = settings.whatsapp_message
+        ? encodeURIComponent(settings.whatsapp_message)
+        : "";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    // --- Akhir Logika WhatsApp ---
+
+    return (
+        <section className="bg-green-600">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+                <h2 className="text-3xl font-bold text-white">
+                    Siap Mempercayakan Barang Anda?
+                </h2>
+                <p className="mt-2 text-green-200 max-w-2xl mx-auto">
+                    Bergabunglah dengan ribuan pelanggan yang telah merasakan
+                    layanan storage terpercaya kami.
+                </p>
+                <div className="mt-8 flex gap-4 justify-center">
+                    {/* --- Tombol diubah ke link WhatsApp --- */}
+                    <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-white text-green-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                    >
+                        Lihat Layanan
+                    </a>
+                    {/* --- Tombol diubah ke link WhatsApp --- */}
+                    <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold border border-green-500 hover:bg-green-800 transition-colors"
+                    >
+                        Hubungi Kami
+                    </a>
+                </div>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 // --- Komponen Utama Halaman About ---
 const About = () => {

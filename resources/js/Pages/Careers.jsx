@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Head } from "@inertiajs/react"; // <-- TAMBAHKAN Head
+import { Link, Head, usePage } from "@inertiajs/react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import {
     Briefcase,
@@ -38,12 +38,14 @@ const CareerHero = () => (
                         lingkungan kerja yang dinamis, inovatif, dan supportive.
                     </p>
                     <div className="mt-8 flex flex-wrap gap-4">
+                        {/* --- Tombol ini tetap mengarah ke section di halaman --- */}
                         <a
                             href="#job-listings"
                             className="inline-flex items-center justify-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition-colors"
                         >
                             Lihat Lowongan
                         </a>
+                        {/* --- Tombol ini tetap mengarah ke section di halaman --- */}
                         <a
                             href="#work-culture"
                             className="inline-flex items-center justify-center px-6 py-3 bg-white text-gray-700 font-semibold rounded-lg shadow-md border border-gray-200 hover:bg-gray-50 transition-colors"
@@ -79,7 +81,19 @@ const CareerHero = () => (
 
 // Job Listings Section (Dinamis)
 const JobListings = ({ jobs }) => {
-    // Fungsi helper untuk menentukan warna ikon
+    // --- Logika WhatsApp Ditambahkan ---
+    const { settings } = usePage().props;
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    // Pesan default untuk melamar kerja bisa ditambahkan di settings backend Anda
+    const defaultJobMessage =
+        "Halo, saya tertarik untuk melamar pekerjaan di Titipsini.";
+    const message = settings.whatsapp_job_message
+        ? encodeURIComponent(settings.whatsapp_job_message)
+        : encodeURIComponent(defaultJobMessage);
+    // --- Akhir Logika WhatsApp ---
+
     const getDepartmentStyle = (department) => {
         switch (department.toLowerCase()) {
             case "operations":
@@ -112,6 +126,10 @@ const JobListings = ({ jobs }) => {
                     <div className="grid md:grid-cols-2 gap-8">
                         {jobs.map((job) => {
                             const style = getDepartmentStyle(job.department);
+                            // URL WhatsApp spesifik untuk setiap pekerjaan
+                            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                                `Halo, saya tertarik untuk melamar posisi ${job.title}.`
+                            )}`;
                             return (
                                 <div
                                     key={job.id}
@@ -124,7 +142,6 @@ const JobListings = ({ jobs }) => {
                                     )}
 
                                     <div className="flex-grow">
-                                        {/* Header Kartu */}
                                         <div className="flex justify-between items-start mb-4">
                                             <div>
                                                 <div className="flex items-center space-x-3 text-sm">
@@ -158,7 +175,6 @@ const JobListings = ({ jobs }) => {
                                             </div>
                                         </div>
 
-                                        {/* Info Lokasi & Gaji */}
                                         <div className="flex items-center space-x-6 text-gray-600 my-6 border-y py-4">
                                             <div className="flex items-center">
                                                 <MapPin className="w-5 h-5 mr-2" />{" "}
@@ -170,7 +186,6 @@ const JobListings = ({ jobs }) => {
                                             </div>
                                         </div>
 
-                                        {/* Requirements */}
                                         <div className="text-left">
                                             <h4 className="font-semibold text-gray-800 mb-3">
                                                 Requirements:
@@ -198,26 +213,25 @@ const JobListings = ({ jobs }) => {
                                         </div>
                                     </div>
 
-                                    {/* Tombol Apply */}
-                                    <Link
-                                        href="#"
+                                    {/* --- Tombol diubah menjadi <a> tag ke WhatsApp --- */}
+                                    <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         className={`mt-8 w-full inline-flex items-center justify-center px-6 py-3.5 font-semibold text-white rounded-lg shadow-md transition-colors ${
                                             job.is_urgent
                                                 ? "bg-red-600 hover:bg-red-700"
                                                 : "bg-green-600 hover:bg-green-700"
                                         }`}
                                     >
-                                        {job.is_urgent
-                                            ? "Apply Sekarang"
-                                            : "Apply Now"}
+                                        Apply Sekarang
                                         <ArrowRight className="w-5 h-5 ml-2" />
-                                    </Link>
+                                    </a>
                                 </div>
                             );
                         })}
                     </div>
                 ) : (
-                    // Tampilan jika tidak ada lowongan
                     <div className="text-center py-16 bg-white rounded-lg shadow-md border border-gray-100">
                         <Search className="w-16 h-16 text-gray-400 mx-auto" />
                         <h3 className="mt-4 text-xl font-semibold text-gray-800">
@@ -234,7 +248,9 @@ const JobListings = ({ jobs }) => {
     );
 };
 
-// Why Join Us Section
+// ... (Sisa komponen lainnya tetap sama)
+// WhyJoinUs, WorkCulture, TeamSuccess, InterviewGuide tidak diubah.
+
 const WhyJoinUs = () => {
     const benefits = [
         {
@@ -300,7 +316,6 @@ const WhyJoinUs = () => {
     );
 };
 
-// Work Culture Section
 const WorkCulture = () => (
     <section id="work-culture" className="py-16 sm:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -387,7 +402,6 @@ const WorkCulture = () => (
     </section>
 );
 
-// Team Success Section
 const TeamSuccess = () => {
     const stories = [
         {
@@ -719,8 +733,7 @@ const InterviewGuide = () => {
 const Careers = ({ jobVacancies }) => {
     return (
         <>
-            <Head title="Karir di Titipsini" />{" "}
-            {/* Menambahkan Head untuk judul halaman */}
+            <Head title="Karir di Titipsini" />
             <CareerHero />
             <JobListings jobs={jobVacancies} />
             <WhyJoinUs />

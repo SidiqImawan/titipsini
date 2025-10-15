@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import GuestLayout from "../Layouts/GuestLayout";
+import { Head, usePage } from "@inertiajs/react";
 import {
     Users,
     Briefcase,
@@ -21,70 +22,107 @@ import {
 // --- SECTIONS ---
 
 // Hero Section
-const ProgramHero = () => (
-    <section className="relative bg-gradient-to-br from-green-100 via-teal-50 to-white pt-24 pb-12 sm:pt-32 sm:pb-16 overflow-hidden">
-        <div className="absolute inset-0 bg-green-50 opacity-25"></div>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
-                <div>
-                    <span className="inline-flex items-center px-3 py-1 bg-green-200 text-green-800 rounded-full text-sm font-semibold">
-                        <Star className="w-4 h-4 mr-2" /> Program Unggulan
-                    </span>
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-800 tracking-tight mt-4">
-                        Bangun{" "}
-                        <span className="text-green-600">Karir Impian</span>{" "}
-                        Bersama Kami
-                    </h1>
-                    <p className="mt-6 text-lg text-gray-600">
-                        Bergabunglah dengan program pengembangan karir terdepan
-                        di industri storage solution. Wujudkan potensi terbaik
-                        Anda dengan bimbingan mentor berpengalaman.
-                    </p>
-                    <div className="mt-8 flex flex-wrap gap-4">
-                        <a
-                            href="#"
-                            className="inline-flex items-center justify-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition-colors"
-                        >
-                            Mulai Perjalanan{" "}
-                            <ArrowRight className="w-5 h-5 ml-2" />
-                        </a>
-                        <a
-                            href="#"
-                            className="inline-flex items-center justify-center px-6 py-3 bg-white text-gray-700 font-semibold rounded-lg shadow-md border border-gray-200 hover:bg-gray-50 transition-colors"
-                        >
-                            Pelajari Lebih Lanjut
-                        </a>
+const ProgramHero = () => {
+    // --- Logika WhatsApp Diperbaiki ---
+    const { settings } = usePage().props;
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    const message = settings.whatsapp_message
+        ? encodeURIComponent(settings.whatsapp_message)
+        : encodeURIComponent(
+              "Halo, saya tertarik dengan program yang ada di Titipsini."
+          ); // Fallback
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    // --- Akhir Logika WhatsApp ---
+
+    return (
+        <section className="relative bg-gradient-to-br from-green-100 via-teal-50 to-white pt-24 pb-12 sm:pt-32 sm:pb-16 overflow-hidden">
+            <div className="absolute inset-0 bg-green-50 opacity-25"></div>
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+                <div className="grid lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <span className="inline-flex items-center px-3 py-1 bg-green-200 text-green-800 rounded-full text-sm font-semibold">
+                            <Star className="w-4 h-4 mr-2" /> Program Unggulan
+                        </span>
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-800 tracking-tight mt-4">
+                            Bangun{" "}
+                            <span className="text-green-600">Karir Impian</span>{" "}
+                            Bersama Kami
+                        </h1>
+                        <p className="mt-6 text-lg text-gray-600">
+                            Bergabunglah dengan program pengembangan karir
+                            terdepan di industri storage solution. Wujudkan
+                            potensi terbaik Anda dengan bimbingan mentor
+                            berpengalaman.
+                        </p>
+                        <div className="mt-8 flex flex-wrap gap-4">
+                            {/* --- Tombol diubah ke link WhatsApp --- */}
+                            <a
+                                href={whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition-colors"
+                            >
+                                Mulai Perjalanan{" "}
+                                <ArrowRight className="w-5 h-5 ml-2" />
+                            </a>
+                            {/* --- Tombol diubah ke link WhatsApp --- */}
+                            <a
+                                href={whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center px-6 py-3 bg-white text-gray-700 font-semibold rounded-lg shadow-md border border-gray-200 hover:bg-gray-50 transition-colors"
+                            >
+                                Pelajari Lebih Lanjut
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div className="hidden lg:grid grid-cols-2 gap-4">
-                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                        <Users className="w-8 h-8 text-green-500 mb-2" />
-                        <p className="text-3xl font-bold text-gray-800">500+</p>
-                        <p className="text-gray-500">Alumni Program</p>
-                    </div>
-                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                        <Briefcase className="w-8 h-8 text-green-500 mb-2" />
-                        <p className="text-3xl font-bold text-gray-800">3</p>
-                        <p className="text-gray-500">Program Tersedia</p>
-                    </div>
-                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                        <UserCheck className="w-8 h-8 text-green-500 mb-2" />
-                        <p className="text-3xl font-bold text-gray-800">95%</p>
-                        <p className="text-gray-500">Success Rate</p>
-                    </div>
-                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                        <GraduationCap className="w-8 h-8 text-green-500 mb-2" />
-                        <p className="text-3xl font-bold text-gray-800">24/7</p>
-                        <p className="text-gray-500">Mentor Support</p>
+                    <div className="hidden lg:grid grid-cols-2 gap-4">
+                        <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                            <Users className="w-8 h-8 text-green-500 mb-2" />
+                            <p className="text-3xl font-bold text-gray-800">
+                                500+
+                            </p>
+                            <p className="text-gray-500">Alumni Program</p>
+                        </div>
+                        <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                            <Briefcase className="w-8 h-8 text-green-500 mb-2" />
+                            <p className="text-3xl font-bold text-gray-800">
+                                3
+                            </p>
+                            <p className="text-gray-500">Program Tersedia</p>
+                        </div>
+                        <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                            <UserCheck className="w-8 h-8 text-green-500 mb-2" />
+                            <p className="text-3xl font-bold text-gray-800">
+                                95%
+                            </p>
+                            <p className="text-gray-500">Success Rate</p>
+                        </div>
+                        <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                            <GraduationCap className="w-8 h-8 text-green-500 mb-2" />
+                            <p className="text-3xl font-bold text-gray-800">
+                                24/7
+                            </p>
+                            <p className="text-gray-500">Mentor Support</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 // --- Program List Section ---
 const ProgramList = ({ programs }) => {
+    // --- Logika WhatsApp Ditambahkan ---
+    const { settings } = usePage().props;
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    // --- Akhir Logika WhatsApp ---
+
     return (
         <section className="py-16 sm:py-24 bg-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -100,73 +138,81 @@ const ProgramList = ({ programs }) => {
                 </p>
             </div>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-                {programs.map((program) => (
-                    <div
-                        key={program.id}
-                        className={`bg-white rounded-xl shadow-lg border ${
-                            program.is_popular
-                                ? "border-green-500"
-                                : "border-gray-200"
-                        } p-6 flex flex-col relative`}
-                    >
-                        {/* INI BAGIAN YANG DIPERBAIKI */}
-                        {program.is_popular ? (
-                            <span className="absolute top-0 right-6 -mt-3 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                                Populer
-                            </span>
-                        ) : null}
-
-                        <div className="flex justify-between items-start mb-4">
-                            <Briefcase className="w-10 h-10 text-green-500" />
-                            <div>
-                                {program.tags.map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className="bg-gray-100 text-gray-600 text-xs font-semibold px-2.5 py-1 rounded-full ml-2"
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                        <h3 className="text-xl font-bold text-gray-800 text-left">
-                            {program.title}
-                        </h3>
-                        <p className="text-gray-600 mt-2 text-left flex-grow">
-                            {program.description}
-                        </p>
-                        <div className="text-left mt-4">
-                            <p className="font-semibold text-gray-700">
-                                Durasi: {program.duration}
-                            </p>
-                            <p className="font-semibold text-gray-700 mt-4">
-                                Yang Akan Anda Dapatkan:
-                            </p>
-                            <ul className="mt-2 space-y-2">
-                                {program.benefits.map((benefit) => (
-                                    <li
-                                        key={benefit}
-                                        className="flex items-center text-gray-600"
-                                    >
-                                        <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-                                        <span>{benefit}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                        <a
-                            href="#"
-                            className={`mt-6 w-full inline-flex items-center justify-center px-6 py-3 font-semibold rounded-lg shadow-md transition-colors ${
-                                program.cta_color === "green"
-                                    ? "bg-green-600 text-white hover:bg-green-700"
-                                    : "bg-gray-800 text-white hover:bg-gray-900"
-                            }`}
+                {programs.map((program) => {
+                    // Membuat URL WhatsApp spesifik untuk setiap program
+                    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                        `Halo, saya tertarik dengan program "${program.title}".`
+                    )}`;
+                    return (
+                        <div
+                            key={program.id}
+                            className={`bg-white rounded-xl shadow-lg border ${
+                                program.is_popular
+                                    ? "border-green-500"
+                                    : "border-gray-200"
+                            } p-6 flex flex-col relative`}
                         >
-                            {program.cta_text}{" "}
-                            <ArrowRight className="w-5 h-5 ml-2" />
-                        </a>
-                    </div>
-                ))}
+                            {program.is_popular ? (
+                                <span className="absolute top-0 right-6 -mt-3 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                    Populer
+                                </span>
+                            ) : null}
+
+                            <div className="flex justify-between items-start mb-4">
+                                <Briefcase className="w-10 h-10 text-green-500" />
+                                <div>
+                                    {program.tags.map((tag) => (
+                                        <span
+                                            key={tag}
+                                            className="bg-gray-100 text-gray-600 text-xs font-semibold px-2.5 py-1 rounded-full ml-2"
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-800 text-left">
+                                {program.title}
+                            </h3>
+                            <p className="text-gray-600 mt-2 text-left flex-grow">
+                                {program.description}
+                            </p>
+                            <div className="text-left mt-4">
+                                <p className="font-semibold text-gray-700">
+                                    Durasi: {program.duration}
+                                </p>
+                                <p className="font-semibold text-gray-700 mt-4">
+                                    Yang Akan Anda Dapatkan:
+                                </p>
+                                <ul className="mt-2 space-y-2">
+                                    {program.benefits.map((benefit) => (
+                                        <li
+                                            key={benefit}
+                                            className="flex items-center text-gray-600"
+                                        >
+                                            <CheckCircle className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
+                                            <span>{benefit}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            {/* --- Tombol diubah ke link WhatsApp --- */}
+                            <a
+                                href={whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`mt-6 w-full inline-flex items-center justify-center px-6 py-3 font-semibold rounded-lg shadow-md transition-colors ${
+                                    program.cta_color === "green"
+                                        ? "bg-green-600 text-white hover:bg-green-700"
+                                        : "bg-gray-800 text-white hover:bg-gray-900"
+                                }`}
+                            >
+                                {program.cta_text}{" "}
+                                <ArrowRight className="w-5 h-5 ml-2" />
+                            </a>
+                        </div>
+                    );
+                })}
             </div>
         </section>
     );
@@ -407,19 +453,18 @@ const ProgramFAQ = () => {
 
 // --- Komponen Utama Halaman Program ---
 const Program = ({ programs, curriculums }) => {
-    // Terima props
     return (
         <>
-            {/* <Head title="Program Kami" /> -- Sepertinya ini belum ada di kode Anda, bisa ditambahkan */}
+            <Head title="Program Kami" />
             <ProgramHero />
-            <ProgramList programs={programs} /> {/* Teruskan prop */}
+            <ProgramList programs={programs} />
+            <CurriculumDetails curriculums={curriculums} />
             <WhyChooseProgram />
-            <CurriculumDetails curriculums={curriculums} />{" "}
-            {/* Teruskan prop */}
             <ProgramFAQ />
         </>
     );
 };
 
 Program.layout = (page) => <GuestLayout children={page} />;
+
 export default Program;

@@ -1,6 +1,6 @@
 import React from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react"; // <-- DITAMBAHKAN usePage
 import {
     Briefcase,
     Building,
@@ -20,48 +20,66 @@ import {
 } from "lucide-react";
 
 // --- Hero Section ---
-const InternshipHero = () => (
-    <section className="relative pt-28 pb-16 text-center bg-[#f0fdf4]">
-        <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-br from-green-200 via-transparent to-transparent opacity-30 blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-1/2 h-full bg-gradient-to-tl from-cyan-200 via-transparent to-transparent opacity-20 blur-3xl"></div>
+const InternshipHero = () => {
+    // --- Logika WhatsApp Ditambahkan ---
+    const { settings } = usePage().props;
+    const phoneNumber = settings.contact_phone
+        ? settings.contact_phone.replace(/\D/g, "")
+        : "";
+    const defaultInternshipMessage =
+        "Halo, saya tertarik untuk mendaftar program magang di Titipsini.";
+    const message = settings.whatsapp_internship_message
+        ? encodeURIComponent(settings.whatsapp_internship_message)
+        : encodeURIComponent(defaultInternshipMessage);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    // --- Akhir Logika WhatsApp ---
 
-        <div className="container mx-auto px-4 relative z-10">
-            <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold text-green-800 bg-white border border-gray-200 rounded-full shadow-md">
-                Internship Program 2025/2026
-            </span>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-gray-900 tracking-tight">
-                Mulai Karirmu Di Sini
-            </h1>
-            <p className="mt-6 max-w-2xl mx-auto text-lg text-gray-700">
-                Dapatkan pengalaman kerja nyata di industri storage solution
-                terdepan. Bergabunglah dengan tim yang passionate dan kembangkan
-                skill profesional Anda.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                    href="#job-openings"
-                    className="inline-flex items-center justify-center bg-green-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:bg-green-700 transition-all duration-300 transform hover:scale-105"
-                >
-                    <PlayCircle className="w-5 h-5 mr-2" /> Apply Sekarang
-                </a>
+    return (
+        <section className="relative pt-28 pb-16 text-center bg-[#f0fdf4]">
+            <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-br from-green-200 via-transparent to-transparent opacity-30 blur-3xl"></div>
+            <div className="absolute bottom-0 right-0 w-1/2 h-full bg-gradient-to-tl from-cyan-200 via-transparent to-transparent opacity-20 blur-3xl"></div>
+
+            <div className="container mx-auto px-4 relative z-10">
+                <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold text-green-800 bg-white border border-gray-200 rounded-full shadow-md">
+                    Internship Program 2025/2026
+                </span>
+                <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-gray-900 tracking-tight">
+                    Mulai Karirmu Di Sini
+                </h1>
+                <p className="mt-6 max-w-2xl mx-auto text-lg text-gray-700">
+                    Dapatkan pengalaman kerja nyata di industri storage solution
+                    terdepan. Bergabunglah dengan tim yang passionate dan
+                    kembangkan skill profesional Anda.
+                </p>
+                <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                    {/* --- Tombol diubah ke link WhatsApp --- */}
+                    <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center bg-green-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:bg-green-700 transition-all duration-300 transform hover:scale-105"
+                    >
+                        <PlayCircle className="w-5 h-5 mr-2" /> Apply Sekarang
+                    </a>
+                </div>
+                <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div className="bg-white/60 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/50">
+                        <p className="text-4xl font-bold text-green-600">50+</p>
+                        <p className="text-gray-600 mt-1">Alumni Magang</p>
+                    </div>
+                    <div className="bg-white/60 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/50">
+                        <p className="text-4xl font-bold text-green-600">7</p>
+                        <p className="text-gray-600 mt-1">Posisi Tersedia</p>
+                    </div>
+                    <div className="bg-white/60 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/50">
+                        <p className="text-4xl font-bold text-green-600">90%</p>
+                        <p className="text-gray-600 mt-1">Hired Rate</p>
+                    </div>
+                </div>
             </div>
-            <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <div className="bg-white/60 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/50">
-                    <p className="text-4xl font-bold text-green-600">50+</p>
-                    <p className="text-gray-600 mt-1">Alumni Magang</p>
-                </div>
-                <div className="bg-white/60 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/50">
-                    <p className="text-4xl font-bold text-green-600">7</p>
-                    <p className="text-gray-600 mt-1">Posisi Tersedia</p>
-                </div>
-                <div className="bg-white/60 backdrop-blur-md p-6 rounded-xl shadow-lg border border-white/50">
-                    <p className="text-4xl font-bold text-green-600">90%</p>
-                    <p className="text-gray-600 mt-1">Hired Rate</p>
-                </div>
-            </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 // --- Job Openings Section ---
 const JobOpenings = ({ positions }) => {
@@ -82,16 +100,14 @@ const JobOpenings = ({ positions }) => {
                     </p>
                 </div>
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {/* INI BAGIAN YANG DIPERBAIKI */}
                     {positions.map((job, index) => (
                         <div
-                            key={job.id} // Ganti key ke job.id agar lebih unik
+                            key={job.id}
                             className="bg-white rounded-xl shadow-lg border border-gray-200/80 p-6 flex flex-col hover:border-green-300 hover:shadow-2xl transition-all duration-300"
                         >
                             <div className="flex justify-between items-start">
                                 <div className="flex items-center gap-3">
                                     <div className="bg-gray-100 text-gray-600 p-3 rounded-lg">
-                                        {/* Logika untuk menampilkan ikon bisa ditambahkan di sini jika perlu */}
                                         <Briefcase size={24} />
                                     </div>
                                     <span className="text-sm font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded">
@@ -237,12 +253,7 @@ const InternshipBenefits = () => (
                                 3-6 Bulan
                             </span>
                         </div>
-                        <div className="flex justify-between items-center bg-gray-50 p-2 rounded-md">
-                            <span className="text-gray-600">Mentor Ratio</span>
-                            <span className="font-semibold text-gray-700 bg-gray-200 px-2 py-0.5 rounded">
-                                1:3
-                            </span>
-                        </div>
+                        {/* --- BAGIAN MENTOR RATIO DIHAPUS --- */}
                         <div className="flex justify-between items-center bg-gray-50 p-2 rounded-md">
                             <span className="text-gray-600">Project Based</span>
                             <span className="font-semibold text-purple-700 bg-purple-100 px-2 py-0.5 rounded">
@@ -256,7 +267,7 @@ const InternshipBenefits = () => (
     </section>
 );
 
-// --- Mentors Section ---
+// --- (Sisa komponen tidak diubah) ---
 const MeetTheMentors = () => {
     const mentors = [
         {
@@ -491,15 +502,14 @@ const ApplicationProcess = () => {
 };
 
 const Internship = ({ positions, projects }) => {
-    // Terima 'positions' dan 'projects'
     return (
         <>
             <Head title="Program Magang" />
             <InternshipHero />
-            <JobOpenings positions={positions} /> {/* Teruskan prop */}
+            <JobOpenings positions={positions} />
             <InternshipBenefits />
             <MeetTheMentors />
-            <InternshipProjects projects={projects} /> {/* Teruskan prop */}
+            <InternshipProjects projects={projects} />
             <ApplicationProcess />
         </>
     );

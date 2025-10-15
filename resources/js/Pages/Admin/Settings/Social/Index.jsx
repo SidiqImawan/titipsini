@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm } from "@inertiajs/react";
 import {
@@ -8,43 +8,54 @@ import {
     Twitter,
     CheckCircle,
     Loader2,
+    PlusCircle,
+    Trash2,
+    Share2,
+    Youtube,
+    Linkedin,
+    Globe,
 } from "lucide-react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
-import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-// Komponen Input dengan ikon untuk tampilan modern
-const SettingsInput = ({ id, label, icon, error, ...props }) => (
-    <div className="relative group">
-        <InputLabel
-            htmlFor={id}
-            value={label}
-            className="text-gray-700 font-medium tracking-tight"
-        />
-        <div className="relative mt-1 flex items-center">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400 group-focus-within:text-indigo-600 transition-colors">
-                {icon}
-            </div>
-            <TextInput
-                id={id}
-                className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-xl shadow-sm bg-gray-50 focus:bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
-                {...props}
-            />
-        </div>
-        <InputError message={error} className="mt-2" />
-    </div>
-);
+// Fungsi untuk memilih ikon berdasarkan nama platform
+const getSocialIcon = (name) => {
+    const lowerCaseName = name.toLowerCase();
+    if (lowerCaseName.includes("facebook"))
+        return <Facebook size={18} className="text-blue-600" />;
+    if (lowerCaseName.includes("instagram"))
+        return <Instagram size={18} className="text-pink-500" />;
+    if (lowerCaseName.includes("twitter"))
+        return <Twitter size={18} className="text-sky-500" />;
+    if (lowerCaseName.includes("youtube"))
+        return <Youtube size={18} className="text-red-600" />;
+    if (lowerCaseName.includes("linkedin"))
+        return <Linkedin size={18} className="text-blue-700" />;
+    return <Globe size={18} className="text-gray-500" />; // Ikon default
+};
 
 export default function SocialIndex({ settings, flash }) {
-    const [isMounted, setIsMounted] = useState(false);
-    useEffect(() => setIsMounted(true), []);
-
     const { data, setData, post, errors, processing } = useForm({
-        social_facebook: settings.social_facebook || "",
-        social_instagram: settings.social_instagram || "",
-        social_twitter: settings.social_twitter || "",
+        social_links: settings.social_links || [],
     });
+
+    const addSocialLink = () => {
+        setData("social_links", [...data.social_links, { name: "", url: "" }]);
+    };
+
+    const removeSocialLink = (index) => {
+        setData(
+            "social_links",
+            data.social_links.filter((_, i) => i !== index)
+        );
+    };
+
+    const handleInputChange = (index, field, value) => {
+        const updatedLinks = [...data.social_links];
+        updatedLinks[index][field] = value;
+        setData("social_links", updatedLinks);
+    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -52,38 +63,21 @@ export default function SocialIndex({ settings, flash }) {
     };
 
     return (
-        <AdminLayout
-            header={
-                <h2 className="font-semibold text-2xl text-gray-800 leading-tight tracking-tight">
-                    Pengaturan / Media Sosial
-                </h2>
-            }
-        >
+        <AdminLayout header="Pengaturan / Media Sosial">
             <Head title="Media Sosial" />
-
-            <div
-                className={`py-12 transition-all duration-700 ease-out ${
-                    isMounted
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 translate-y-4"
-                }`}
-            >
+            <div className="py-12">
                 <div className="max-w-3xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-gradient-to-br from-white to-indigo-50 shadow-lg border border-gray-100 rounded-2xl overflow-hidden backdrop-blur-sm">
-                        <form
-                            onSubmit={submit}
-                            className="p-8 md:p-10 space-y-6"
-                        >
-                            <div className="flex justify-between items-center border-b border-gray-200 pb-5">
+                    <div className="bg-white shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
+                        <form onSubmit={submit} className="p-8 md:p-10">
+                            <div className="flex justify-between items-center border-b border-gray-200 pb-5 mb-6">
                                 <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                                    <Save className="w-5 h-5 text-indigo-600" />
-                                    Edit Media Sosial
+                                    <Share2 className="w-5 h-5 text-indigo-600" />
+                                    Edit Tautan Media Sosial
                                 </h2>
-                                <div className="h-1 w-16 bg-indigo-500 rounded-full"></div>
                             </div>
 
                             {flash?.success && (
-                                <div className="mb-6 flex items-center p-4 bg-green-50 text-green-700 rounded-xl border border-green-200 shadow-sm">
+                                <div className="mb-6 flex items-center p-4 bg-green-50 text-green-700 rounded-xl border border-green-200">
                                     <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
                                     <span className="font-medium">
                                         {flash.success}
@@ -91,49 +85,93 @@ export default function SocialIndex({ settings, flash }) {
                                 </div>
                             )}
 
-                            <SettingsInput
-                                id="social_facebook"
-                                label="Facebook URL"
-                                type="url"
-                                value={data.social_facebook}
-                                onChange={(e) =>
-                                    setData("social_facebook", e.target.value)
-                                }
-                                error={errors.social_facebook}
-                                icon={<Facebook size={16} />}
-                                placeholder="https://facebook.com/username"
-                            />
+                            <div className="space-y-6">
+                                {data.social_links.map((link, index) => (
+                                    <div
+                                        key={index}
+                                        className="p-4 border rounded-lg bg-gray-50/50 relative"
+                                    >
+                                        <div className="flex items-start gap-4">
+                                            <div className="mt-8">
+                                                {getSocialIcon(link.name)}
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow">
+                                                <div>
+                                                    <InputLabel
+                                                        htmlFor={`name_${index}`}
+                                                        value="Nama Platform"
+                                                    />
+                                                    <TextInput
+                                                        id={`name_${index}`}
+                                                        value={link.name}
+                                                        onChange={(e) =>
+                                                            handleInputChange(
+                                                                index,
+                                                                "name",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        className="mt-1 block w-full"
+                                                        placeholder="Contoh: TikTok"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <InputLabel
+                                                        htmlFor={`url_${index}`}
+                                                        value="URL Lengkap"
+                                                    />
+                                                    <TextInput
+                                                        id={`url_${index}`}
+                                                        type="url"
+                                                        value={link.url}
+                                                        onChange={(e) =>
+                                                            handleInputChange(
+                                                                index,
+                                                                "url",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        className="mt-1 block w-full"
+                                                        placeholder="https://tiktok.com/@username"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                removeSocialLink(index)
+                                            }
+                                            className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                ))}
+                                {data.social_links.length === 0 && (
+                                    <div className="text-center py-8 text-gray-500">
+                                        <p>
+                                            Belum ada media sosial ditambahkan.
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
 
-                            <SettingsInput
-                                id="social_instagram"
-                                label="Instagram URL"
-                                type="url"
-                                value={data.social_instagram}
-                                onChange={(e) =>
-                                    setData("social_instagram", e.target.value)
-                                }
-                                error={errors.social_instagram}
-                                icon={<Instagram size={16} />}
-                                placeholder="https://instagram.com/username"
-                            />
-
-                            <SettingsInput
-                                id="social_twitter"
-                                label="Twitter URL"
-                                type="url"
-                                value={data.social_twitter}
-                                onChange={(e) =>
-                                    setData("social_twitter", e.target.value)
-                                }
-                                error={errors.social_twitter}
-                                icon={<Twitter size={16} />}
-                                placeholder="https://twitter.com/username"
-                            />
+                            <div className="mt-6">
+                                <button
+                                    type="button"
+                                    onClick={addSocialLink}
+                                    className="flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                                >
+                                    <PlusCircle size={16} className="mr-2" />
+                                    Tambah Media Sosial
+                                </button>
+                            </div>
 
                             <div className="flex items-center justify-end mt-10 pt-6 border-t border-gray-200">
                                 <PrimaryButton
                                     disabled={processing}
-                                    className="flex items-center px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all"
+                                    className="flex items-center px-5 py-2.5 rounded-xl"
                                 >
                                     {processing ? (
                                         <>
