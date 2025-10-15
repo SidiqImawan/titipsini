@@ -304,23 +304,16 @@ const BonusAccess = () => {
     );
 };
 
-const PricingCard = ({ price, duration, features, isFeatured }) => (
+//PAKET KEMITRAAN
+const PricingCard = ({ title, price, duration, features, isFeatured }) => (
     <div
-        className={`relative border rounded-lg p-8 w-full max-w-sm flex flex-col bg-white transition-all duration-300 ${
+        className={`border rounded-lg p-8 w-full max-w-sm flex flex-col bg-white transition-all duration-300 ${
             isFeatured
                 ? "border-primary border-2 shadow-2xl"
                 : "border-gray-200 shadow-lg"
         }`}
     >
-        {isFeatured && (
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold uppercase px-4 py-1 rounded-full shadow-lg">
-                Paling Populer
-            </div>
-        )}
-
-        <p className="text-sm font-semibold text-gray-500">
-            {isFeatured ? "Paket Kemitraan" : "Paket 1 Bulan"}
-        </p>
+        <p className="text-sm font-semibold text-gray-500">{title}</p>
         <h3 className="text-4xl font-extrabold text-primary mt-2">{price}</h3>
         <p className="text-gray-500 mt-2 text-base">{duration}</p>
         <ul className="mt-8 space-y-4 text-gray-700 flex-grow text-left">
@@ -346,6 +339,7 @@ const PricingCard = ({ price, duration, features, isFeatured }) => (
 const Pricing = () => {
     const plans = [
         {
+            title: "Paket 1 Bulan",
             price: "Rp 500.000",
             duration: "1 bulan akses penuh platform",
             features: [
@@ -354,8 +348,10 @@ const Pricing = () => {
                 "Template marketing standar",
                 "Support via email",
             ],
+            isFeatured: false,
         },
         {
+            title: "Paket 1 Tahun",
             price: "Rp 3.000.000",
             duration: "1 tahun akses penuh + bonus eksklusif",
             features: [
@@ -365,6 +361,7 @@ const Pricing = () => {
                 "Sertifikat resmi",
                 "Priority support 24/7",
             ],
+            isFeatured: true,
         },
     ];
     return (
@@ -379,7 +376,7 @@ const Pricing = () => {
                 <p className="text-gray-600 mt-4 text-lg mb-12">
                     Pilih paket yang sesuai dengan kebutuhan dan budget Anda
                 </p>
-                {/* Menggunakan `items-stretch` untuk memastikan tinggi kartu sama */}
+
                 <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 md:gap-12 mt-12">
                     {plans.map((p, i) => (
                         <PricingCard key={i} {...p} />
@@ -389,9 +386,6 @@ const Pricing = () => {
         </section>
     );
 };
-// ==================================================================
-// AKHIR DARI BAGIAN YANG DIPERBAIKI
-// ==================================================================
 
 // 🔹 TESTIMONIALS SECTION
 const TestimonialCard = ({ name, location, quote }) => (
