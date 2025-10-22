@@ -9,7 +9,7 @@ import {
     Instagram,
     Linkedin,
     Youtube,
-    Globe, // Ikon default
+    Globe,
 } from "lucide-react";
 
 // Fungsi helper untuk memilih ikon yang sesuai berdasarkan nama
@@ -20,9 +20,8 @@ const getSocialIconComponent = (name) => {
     if (lowerCaseName.includes("twitter")) return Twitter;
     if (lowerCaseName.includes("linkedin")) return Linkedin;
     if (lowerCaseName.includes("youtube")) return Youtube;
-    // Tambahkan media sosial lain di sini jika perlu, contoh:
-    // if (lowerCaseName.includes("tiktok")) return TikTokIcon;
-    return Globe; // Ikon default jika tidak ada yang cocok
+
+    return Globe;
 };
 
 export default function Footer() {
@@ -33,9 +32,6 @@ export default function Footer() {
     const contactEmail = settings.contact_email || "info@titipsini.com";
     const contactAddress = settings.contact_address || "Jakarta, Indonesia";
 
-    // --- BAGIAN YANG DIPERBAIKI ---
-    // Cek jika social_links ada dan merupakan string, lalu parse menjadi array.
-    // Jika tidak, gunakan array kosong sebagai default.
     const socialLinks =
         settings.social_links && typeof settings.social_links === "string"
             ? JSON.parse(settings.social_links)
@@ -106,7 +102,7 @@ export default function Footer() {
                                     href={route("layanan.show")}
                                     className="hover:text-white transition-colors"
                                 >
-                                    Layanan
+                                    Pindahan
                                 </Link>
                             </li>
                             <li>
