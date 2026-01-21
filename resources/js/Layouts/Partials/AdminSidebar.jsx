@@ -1,44 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "@inertiajs/react";
 import {
-    Briefcase,
-    Users,
     LayoutDashboard,
+    Users,
     Settings,
-    ChevronDown,
-    Image,
-    MessageSquare,
-    Phone,
-    ClipboardList,
+    Briefcase,
     Package,
-    Target,
-    GraduationCap,
+    Layers,
     BookOpen,
-    Library,
-    Home, // Tambahan ikon untuk Halaman Depan
-    FileText, // Tambahan ikon untuk Halaman Layanan
+    GraduationCap,
+    LogOut,
+    // ✅ Import Ikon Baru untuk Menu Pengaturan
+    MapPin,
+    Share2,
+    Image as ImageIcon,
 } from "lucide-react";
 
-// --- KOMPONEN-KOMPONEN KECIL (HELPER) ---
-
+// Helper Link agar kodingan rapi
 const SidebarLink = ({ href, active, children, icon }) => (
     <Link
         href={href}
         className={`group relative flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
             active
-                ? "bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-amber-300 shadow-md scale-[1.02]"
-                : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
+                ? "bg-emerald-600 text-white shadow-md scale-[1.02]" // Warna Hijau utk Admin Pusat
+                : "text-gray-400 hover:bg-gray-800 hover:text-white"
         }`}
     >
-        {active && (
-            <span className="absolute left-0 top-0 bottom-0 w-1 bg-amber-400 rounded-r-lg"></span>
-        )}
         <span
-            className={`mr-3 ${
-                active
-                    ? "text-amber-300"
-                    : "text-gray-500 group-hover:text-gray-200"
-            } transition-colors duration-200`}
+            className={`mr-3 ${active ? "text-white" : "text-gray-500 group-hover:text-gray-200"}`}
         >
             {icon}
         </span>
@@ -46,96 +35,22 @@ const SidebarLink = ({ href, active, children, icon }) => (
     </Link>
 );
 
-const SidebarSubLink = ({ href, active, children }) => (
-    <Link
-        href={href}
-        className={`group flex items-center pl-11 pr-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-            active
-                ? "bg-[#1e293b] text-amber-300"
-                : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
-        }`}
-    >
-        {children}
-    </Link>
-);
-
-const SidebarDropdown = ({
-    title,
-    icon,
-    active,
-    isOpen,
-    onToggle,
-    children,
-}) => (
-    <div>
-        <button
-            onClick={onToggle}
-            className={`group w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
-                active
-                    ? "bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-amber-300 shadow-md scale-[1.02]"
-                    : "text-gray-400 hover:bg-[#1e293b] hover:text-white"
-            }`}
-        >
-            <span
-                className={`mr-3 ${
-                    active
-                        ? "text-amber-300"
-                        : "text-gray-500 group-hover:text-gray-200"
-                }`}
-            >
-                {icon}
-            </span>
-            {title}
-            <ChevronDown
-                className={`ml-auto h-5 w-5 transform transition-transform duration-300 ${
-                    isOpen ? "rotate-180 text-amber-300" : ""
-                }`}
-            />
-        </button>
-        <div
-            className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-            }`}
-        >
-            <div className="mt-1 space-y-1">{children}</div>
-        </div>
-    </div>
-);
-
-// --- KOMPONEN UTAMA SIDEBAR ---
-
 export default function AdminSidebar() {
-    // State untuk setiap dropdown menu
-    const [openDropdown, setOpenDropdown] = useState({
-        halamanDepan: route().current("admin.services.*"),
-        halamanLayanan: route().current("admin.moving-packages.*"),
-        halamanInternship:
-            route().current("admin.internship-positions.*") ||
-            route().current("admin.internship-projects.*"),
-        halamanProgram:
-            route().current("admin.career-programs.*") ||
-            route().current("admin.curricula.*"),
-        pengaturan: route().current("admin.settings.*"),
-    });
-
-    const handleToggle = (dropdown) => {
-        setOpenDropdown((prev) => ({ ...prev, [dropdown]: !prev[dropdown] }));
-    };
-
     return (
-        <aside className="w-64 min-h-screen bg-[#0f172a] text-gray-200 flex flex-col border-r border-[#1e293b] shadow-2xl">
-            {/* Header */}
-            <div className="h-16 flex items-center justify-center bg-gradient-to-r from-[#0f172a] to-[#1e293b] border-b border-[#1e293b] shadow-lg">
-                <Link
-                    href={route("dashboard")}
-                    className="text-amber-300 font-semibold text-lg tracking-wider hover:text-amber-200 transition-colors"
-                >
-                    ADMIN PANEL
-                </Link>
+        <aside className="w-64 min-h-screen bg-[#111827] text-gray-200 flex flex-col border-r border-gray-800 shadow-2xl fixed left-0 top-0 bottom-0 z-50">
+            {/* HEADER ADMIN */}
+            <div className="h-16 flex items-center justify-center border-b border-gray-800 bg-[#1f2937] gap-2 shadow-sm">
+                <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    A
+                </div>
+                <span className="text-white font-semibold text-lg tracking-wider">
+                    ADMIN
+                </span>
             </div>
 
-            {/* Navigasi */}
-            <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#1e293b] scrollbar-track-[#0f172a]">
+            {/* NAVIGASI */}
+            <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700">
+                {/* 1. Dashboard */}
                 <SidebarLink
                     href={route("dashboard")}
                     active={route().current("dashboard")}
@@ -144,82 +59,31 @@ export default function AdminSidebar() {
                     Dashboard
                 </SidebarLink>
 
-                {/* --- Dropdown Manajemen Halaman Depan --- */}
-                <SidebarDropdown
-                    title="Halaman Depan"
-                    icon={<Home className="h-5 w-5" />}
-                    active={openDropdown.halamanDepan}
-                    isOpen={openDropdown.halamanDepan}
-                    onToggle={() => handleToggle("halamanDepan")}
-                >
-                    <SidebarSubLink
-                        href={route("admin.services.index")}
-                        active={route().current("admin.services.*")}
-                    >
-                        Layanan Umum
-                    </SidebarSubLink>
-                </SidebarDropdown>
+                <div className="pt-4 pb-2">
+                    <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Master Data
+                    </p>
+                </div>
 
-                {/* --- Dropdown Manajemen Halaman Layanan --- */}
-                <SidebarDropdown
-                    title="Halaman Layanan"
-                    icon={<FileText className="h-5 w-5" />}
-                    active={openDropdown.halamanLayanan}
-                    isOpen={openDropdown.halamanLayanan}
-                    onToggle={() => handleToggle("halamanLayanan")}
+                {/* 2. User Management */}
+                <SidebarLink
+                    href={route("admin.users.index")}
+                    active={route().current("admin.users.*")}
+                    icon={<Users className="h-5 w-5" />}
                 >
-                    <SidebarSubLink
-                        href={route("admin.moving-packages.index")}
-                        active={route().current("admin.moving-packages.*")}
-                    >
-                        Paket Pindahan
-                    </SidebarSubLink>
-                </SidebarDropdown>
+                    User Management
+                </SidebarLink>
 
-                {/* --- Dropdown Manajemen Halaman Internship --- */}
-                <SidebarDropdown
-                    title="Halaman Internship"
-                    icon={<GraduationCap className="h-5 w-5" />}
-                    active={openDropdown.halamanInternship}
-                    isOpen={openDropdown.halamanInternship}
-                    onToggle={() => handleToggle("halamanInternship")}
+                {/* 3. Services / Layanan */}
+                <SidebarLink
+                    href={route("admin.services.index")}
+                    active={route().current("admin.services.*")}
+                    icon={<Layers className="h-5 w-5" />}
                 >
-                    <SidebarSubLink
-                        href={route("admin.internship-positions.index")}
-                        active={route().current("admin.internship-positions.*")}
-                    >
-                        Posisi Magang
-                    </SidebarSubLink>
-                    <SidebarSubLink
-                        href={route("admin.internship-projects.index")}
-                        active={route().current("admin.internship-projects.*")}
-                    >
-                        Proyek Magang
-                    </SidebarSubLink>
-                </SidebarDropdown>
+                    Layanan
+                </SidebarLink>
 
-                {/* --- Dropdown Manajemen Halaman Program --- */}
-                <SidebarDropdown
-                    title="Halaman Program"
-                    icon={<BookOpen className="h-5 w-5" />}
-                    active={openDropdown.halamanProgram}
-                    isOpen={openDropdown.halamanProgram}
-                    onToggle={() => handleToggle("halamanProgram")}
-                >
-                    <SidebarSubLink
-                        href={route("admin.career-programs.index")}
-                        active={route().current("admin.career-programs.*")}
-                    >
-                        Program Karir
-                    </SidebarSubLink>
-                    <SidebarSubLink
-                        href={route("admin.curricula.index")}
-                        active={route().current("admin.curricula.*")}
-                    >
-                        Kurikulum
-                    </SidebarSubLink>
-                </SidebarDropdown>
-
+                {/* 4. Karir / Lowongan */}
                 <SidebarLink
                     href={route("admin.job_vacancies.index")}
                     active={route().current("admin.job_vacancies.*")}
@@ -228,46 +92,78 @@ export default function AdminSidebar() {
                     Lowongan Kerja
                 </SidebarLink>
 
+                {/* 5. Moving Package */}
                 <SidebarLink
-                    href={route("admin.users.index")}
-                    active={route().current("admin.users.*")}
-                    icon={<Users className="h-5 w-5" />}
+                    href={route("admin.moving-packages.index")}
+                    active={route().current("admin.moving-packages.*")}
+                    icon={<Package className="h-5 w-5" />}
                 >
-                    Manajemen User
+                    Paket Pindahan
                 </SidebarLink>
 
-                {/* --- Dropdown Pengaturan --- */}
-                <SidebarDropdown
-                    title="Pengaturan"
-                    icon={<Settings className="h-5 w-5" />}
-                    active={openDropdown.pengaturan}
-                    isOpen={openDropdown.pengaturan}
-                    onToggle={() => handleToggle("pengaturan")}
+                {/* 6. Internship / Magang */}
+                <SidebarLink
+                    href={route("admin.internship-positions.index")}
+                    active={route().current("admin.internship-positions.*")}
+                    icon={<GraduationCap className="h-5 w-5" />}
                 >
-                    <SidebarSubLink
-                        href={route("admin.settings.contact")}
-                        active={route().current("admin.settings.contact")}
-                    >
-                        Info Kontak
-                    </SidebarSubLink>
-                    <SidebarSubLink
-                        href={route("admin.settings.social")}
-                        active={route().current("admin.settings.social")}
-                    >
-                        Media Sosial
-                    </SidebarSubLink>
-                    <SidebarSubLink
-                        href={route("admin.settings.logo")}
-                        active={route().current("admin.settings.logo")}
-                    >
-                        Logo
-                    </SidebarSubLink>
-                </SidebarDropdown>
+                    Posisi Magang
+                </SidebarLink>
+
+                {/* 7. Curriculum */}
+                <SidebarLink
+                    href={route("admin.curricula.index")}
+                    active={route().current("admin.curricula.*")}
+                    icon={<BookOpen className="h-5 w-5" />}
+                >
+                    Kurikulum
+                </SidebarLink>
+
+                <div className="pt-4 pb-2">
+                    <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Pengaturan Web
+                    </p>
+                </div>
+
+                {/* 8. Kontak & Alamat (Settings Contact) */}
+                <SidebarLink
+                    href={route("admin.settings.contact")}
+                    active={route().current("admin.settings.contact")}
+                    icon={<MapPin className="h-5 w-5" />}
+                >
+                    Kontak & Alamat
+                </SidebarLink>
+
+                {/* 9. Sosial Media (Settings Social) */}
+                <SidebarLink
+                    href={route("admin.settings.social")}
+                    active={route().current("admin.settings.social")}
+                    icon={<Share2 className="h-5 w-5" />}
+                >
+                    Sosial Media
+                </SidebarLink>
+
+                {/* 10. Logo (Settings Logo) */}
+                <SidebarLink
+                    href={route("admin.settings.logo")}
+                    active={route().current("admin.settings.logo")}
+                    icon={<ImageIcon className="h-5 w-5" />}
+                >
+                    Logo Website
+                </SidebarLink>
             </nav>
 
-            {/* Footer */}
-            <div className="px-4 py-3 border-t border-[#1e293b] text-center text-xs text-gray-500">
-                © {new Date().getFullYear()} Admin Panel
+            {/* FOOTER */}
+            <div className="p-4 border-t border-gray-800">
+                <Link
+                    href={route("logout")}
+                    method="post"
+                    as="button"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-red-400 hover:bg-red-500/10 transition font-medium border border-transparent hover:border-red-500/30"
+                >
+                    <LogOut className="h-5 w-5" />
+                    <span>Keluar</span>
+                </Link>
             </div>
         </aside>
     );

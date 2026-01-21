@@ -33,26 +33,5 @@ class ServiceSeeder extends Seeder
             'features' => ['Parkir Indoor', 'CCTV 24 Jam', 'Perawatan Berkala'],
             'illustration' => '/images/kendaraan.jpg',
         ]);
-
-        Service::create([
-            'title' => 'Penitipan Cuksmiaw',
-            'description' => 'Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.',
-            'features' => ['Parkir Indoor', 'CCTV 24 Jam', 'Perawatan Berkala'],
-            'illustration' => '/images/kendaraan.jpg',
-        ]);
-
-        Service::create([
-            'title' => 'Penitipan Sidiq',
-            'description' => 'Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.',
-            'features' => ['Parkir Indoor', 'CCTV 24 Jam', 'Perawatan Berkala'],
-            'illustration' => '/images/kendaraan.jpg',
-        ]);
-
-        Service::create([
-            'title' => 'Penitipan Biawak',
-            'description' => 'Titipkan motor atau mobil Anda di lokasi yang aman dengan pengawasan penuh dan perawatan opsional.',
-            'features' => ['Parkir Indoor', 'CCTV 24 Jam', 'Perawatan Berkala'],
-            'illustration' => '/images/kendaraan.jpg',
-        ]);
     }
 }

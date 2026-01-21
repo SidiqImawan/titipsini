@@ -36,7 +36,7 @@ class ServiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreServiceRequest $request) // <-- Gunakan Form Request
+    public function store(StoreServiceRequest $request)
     {
         Service::create($request->validated());
         return Redirect::route('admin.services.index')->with('success', 'Layanan berhasil ditambahkan.');
@@ -61,7 +61,7 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreServiceRequest $request, Service $service) // <-- Gunakan Form Request
+    public function update(StoreServiceRequest $request, Service $service)
     {
         $service->update($request->validated());
         return Redirect::route('admin.services.index')->with('success', 'Layanan berhasil diperbarui.');
@@ -72,6 +72,12 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        //
+        // --- INI BAGIAN YANG DITAMBAHKAN ---
+        
+        // 1. Hapus data dari database
+        $service->delete();
+
+        // 2. Kembalikan ke halaman index dengan pesan sukses
+        return Redirect::route('admin.services.index')->with('success', 'Layanan berhasil dihapus.');
     }
 }

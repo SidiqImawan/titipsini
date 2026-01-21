@@ -12,6 +12,14 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
+
+    // --- TAMBAHAN: PINTU KHUSUS MITRA (GET Only) ---
+    // Ini untuk menampilkan halaman login khusus (misal: LoginMitra.jsx)
+    // Tapi form-nya nanti tetap di-submit ke route 'login' di bawah.
+    Route::get('mitra/login', [AuthenticatedSessionController::class, 'createMitra'])
+        ->name('mitra.login');
+
+    // --- RUTE STANDAR (Bawaan Breeze) ---
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
@@ -20,6 +28,8 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
+    // Ini adalah "Mesin Utama" login.
+    // Baik dari halaman /login maupun /mitra/login, form-nya mengarah ke sini (POST).
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
